@@ -1,0 +1,43 @@
+
+Crud de Contêiner
+id
+- Cliente (string)
+- Número do contêiner (4 letras e 7 números. Ex: TEST1234567)
+- Tipo: 20 / 40
+- Status: Cheio / Vazio
+- Categoria: Importação / Exportação
+
+Crud de Movimentações
+- Tipo de Movimentação (embarque, descarga, gate in, gate out, reposicionamento, pesagem, scanner)
+- Data e Hora do Início
+- Data e Hora do Fim
+
+Relatório com o total de movimentações agrupadas por cliente e tipo de movimentação.
+- No final do relatório deverá conter um sumário com o total de importação / exportação.
+
+Validações
+Ordenações
+Filtros
+
+C#
+.net core
+sql server
+dapper
+DDD
+
+
+-- regras
+
+Numero de Contêiner é único
+Pode alterar o Número do Contêiner
+Contêiner que está em um tipo de movimentação não pode iniciar outra movimentação
+
+-------------------------------
+
+constraint para Numero - ok
+Numero como chave estrangeira - ok
+consultar conteiner pelo Numero - ok
+validar se Numero já existe - ok
+consultar movimentação em aberto pelo Numero - ok
+validar se Conteiner está em movimentação - ok
+

@@ -1,0 +1,14 @@
+D:\informatica\source-estudo\MovCon\MovConRepository\bin\Debug\netstandard2.1\MovConDatabase.dll
+D:\informatica\source-estudo\MovCon\MovConRepository\bin\Debug\netstandard2.1\MovConDomain.dll
+D:\informatica\source-estudo\MovCon\MovConRepository\obj\Debug\netstandard2.1\MovConRepository.csprojAssemblyReference.cache
+D:\informatica\source-estudo\MovCon\MovConRepository\obj\Debug\netstandard2.1\MovConRepository.AssemblyInfoInputs.cache
+D:\informatica\source-estudo\MovCon\MovConRepository\obj\Debug\netstandard2.1\MovConRepository.AssemblyInfo.cs
+D:\informatica\source-estudo\MovCon\MovConRepository\bin\Debug\netstandard2.1\MovConRepository.deps.json
+D:\informatica\source-estudo\MovCon\MovConRepository\bin\Debug\netstandard2.1\MovConRepository.dll
+D:\informatica\source-estudo\MovCon\MovConRepository\bin\Debug\netstandard2.1\MovConRepository.pdb
+D:\informatica\source-estudo\MovCon\MovConRepository\bin\Debug\netstandard2.1\MovConDatabase.pdb
+D:\informatica\source-estudo\MovCon\MovConRepository\bin\Debug\netstandard2.1\MovConDomain.pdb
+D:\informatica\source-estudo\MovCon\MovConRepository\obj\Debug\netstandard2.1\MovConRepository.csproj.CopyComplete
+D:\informatica\source-estudo\MovCon\MovConRepository\obj\Debug\netstandard2.1\MovConRepository.dll
+D:\informatica\source-estudo\MovCon\MovConRepository\obj\Debug\netstandard2.1\MovConRepository.pdb
+D:\informatica\source-estudo\MovCon\MovConRepository\obj\Debug\netstandard2.1\MovConRepository.csproj.CoreCompileInputs.cache

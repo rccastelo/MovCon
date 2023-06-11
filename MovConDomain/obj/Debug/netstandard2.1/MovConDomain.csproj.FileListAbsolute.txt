@@ -1,0 +1,9 @@
+D:\informatica\source-estudo\MovCon\MovConDomain\bin\Debug\netstandard2.1\MovConDomain.deps.json
+D:\informatica\source-estudo\MovCon\MovConDomain\bin\Debug\netstandard2.1\MovConDomain.dll
+D:\informatica\source-estudo\MovCon\MovConDomain\bin\Debug\netstandard2.1\MovConDomain.pdb
+D:\informatica\source-estudo\MovCon\MovConDomain\obj\Debug\netstandard2.1\MovConDomain.csprojAssemblyReference.cache
+D:\informatica\source-estudo\MovCon\MovConDomain\obj\Debug\netstandard2.1\MovConDomain.AssemblyInfoInputs.cache
+D:\informatica\source-estudo\MovCon\MovConDomain\obj\Debug\netstandard2.1\MovConDomain.AssemblyInfo.cs
+D:\informatica\source-estudo\MovCon\MovConDomain\obj\Debug\netstandard2.1\MovConDomain.dll
+D:\informatica\source-estudo\MovCon\MovConDomain\obj\Debug\netstandard2.1\MovConDomain.pdb
+D:\informatica\source-estudo\MovCon\MovConDomain\obj\Debug\netstandard2.1\MovConDomain.csproj.CoreCompileInputs.cache
