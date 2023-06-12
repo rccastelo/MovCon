@@ -33,10 +33,18 @@ namespace MovConApi.Controllers
 
                 return Ok(response);
             } catch (ArgumentException aex) {
-                return BadRequest(aex.Message);
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                return BadRequest("Erro");
+
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
             }
         }
 
@@ -56,10 +64,18 @@ namespace MovConApi.Controllers
 
                 return Ok(response);
             } catch (ArgumentException aex) {
-                return BadRequest(aex.Message);
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                return BadRequest("Erro");
+
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
             }
         }
 
@@ -79,10 +95,18 @@ namespace MovConApi.Controllers
 
                 return Ok(response);
             } catch (ArgumentException aex) {
-                return BadRequest(aex.Message);
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                return BadRequest("Erro");
+
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
             }
         }
 
@@ -102,10 +126,18 @@ namespace MovConApi.Controllers
 
                 return Ok(response);
             } catch (ArgumentException aex) {
-                return BadRequest(aex.Message);
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                return BadRequest("Erro");
+
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
             }
         }
 
@@ -125,10 +157,18 @@ namespace MovConApi.Controllers
 
                 return Ok(response);
             } catch (ArgumentException aex) {
-                return BadRequest(aex.Message);
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                return BadRequest("Erro");
+
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
             }
         }
 
@@ -148,10 +188,18 @@ namespace MovConApi.Controllers
 
                 return Ok(response);
             } catch (ArgumentException aex) {
-                return BadRequest(aex.Message);
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                return BadRequest("Erro");
+
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
             }
         }
 
@@ -171,10 +219,18 @@ namespace MovConApi.Controllers
 
                 return Ok(response);
             } catch (ArgumentException aex) {
-                return BadRequest(aex.Message);
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                return BadRequest("Erro");
+
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
             }
         }
 
@@ -194,10 +250,54 @@ namespace MovConApi.Controllers
 
                 return Ok(response);
             } catch (ArgumentException aex) {
-                return BadRequest(aex.Message);
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                return BadRequest("Erro");
+
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
+            }
+        }
+
+        [HttpPost("filter")]
+        [SwaggerOperation(
+            Summary = "Lista filtrada de Conteineres",
+            Description = "Lista filtrada de Conteineres.",
+            Tags = new[] { "Conteineres" }
+        )]
+        [ProducesResponseType(typeof(ConteinerResponse), 200)]
+        [ProducesResponseType(typeof(ConteinerResponse), 400)]
+        [ProducesResponseType(500)]
+        public IActionResult Filter(ConteinerRequest request)
+        {
+            try
+            {
+                ConteinerResponse response = this._conteinerService.Filter(request);
+
+                return Ok(response);
+            }
+            catch (ArgumentException aex)
+            {
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                ConteinerResponse response = new ConteinerResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
             }
         }
     }

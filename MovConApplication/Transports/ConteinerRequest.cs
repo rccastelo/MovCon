@@ -1,8 +1,10 @@
-﻿namespace MovConApplication.Transports
+﻿using System;
+
+namespace MovConApplication.Transports
 {
     public class ConteinerRequest
     {
-        public string Id { get; set; }
+        public Int64 Id { get; set; }
         public string Cliente { get; set; }
         public string Numero { get; set; }
         public string Tipo { get; set; }

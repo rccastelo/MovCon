@@ -33,10 +33,18 @@ namespace MovConApi.Controllers
 
                 return Ok(response);
             } catch (ArgumentException aex) {
-                return BadRequest(aex.Message);
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                return BadRequest("Erro");
+
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
             }
         }
 
@@ -56,10 +64,18 @@ namespace MovConApi.Controllers
 
                 return Ok(response);
             } catch (ArgumentException aex) {
-                return BadRequest(aex.Message);
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                return BadRequest("Erro");
+
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
             }
         }
 
@@ -79,10 +95,18 @@ namespace MovConApi.Controllers
 
                 return Ok(response);
             } catch (ArgumentException aex) {
-                return BadRequest(aex.Message);
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                return BadRequest("Erro");
+
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
             }
         }
 
@@ -102,10 +126,18 @@ namespace MovConApi.Controllers
 
                 return Ok(response);
             } catch (ArgumentException aex) {
-                return BadRequest(aex.Message);
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                return BadRequest("Erro");
+
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
             }
         }
 
@@ -125,10 +157,18 @@ namespace MovConApi.Controllers
 
                 return Ok(response);
             } catch (ArgumentException aex) {
-                return BadRequest(aex.Message);
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                return BadRequest("Erro");
+
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
             }
         }
 
@@ -148,10 +188,18 @@ namespace MovConApi.Controllers
 
                 return Ok(response);
             } catch (ArgumentException aex) {
-                return BadRequest(aex.Message);
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                return BadRequest("Erro");
+
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
             }
         }
 
@@ -171,10 +219,18 @@ namespace MovConApi.Controllers
 
                 return Ok(response);
             } catch (ArgumentException aex) {
-                return BadRequest(aex.Message);
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                return BadRequest("Erro");
+
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
             }
         }
 
@@ -194,10 +250,49 @@ namespace MovConApi.Controllers
 
                 return Ok(response);
             } catch (ArgumentException aex) {
-                return BadRequest(aex.Message);
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
-                return BadRequest("Erro");
+
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
+            }
+        }
+
+        [HttpPost("filter")]
+        [SwaggerOperation(
+            Summary = "Lista filtrada de Movimentações",
+            Description = "Lista filtrada de Movimentações.",
+            Tags = new[] { "Movimentacoes" }
+        )]
+        [ProducesResponseType(typeof(MovimentacaoResponse), 200)]
+        [ProducesResponseType(typeof(MovimentacaoResponse), 400)]
+        [ProducesResponseType(500)]
+        public IActionResult Filter(MovimentacaoFiltroRequest request)
+        {
+            try {
+                MovimentacaoResponse response = this._movimentacaoService.Filter(request);
+
+                return Ok(response);
+            } catch (ArgumentException aex) {
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+
+                return BadRequest(response);
+            } catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+
+                MovimentacaoResponse response = new MovimentacaoResponse();
+                response.SetError("Erro");
+
+                return BadRequest(response);
             }
         }
     }

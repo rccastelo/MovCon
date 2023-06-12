@@ -23,11 +23,13 @@ namespace MovConApplication.Services
             MovimentacaoResponse response = new MovimentacaoResponse();
             MovimentacaoModel newModel = null;
 
+            MovimentacaoModel model = new MovimentacaoModel(request.Numero, request.Tipo);
+
             // Verifica se Conteiner existe
             ConteinerModel conteiner = _conteinerRepository.GetByNumero(request.Numero);
 
             if (conteiner == null) {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Contêiner não existe");
 
                 return response;
@@ -37,14 +39,12 @@ namespace MovConApplication.Services
             MovimentacaoModel emMov = this._movimentacaoRepository.GetEmMovimentoByNumero(request.Numero);
 
             if (emMov != null) {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Contêiner já está em movimentação");
                 response.SetItem(emMov);
 
                 return response;
             }
-
-            MovimentacaoModel model = new MovimentacaoModel(request.Numero, request.Tipo);
 
             long newId = this._movimentacaoRepository.Insert(model);
 
@@ -53,11 +53,11 @@ namespace MovConApplication.Services
             }
 
             if ((newId > 0) && (newModel != null)) {
-                response.SetStatus(true);
+                response.SetValid(true);
                 response.SetMessage("Início de Movimentação cadastrado");
                 response.SetItem(newModel);
             } else {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Início de Movimentação não cadastrado");
             }
 
@@ -67,20 +67,19 @@ namespace MovConApplication.Services
         public MovimentacaoResponse Update(long id, MovimentacaoFimRequest request)
         {
             MovimentacaoResponse response = new MovimentacaoResponse();
-
             MovimentacaoModel newModel = null;
+
+            MovimentacaoModel model = new MovimentacaoModel(id, request.Numero);
 
             // Verifica se Conteiner existe
             ConteinerModel conteiner = _conteinerRepository.GetByNumero(request.Numero);
 
             if (conteiner == null) {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Contêiner não existe");
 
                 return response;
             }
-
-            MovimentacaoModel model = new MovimentacaoModel(id, request.Numero, request.Tipo);
 
             int qtd = this._movimentacaoRepository.Update(model);
 
@@ -89,11 +88,11 @@ namespace MovConApplication.Services
             }
 
             if ((qtd > 0) && (newModel != null)) {
-                response.SetStatus(true);
+                response.SetValid(true);
                 response.SetMessage("Fim de Movimentação cadastrado");
                 response.SetItem(newModel);
             } else {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Fim de Movimentação não cadastrado");
             }
 
@@ -108,7 +107,7 @@ namespace MovConApplication.Services
             ConteinerModel conteiner = _conteinerRepository.GetByNumero(numero);
 
             if (conteiner == null) {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Contêiner não existe");
 
                 return response;
@@ -117,7 +116,7 @@ namespace MovConApplication.Services
             MovimentacaoModel emMov = this._movimentacaoRepository.GetEmMovimentoByNumero(numero);
 
             if (emMov == null) {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Contêiner não está em Movimentação");
 
                 return response;
@@ -128,11 +127,11 @@ namespace MovConApplication.Services
             emMov = this._movimentacaoRepository.Get(emMov.Id);
 
             if (qtd > 0) {
-                response.SetStatus(true);
+                response.SetValid(true);
                 response.SetMessage("Fim de Movimentação cadastrado");
                 response.SetItem(emMov);
             } else {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Fim de Movimentação não cadastrado");
             }
 
@@ -146,10 +145,10 @@ namespace MovConApplication.Services
             MovimentacaoResponse response = new MovimentacaoResponse();
 
             if ((model != null) && (model.Id > 0)) {
-                response.SetStatus(true);
+                response.SetValid(true);
                 response.SetItem(model);
             } else {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Movimentação não encontrada");
             }
 
@@ -163,10 +162,10 @@ namespace MovConApplication.Services
             MovimentacaoResponse response = new MovimentacaoResponse();
 
             if ((model != null) && (model.Id > 0)) {
-                response.SetStatus(true);
+                response.SetValid(true);
                 response.SetItem(model);
             } else {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Movimentação não encontrada");
             }
 
@@ -180,10 +179,10 @@ namespace MovConApplication.Services
             MovimentacaoResponse response = new MovimentacaoResponse();
 
             if ((list != null) && (list.Count > 0)) {
-                response.SetStatus(true);
+                response.SetValid(true);
                 response.SetList(list);
             } else {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Nenhuma Movimentação encontrada");
             }
 
@@ -197,10 +196,10 @@ namespace MovConApplication.Services
             MovimentacaoResponse response = new MovimentacaoResponse();
 
             if ((list != null) && (list.Count > 0)) {
-                response.SetStatus(true);
+                response.SetValid(true);
                 response.SetList(list);
             } else {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Nenhuma Movimentação encontrada");
             }
 
@@ -214,10 +213,29 @@ namespace MovConApplication.Services
             MovimentacaoResponse response = new MovimentacaoResponse();
 
             if ((list != null) && (list.Count > 0)) {
-                response.SetStatus(true);
+                response.SetValid(true);
                 response.SetList(list);
             } else {
-                response.SetStatus(false);
+                response.SetValid(false);
+                response.SetMessage("Nenhuma Movimentação encontrada");
+            }
+
+            return response;
+        }
+
+        public MovimentacaoResponse Filter(MovimentacaoFiltroRequest request)
+        {
+            MovimentacaoEntity entity = new MovimentacaoEntity(request.Numero, request.Tipo);
+
+            List<MovimentacaoEntity> list = this._movimentacaoRepository.Filter(entity);
+
+            MovimentacaoResponse response = new MovimentacaoResponse();
+
+            if ((list != null) && (list.Count > 0)) {
+                response.SetValid(true);
+                response.SetList(list);
+            } else {
+                response.SetValid(false);
                 response.SetMessage("Nenhuma Movimentação encontrada");
             }
 

@@ -12,5 +12,6 @@ namespace MovConApplication.Interfaces
         MovimentacaoResponse List();
         MovimentacaoResponse ListEmMovimento();
         MovimentacaoResponse ListByNumero(string numero);
+        MovimentacaoResponse Filter(MovimentacaoFiltroRequest request);
     }
 }

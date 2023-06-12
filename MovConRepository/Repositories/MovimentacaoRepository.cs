@@ -77,5 +77,10 @@ namespace MovConRepository.Repositories
         {
             return this._movimentacaoData.ListByNumero(numero);
         }
+
+        public List<MovimentacaoEntity> Filter(MovimentacaoEntity entity)
+        {
+            return this._movimentacaoData.Filter(entity);
+        }
     }
 }

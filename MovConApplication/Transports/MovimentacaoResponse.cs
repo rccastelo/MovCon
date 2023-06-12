@@ -1,5 +1,4 @@
 ﻿using MovConDomain.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,14 +6,22 @@ namespace MovConApplication.Transports
 {
     public class MovimentacaoResponse
     {
-        public bool Status { get; private set; }
+        public bool IsError { get; private set; }
+        public bool IsValid { get; private set; }
         public string Message { get; private set; }
-        public MovimentacaoTransport Item { get; private set; }
-        public List<MovimentacaoTransport> List { get; private set; }
+        public MovimentacaoEntity Item { get; private set; }
+        public List<MovimentacaoEntity> List { get; private set; }
 
-        public void SetStatus(bool status)
+        public void SetError(string message)
         {
-            this.Status = status;
+            this.IsValid = false;
+            this.IsError = true;
+            this.Message = message;
+        }
+
+        public void SetValid(bool valid)
+        {
+            this.IsValid = valid;
         }
 
         public void SetMessage(string message)
@@ -25,12 +32,12 @@ namespace MovConApplication.Transports
         public void SetItem(MovimentacaoModel model)
         {
             if (model != null) {
-                this.Item = new MovimentacaoTransport() {
-                    Id = model.Id.ToString(),
+                this.Item = new MovimentacaoEntity() {
+                    Id = model.Id,
                     Numero = model.Numero,
                     Tipo = model.Tipo,
-                    DataHoraInicio = (model.DataHoraInicio.Equals(DateTime.MinValue)) ? "" : model.DataHoraInicio.ToString(),
-                    DataHoraFim = (model.DataHoraFim.Equals(DateTime.MinValue)) ? "" : model.DataHoraFim.ToString(),
+                    DataHoraInicio = model.DataHoraInicio,
+                    DataHoraFim = model.DataHoraFim
                 };
             }
         }
@@ -38,12 +45,25 @@ namespace MovConApplication.Transports
         public void SetList(List<MovimentacaoModel> list)
         {
             if ((list != null) && (list.Count > 0)) {
-                this.List = list.Select(c => new MovimentacaoTransport() {
-                    Id = c.Id.ToString(),
+                this.List = list.Select(c => new MovimentacaoEntity() {
+                    Id = c.Id,
                     Numero = c.Numero,
                     Tipo = c.Tipo,
-                    DataHoraInicio = (c.DataHoraInicio.Equals(DateTime.MinValue)) ? "" : c.DataHoraInicio.ToString(),
-                    DataHoraFim = (c.DataHoraFim.Equals(DateTime.MinValue)) ? "" : c.DataHoraFim.ToString(),
+                    DataHoraInicio = c.DataHoraInicio,
+                    DataHoraFim = c.DataHoraFim
+                }).ToList();
+            }
+        }
+
+        public void SetList(List<MovimentacaoEntity> list)
+        {
+            if ((list != null) && (list.Count > 0)) {
+                this.List = list.Select(c => new MovimentacaoEntity() {
+                    Id = c.Id,
+                    Numero = c.Numero,
+                    Tipo = c.Tipo,
+                    DataHoraInicio = c.DataHoraInicio,
+                    DataHoraFim = c.DataHoraFim
                 }).ToList();
             }
         }

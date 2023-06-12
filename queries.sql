@@ -12,6 +12,9 @@ ALTER TABLE Movimentacoes
 GO
 */
 
+SELECT PK_Id as Id, Numero, Tipo, DataHoraInicio, DataHoraFim
+FROM Movimentacoes WHERE Numero = 'aaaa0000001' AND DataHoraFim IS NULL;
+
 select * from Conteineres;
 
 select * from Movimentacoes;

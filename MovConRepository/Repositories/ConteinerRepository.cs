@@ -94,5 +94,10 @@ namespace MovConRepository.Repositories
         {
             return this._conteinerData.List();
         }
+
+        public List<ConteinerEntity> Filter(ConteinerEntity entity)
+        {
+            return this._conteinerData.Filter(entity);
+        }
     }
 }

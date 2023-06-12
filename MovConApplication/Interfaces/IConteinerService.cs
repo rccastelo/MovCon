@@ -12,5 +12,6 @@ namespace MovConApplication.Interfaces
         ConteinerResponse Get(long id);
         ConteinerResponse GetByNumero(string numero);
         ConteinerResponse List();
+        ConteinerResponse Filter(ConteinerRequest request);
     }
 }

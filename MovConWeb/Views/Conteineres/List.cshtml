@@ -1,0 +1,83 @@
+﻿@model MovConWeb.Models.ConteinerViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "MovCon - Contêineres - Lista";
+}
+<div class="areaMaxGrd">
+    <div class="txtPadraoGrd">
+        <i class="iconeMed fas fa-box"></i>&nbsp;
+        <a class="txtPadraoGrd" asp-controller="Conteineres" asp-action="Index">Contêineres</a> &nbsp;/&nbsp; Lista
+    </div>
+    <br>
+    <form id="form" asp-controller="Conteineres" asp-action="Search" asp-anti-forgery method="Post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="@Model.Filter.Id" />
+        <input type="hidden" asp-for="@Model.Filter.Cliente" />
+        <input type="hidden" asp-for="@Model.Filter.Numero" />
+        <input type="hidden" asp-for="@Model.Filter.Tipo" />
+        <input type="hidden" asp-for="@Model.Filter.Status" />
+        <input type="hidden" asp-for="@Model.Filter.Categoria" />
+        @if (Model != null) {
+            <input type="hidden" asp-for="@Model.SortField" value="@Model.SortField" />
+            <input type="hidden" asp-for="@Model.SortDirection" value="@Model.SortDirection" />
+            <input type="hidden" asp-for="@Model.SortSelected" value="@Model.SortSelected" />
+        }
+        <table class="table border-bottom">
+            <thead class="thead-dark">
+                <tr class="row tabLinha">
+                    <th class="col-1"><a class="txtPadrao" href="javascript:toSort('id', 'SortSelected')">Id</a></th>
+                    <th class="col-2"><a class="txtPadrao" href="javascript:toSort('cliente', 'SortSelected')">Cliente</a></th>
+                    <th class="col-2"><a class="txtPadrao" href="javascript:toSort('numero', 'SortSelected')">Número</a></th>
+                    <th class="col-1"><a class="txtPadrao" href="javascript:toSort('tipo', 'SortSelected')">Tipo</a></th>
+                    <th class="col-1"><a class="txtPadrao" href="javascript:toSort('status', 'SortSelected')">Status</a></th>
+                    <th class="col-2"><a class="txtPadrao" href="javascript:toSort('categoria', 'SortSelected')">Categoria</a></th>
+                    <th class="col-3"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.List != null) {
+                    @foreach (var item in Model.List) {
+                        <tr class="row tabLinha">
+                            <td class="col-1"><a class="txtPadrao" asp-controller="Conteineres" asp-action="Get" asp-route-id="@item.Id">@item.Id</a></td>
+                            <td class="col-2"><a class="txtPadrao" asp-controller="Conteineres" asp-action="Get" asp-route-id="@item.Id">@item.Cliente</a></td>
+                            <td class="col-2"><a class="txtPadrao" asp-controller="Conteineres" asp-action="Get" asp-route-id="@item.Id">@item.Numero</a></td>
+                            <td class="col-1"><a class="txtPadrao" asp-controller="Conteineres" asp-action="Get" asp-route-id="@item.Id">@item.Tipo</a></td>
+                            <td class="col-1"><a class="txtPadrao" asp-controller="Conteineres" asp-action="Get" asp-route-id="@item.Id">@item.Status</a></td>
+                            <td class="col-2"><a class="txtPadrao" asp-controller="Conteineres" asp-action="Get" asp-route-id="@item.Id">@item.Categoria</a></td>
+                            <td class="col-3">
+                                <a class="btn btn-primary" asp-controller="Conteineres" asp-action="Get" asp-route-id="@item.Id">
+                                    <i class="fas fa-search-plus"></i>
+                                    &nbsp;Detalhe
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <br>
+        <div>
+            <button class="btn btn-lg mr-2 btn-warning" onclick="javascript:toRedirect('Conteineres', 'Filter');"><i class="fas fa-search"></i> &nbsp;Consulta</button>
+            <a class="btn btn-secondary btn-lg" asp-controller="Conteineres" asp-action="Index">
+                <i class="fas fa-arrow-circle-left"></i>
+                &nbsp;Voltar
+            </a>
+        </div>
+    </form>
+</div>
+
+@if ((Model != null) && (Model.Message != null)) {
+    <div class="text-danger">
+        @section Messages {
+            <ul>
+                <li class="p-2">@Model.Message</li>
+            </ul>
+        }
+    </div>
+
+    @section Scripts {
+        <script>
+            $('#modalMessages').modal('show');
+        </script>
+    }
+}

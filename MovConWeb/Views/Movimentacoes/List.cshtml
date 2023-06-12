@@ -1,0 +1,82 @@
+﻿@model MovConWeb.Models.MovimentacaoViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "MovCon - Movimentações - Lista";
+}
+<div class="areaMaxGrd">
+    <div class="txtPadraoGrd">
+        <i class="iconeMed fas fa-arrow-right-arrow-left"></i>&nbsp;
+        <a class="txtPadraoGrd" asp-controller="Movimentacoes" asp-action="Index">Movimentações</a> &nbsp;/&nbsp; Lista
+    </div>
+    <br>
+    <form id="form" asp-controller="Movimentacoes" asp-action="Search" asp-anti-forgery method="Post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="@Model.Filter.Id" />
+        <input type="hidden" asp-for="@Model.Filter.Numero" />
+        <input type="hidden" asp-for="@Model.Filter.Tipo" />
+        <input type="hidden" asp-for="@Model.Filter.DataHoraInicio" />
+        <input type="hidden" asp-for="@Model.Filter.DataHoraFim" />
+        <input type="hidden" asp-for="@Model.Filter.DataHoraFim" />
+        @Html.Hidden("DdlTipo")
+        @if (Model != null) {
+            <input type="hidden" asp-for="@Model.SortField" value="@Model.SortField" />
+            <input type="hidden" asp-for="@Model.SortDirection" value="@Model.SortDirection" />
+            <input type="hidden" asp-for="@Model.SortSelected" value="@Model.SortSelected" />
+        }
+        <table class="table border-bottom">
+            <thead class="thead-dark">
+                <tr class="row tabLinha">
+                    <th class="col-1"><a class="txtPadrao" href="javascript:toSort('id', 'SortSelected')">Id</a></th>
+                    <th class="col-2"><a class="txtPadrao" href="javascript:toSort('numero', 'SortSelected')">Número</a></th>
+                    <th class="col-2"><a class="txtPadrao" href="javascript:toSort('tipo', 'SortSelected')">Tipo</a></th>
+                    <th class="col-2"><a class="txtPadrao" href="javascript:toSort('inicio', 'SortSelected')">Data/Hora Início</a></th>
+                    <th class="col-2"><a class="txtPadrao" href="javascript:toSort('fim', 'SortSelected')">Data/Hora Fim</a></th>
+                    <th class="col-3"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.List != null) {
+                    @foreach (var item in Model.List) {
+                        <tr class="row tabLinha">
+                            <td class="col-1"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Get" asp-route-id="@item.Id">@item.Id</a></td>
+                            <td class="col-2"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Get" asp-route-id="@item.Id">@item.Numero</a></td>
+                            <td class="col-2"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Get" asp-route-id="@item.Id">@item.Tipo</a></td>
+                            <td class="col-2"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Get" asp-route-id="@item.Id">@item.DataHoraInicio</a></td>
+                            <td class="col-2"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Get" asp-route-id="@item.Id">@item.DataHoraFim</a></td>
+                            <td class="col-3">
+                                <a class="btn btn-primary" asp-controller="Movimentacoes" asp-action="Get" asp-route-id="@item.Id">
+                                    <i class="fas fa-search-plus"></i>
+                                    &nbsp;Detalhe
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <br>
+        <div>
+            <button class="btn btn-lg mr-2 btn-warning" onclick="javascript:toRedirect('Movimentacoes', 'Filter');"><i class="fas fa-search"></i> &nbsp;Consulta</button>
+            <a class="btn btn-secondary btn-lg" asp-controller="Movimentacoes" asp-action="Index">
+                <i class="fas fa-arrow-circle-left"></i>
+                &nbsp;Voltar
+            </a>
+        </div>
+    </form>
+</div>
+
+@if ((Model != null) && (Model.Message != null)) {
+    <div class="text-danger">
+        @section Messages {
+            <ul>
+                <li class="p-2">@Model.Message</li>
+            </ul>
+        }
+    </div>
+
+    @section Scripts {
+        <script>
+            $('#modalMessages').modal('show');
+        </script>
+    }
+}

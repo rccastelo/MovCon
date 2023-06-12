@@ -5,6 +5,7 @@ using MovConDomain.Models;
 using MovConRepository.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace MovConRepository.Datas
 {
@@ -183,6 +184,79 @@ namespace MovConRepository.Datas
             _database.Open();
 
             List<ConteinerModel> list = _conn.Query<ConteinerModel>(cmd).ToList();
+
+            _database.Close();
+
+            return list;
+        }
+
+        public List<ConteinerEntity> Filter(ConteinerEntity entity)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            List<ConteinerEntity> list = null;
+            bool hasParam = false;
+
+            string queryCmd = "SELECT PK_Id as Id, Cliente, Numero, Tipo, Status, Categoria " +
+                    "FROM Conteineres ";
+            StringBuilder queryFilter = new StringBuilder();
+
+            if (entity.Id > 0)
+            {
+                parameters.Add("@Id", entity.Id, System.Data.DbType.Int64,
+                    System.Data.ParameterDirection.Input, 8);
+                hasParam = true;
+                if (!string.IsNullOrWhiteSpace(queryFilter.ToString())) queryFilter.Append(" AND ");
+                queryFilter.Append(" PK_Id = @Id ");
+            }
+            if (!string.IsNullOrWhiteSpace(entity.Cliente))
+            {
+                parameters.Add("@Cliente", entity.Cliente, System.Data.DbType.String,
+                    System.Data.ParameterDirection.Input, entity.Cliente.Length);
+                hasParam = true;
+                if (!string.IsNullOrWhiteSpace(queryFilter.ToString())) queryFilter.Append(" AND ");
+                queryFilter.Append(" Cliente = @Cliente ");
+            }
+            if (!string.IsNullOrWhiteSpace(entity.Numero))
+            {
+                parameters.Add("@Numero", entity.Numero, System.Data.DbType.String,
+                    System.Data.ParameterDirection.Input, entity.Numero.Length);
+                hasParam = true;
+                if (!string.IsNullOrWhiteSpace(queryFilter.ToString())) queryFilter.Append(" AND ");
+                queryFilter.Append(" Numero = @Numero ");
+            }
+            if (!string.IsNullOrWhiteSpace(entity.Tipo))
+            {
+                parameters.Add("@Tipo", entity.Tipo, System.Data.DbType.String,
+                    System.Data.ParameterDirection.Input, entity.Tipo.Length);
+                hasParam = true;
+                if (!string.IsNullOrWhiteSpace(queryFilter.ToString())) queryFilter.Append(" AND ");
+                queryFilter.Append(" Tipo = @Tipo ");
+            }
+            if (!string.IsNullOrWhiteSpace(entity.Status))
+            {
+                parameters.Add("@Status", entity.Status, System.Data.DbType.String,
+                    System.Data.ParameterDirection.Input, entity.Status.Length);
+                hasParam = true;
+                if (!string.IsNullOrWhiteSpace(queryFilter.ToString())) queryFilter.Append(" AND ");
+                queryFilter.Append(" Status = @Status ");
+            }
+            if (!string.IsNullOrWhiteSpace(entity.Categoria))
+            {
+                parameters.Add("@Categoria", entity.Categoria, System.Data.DbType.String,
+                    System.Data.ParameterDirection.Input, entity.Categoria.Length);
+                hasParam = true;
+                if (!string.IsNullOrWhiteSpace(queryFilter.ToString())) queryFilter.Append(" AND ");
+                queryFilter.Append(" Categoria = @Categoria ");
+            }
+
+            _database.Open();
+
+            if (hasParam)
+            {
+                list = _conn.Query<ConteinerEntity>(queryCmd + " WHERE " + queryFilter.ToString(), parameters).ToList();
+            } else {
+                list = _conn.Query<ConteinerEntity>(queryCmd).ToList();
+            }
 
             _database.Close();
 

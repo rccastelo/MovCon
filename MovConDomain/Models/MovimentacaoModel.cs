@@ -4,14 +4,8 @@ using System.Text.RegularExpressions;
 
 namespace MovConDomain.Models
 {
-    public class MovimentacaoModel
+    public class MovimentacaoModel : MovimentacaoEntity
     {
-        public Int64 Id { get; set; }
-        public string Numero { get; private set; }
-        public string Tipo { get; private set; }
-        public DateTime DataHoraInicio { get; private set; }
-        public DateTime DataHoraFim { get; private set; }
-
         public MovimentacaoModel(string numero)
         {
             ValidarFimByNumero(numero);
@@ -22,9 +16,9 @@ namespace MovConDomain.Models
             ValidarInicio(numero, tipo);
         }
 
-        public MovimentacaoModel(long id, string numero, string tipo)
+        public MovimentacaoModel(Int64 id, string numero)
         {
-            ValidarFim(id, numero, tipo);
+            ValidarFim(id, numero);
         }
 
         public MovimentacaoModel(Int64 id, string numero, string tipo, DateTime dataHoraInicio, DateTime dataHoraFim)
@@ -48,7 +42,7 @@ namespace MovConDomain.Models
             this.Tipo = tipo;
         }
 
-        private void ValidarFim(Int64 id, string numero, string tipo)
+        private void ValidarFim(Int64 id, string numero)
         {
             if (id <= 0)
                 throw new ArgumentException("Id inválido", "id");
@@ -56,12 +50,8 @@ namespace MovConDomain.Models
             if (!Regex.IsMatch(numero, "^[A-Za-z]{4}[0-9]{7}$"))
                 throw new ArgumentException("Número inválido", "numero");
 
-            if (!MovimentacaoTipoEnum.Validate(tipo))
-                throw new ArgumentException("Tipo inválido", "tipo");
-
             this.Id = id;
             this.Numero = numero;
-            this.Tipo = tipo;
         }
 
         private void ValidarFimByNumero(string numero)

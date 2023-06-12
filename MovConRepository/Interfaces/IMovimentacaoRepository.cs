@@ -13,5 +13,6 @@ namespace MovConRepository.Interfaces
         List<MovimentacaoModel> List();
         List<MovimentacaoModel> ListEmMovimento();
         List<MovimentacaoModel> ListByNumero(string numero);
+        List<MovimentacaoEntity> Filter(MovimentacaoEntity entity);
     }
 }

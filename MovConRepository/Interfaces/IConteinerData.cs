@@ -13,5 +13,6 @@ namespace MovConRepository.Interfaces
         ConteinerModel Get(long id);
         ConteinerModel GetByNumero(string numero);
         List<ConteinerModel> List();
+        List<ConteinerEntity> Filter(ConteinerEntity entity);
     }
 }

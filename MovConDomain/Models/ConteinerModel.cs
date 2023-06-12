@@ -4,15 +4,8 @@ using System.Text.RegularExpressions;
 
 namespace MovConDomain.Models
 {
-    public class ConteinerModel
+    public class ConteinerModel : ConteinerEntity
     {
-        public Int64 Id { get; set; }
-        public string Cliente { get; private set; }
-        public string Numero { get; private set; }
-        public string Tipo { get; private set; }
-        public string Status { get; private set; }
-        public string Categoria { get; private set; }
-
         public ConteinerModel(string id, string cliente, string numero, string tipo, string status, string categoria)
         {
             ValidateAndSet(id, cliente, numero, tipo, status, categoria);
@@ -43,10 +36,13 @@ namespace MovConDomain.Models
         private void ValidateAndSet(string cliente, string numero, string tipo, string status, string categoria) 
         {
             if (string.IsNullOrWhiteSpace(cliente))
-                throw new ArgumentException("Cliente inválido", "cliente");
+                throw new ArgumentException("Cliente deve ser informado", "cliente");
+
+            if (string.IsNullOrWhiteSpace(numero))
+                throw new ArgumentException("Número deve ser informado", "numero");
 
             if (!Regex.IsMatch(numero, "^[A-Za-z]{4}[0-9]{7}$"))
-                throw new ArgumentException("Número inválido", "numero");
+                throw new ArgumentException("Número deve estar no formato AAAA9999999", "numero");
 
             if (!ConteinerTipoEnum.Validate(tipo))
                 throw new ArgumentException("Tipo inválido", "tipo");

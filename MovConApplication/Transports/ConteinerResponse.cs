@@ -6,14 +6,22 @@ namespace MovConApplication.Transports
 {
     public class ConteinerResponse
     {
-        public bool Status { get; private set; }
+        public bool IsError { get; private set; }
+        public bool IsValid { get; private set; }
         public string Message { get; private set; }
-        public ConteinerRequest Item { get; private set; }
-        public List<ConteinerRequest> List { get; private set; }
+        public ConteinerEntity Item { get; private set; }
+        public List<ConteinerEntity> List { get; private set; }
 
-        public void SetStatus(bool status)
+        public void SetError(string message)
         {
-            this.Status = status;
+            this.IsValid = false;
+            this.IsError = true;
+            this.Message = message;
+        }
+
+        public void SetValid(bool valid)
+        {
+            this.IsValid = valid;
         }
 
         public void SetMessage(string message)
@@ -24,8 +32,8 @@ namespace MovConApplication.Transports
         public void SetItem(ConteinerModel model)
         {
             if (model != null) {
-                this.Item = new ConteinerRequest() {
-                    Id = model.Id.ToString(),
+                this.Item = new ConteinerEntity() {
+                    Id = model.Id,
                     Cliente = model.Cliente,
                     Numero = model.Numero,
                     Tipo = model.Tipo,
@@ -38,8 +46,24 @@ namespace MovConApplication.Transports
         public void SetList(List<ConteinerModel> list)
         {
             if ((list != null) && (list.Count > 0)) {
-                this.List = list.Select(c => new ConteinerRequest() {
-                    Id = c.Id.ToString(),
+                this.List = list.Select(c => new ConteinerEntity() {
+                    Id = c.Id,
+                    Cliente = c.Cliente,
+                    Numero = c.Numero,
+                    Tipo = c.Tipo,
+                    Status = c.Status,
+                    Categoria = c.Categoria
+                }).ToList();
+            }
+        }
+
+        public void SetList(List<ConteinerEntity> list)
+        {
+            if ((list != null) && (list.Count > 0))
+            {
+                this.List = list.Select(c => new ConteinerEntity()
+                {
+                    Id = c.Id,
                     Cliente = c.Cliente,
                     Numero = c.Numero,
                     Tipo = c.Tipo,

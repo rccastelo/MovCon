@@ -19,28 +19,28 @@ namespace MovConApplication.Services
         {
             ConteinerResponse response = new ConteinerResponse();
 
-            ConteinerModel modelExist = this._conteinerRepository.GetByNumero(request.Numero);
+            ConteinerModel model = new ConteinerModel(request.Cliente, request.Numero, request.Tipo, request.Status, request.Categoria);
+
+            ConteinerModel modelExist = this._conteinerRepository.GetByNumero(model.Numero);
 
             // Verifica se Numero de Conteiner já está cadastrado
             if (modelExist != null) {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Número de Contêiner já existe");
 
                 return response;
             }
 
-            ConteinerModel model = new ConteinerModel(request.Cliente, request.Numero, request.Tipo, request.Status, request.Categoria);
-
             long newId = this._conteinerRepository.Insert(model);
 
             if (newId <= 0) {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Contêiner não incluído");
 
                 return response;
             }
 
-            response.SetStatus(true);
+            response.SetValid(true);
             response.SetMessage("Contêiner incluído");
             model.Id = newId;
             response.SetItem(model);
@@ -56,20 +56,21 @@ namespace MovConApplication.Services
 
             // Verifica se Conteiner existe
             if (modelExist == null) {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Contêiner não encontrado");
 
                 return response;
             }
 
-            ConteinerModel numeroExist = this._conteinerRepository.GetByNumero(request.Numero);
-
             ConteinerModel model = new ConteinerModel(id, request.Cliente, request.Numero, request.Tipo, request.Status, request.Categoria);
+
+            ConteinerModel numeroExist = this._conteinerRepository.GetByNumero(model.Numero);
 
             // Verifica se Numero de Conteiner é de outro Conteiner
             if ((numeroExist != null) && (numeroExist.Id != model.Id)) {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Número de Contêiner já existe");
+                response.SetItem(model);
 
                 return response;
             }
@@ -77,13 +78,14 @@ namespace MovConApplication.Services
             int qtd = this._conteinerRepository.Update(model);
 
             if (qtd <= 0) {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Contêiner não alterado");
+                response.SetItem(model);
 
                 return response;
             }
 
-            response.SetStatus(true);
+            response.SetValid(true);
             response.SetMessage("Contêiner alterado");
             response.SetItem(model);
 
@@ -98,7 +100,7 @@ namespace MovConApplication.Services
 
             // Verifica se Numero de Conteiner está cadastrado
             if (modelExist == null) {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Contêiner não encontrado");
 
                 return response;
@@ -115,7 +117,7 @@ namespace MovConApplication.Services
 
             // Verifica se Conteiner está cadastrado
             if (modelExist == null) {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Contêiner não encontrado");
 
                 return response;
@@ -124,13 +126,13 @@ namespace MovConApplication.Services
             int qtd = this._conteinerRepository.Delete(id);
 
             if (qtd <= 0) {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Contêiner não excluído");
 
                 return response;
             }
 
-            response.SetStatus(true);
+            response.SetValid(true);
             response.SetMessage("Contêiner excluído");
             response.SetItem(modelExist);
 
@@ -145,7 +147,7 @@ namespace MovConApplication.Services
 
             // Verifica se Conteiner está cadastrado
             if (modelExist == null) {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Contêiner não encontrado");
 
                 return response;
@@ -154,13 +156,13 @@ namespace MovConApplication.Services
             int qtd = this._conteinerRepository.DeleteByNumero(numero);
 
             if (qtd <= 0) {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Contêiner não excluído");
 
                 return response;
             }
 
-            response.SetStatus(true);
+            response.SetValid(true);
             response.SetMessage("Contêiner excluído");
             response.SetItem(modelExist);
 
@@ -174,10 +176,10 @@ namespace MovConApplication.Services
             ConteinerResponse response = new ConteinerResponse();
 
             if ((model != null) && (model.Id > 0)) {
-                response.SetStatus(true);
+                response.SetValid(true);
                 response.SetItem(model);
             } else {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Contêiner não encontrado");
             }
 
@@ -191,10 +193,10 @@ namespace MovConApplication.Services
             ConteinerResponse response = new ConteinerResponse();
 
             if ((model != null) && (model.Id > 0)) {
-                response.SetStatus(true);
+                response.SetValid(true);
                 response.SetItem(model);
             } else {
-                response.SetStatus(false);
+                response.SetValid(false);
                 response.SetMessage("Contêiner não encontrado");
             }
 
@@ -208,10 +210,34 @@ namespace MovConApplication.Services
             ConteinerResponse response = new ConteinerResponse();
 
             if ((list != null) && (list.Count > 0)) {
-                response.SetStatus(true);
+                response.SetValid(true);
                 response.SetList(list);
             } else {
-                response.SetStatus(false);
+                response.SetValid(false);
+                response.SetMessage("Nenhum Contêiner encontrado");
+            }
+
+            return response;
+        }
+
+        public ConteinerResponse Filter(ConteinerRequest request)
+        {
+            ConteinerEntity entity = new ConteinerEntity(
+                request.Id, request.Cliente, request.Numero, 
+                request.Tipo, request.Status, request.Categoria);
+
+            List<ConteinerEntity> list = this._conteinerRepository.Filter(entity);
+
+            ConteinerResponse response = new ConteinerResponse();
+
+            if ((list != null) && (list.Count > 0))
+            {
+                response.SetValid(true);
+                response.SetList(list);
+            }
+            else
+            {
+                response.SetValid(false);
                 response.SetMessage("Nenhum Contêiner encontrado");
             }
 
