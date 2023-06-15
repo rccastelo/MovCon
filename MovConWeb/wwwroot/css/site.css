@@ -83,6 +83,16 @@ body {
     color: #fff;
 }
 
+.txtRelMov, .txtRelMov:hover, .txtRelMov:visited {
+    font-size: 16px;
+    color: #ffff88;
+}
+
+.txtRelCli, .txtRelCli:hover, .txtRelCli:visited {
+    font-size: 16px;
+    color: #88ff88;
+}
+
 .txtPadraoGrd, .txtPadraoGrd:hover, .txtPadraoGrd:visited {
     font-size: 32px;
     color: #fff;
@@ -139,6 +149,37 @@ body {
     color: #ff6000;
 }
 
+.tabRel {
+    width: 100%;
+    margin: 0;
+}
+
+.tabRelCli {
+    width: 100%;
+    margin-top: 30px;
+    background-color: #303030;
+}
+
+.tabRelMov {
+    width: 100%;
+    border-bottom: 1px solid #505050;
+}
+
+.tabRelInfo {
+    width: 100%;
+    border-bottom: 1px solid #505050;
+}
+
+.tabRelCel {
+    padding: 5px;
+}
+
+.tabRelCenter {
+    align-content: center;
+    text-align: center;
+    justify-content: center;
+}
+
 .tabLinha {
     margin: 0;
 }
@@ -191,6 +232,21 @@ body {
         background-color: #888;
         color: #000;
     }
+
+.tdRelatorioPq {
+    width: 10%;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+}
+
+.tdRelatorioGd {
+    width: 15%;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+}
+
 
 /* -- Botão alternativo -- */
 .btn-alternative {

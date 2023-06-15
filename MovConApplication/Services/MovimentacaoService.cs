@@ -18,7 +18,7 @@ namespace MovConApplication.Services
             this._conteinerRepository = conteinerRepository;
         }
 
-        public MovimentacaoResponse Insert(MovimentacaoInicioRequest request)
+        public MovimentacaoResponse Iniciar(MovimentacaoInicioRequest request)
         {
             MovimentacaoResponse response = new MovimentacaoResponse();
             MovimentacaoModel newModel = null;
@@ -26,7 +26,7 @@ namespace MovConApplication.Services
             MovimentacaoModel model = new MovimentacaoModel(request.Numero, request.Tipo);
 
             // Verifica se Conteiner existe
-            ConteinerModel conteiner = _conteinerRepository.GetByNumero(request.Numero);
+            ConteinerModel conteiner = _conteinerRepository.ObterPorNumero(request.Numero);
 
             if (conteiner == null) {
                 response.SetValid(false);
@@ -36,7 +36,7 @@ namespace MovConApplication.Services
             }
 
             // Verifica se Conteiner já está em movimentação
-            MovimentacaoModel emMov = this._movimentacaoRepository.GetEmMovimentoByNumero(request.Numero);
+            MovimentacaoModel emMov = this._movimentacaoRepository.ObterEmMovimentoPorNumero(request.Numero);
 
             if (emMov != null) {
                 response.SetValid(false);
@@ -46,10 +46,10 @@ namespace MovConApplication.Services
                 return response;
             }
 
-            long newId = this._movimentacaoRepository.Insert(model);
+            long newId = this._movimentacaoRepository.Iniciar(model);
 
             if (newId > 0) {
-                newModel = this._movimentacaoRepository.Get(newId);
+                newModel = this._movimentacaoRepository.Obter(newId);
             }
 
             if ((newId > 0) && (newModel != null)) {
@@ -64,7 +64,7 @@ namespace MovConApplication.Services
             return response;
         }
 
-        public MovimentacaoResponse Update(long id, MovimentacaoFimRequest request)
+        public MovimentacaoResponse Finalizar(long id, MovimentacaoFimRequest request)
         {
             MovimentacaoResponse response = new MovimentacaoResponse();
             MovimentacaoModel newModel = null;
@@ -72,7 +72,7 @@ namespace MovConApplication.Services
             MovimentacaoModel model = new MovimentacaoModel(id, request.Numero);
 
             // Verifica se Conteiner existe
-            ConteinerModel conteiner = _conteinerRepository.GetByNumero(request.Numero);
+            ConteinerModel conteiner = _conteinerRepository.ObterPorNumero(request.Numero);
 
             if (conteiner == null) {
                 response.SetValid(false);
@@ -81,10 +81,10 @@ namespace MovConApplication.Services
                 return response;
             }
 
-            int qtd = this._movimentacaoRepository.Update(model);
+            int qtd = this._movimentacaoRepository.Finalizar(model);
 
             if (qtd > 0) {
-                newModel = this._movimentacaoRepository.Get(model.Id);
+                newModel = this._movimentacaoRepository.Obter(model.Id);
             }
 
             if ((qtd > 0) && (newModel != null)) {
@@ -99,12 +99,12 @@ namespace MovConApplication.Services
             return response;
         }
 
-        public MovimentacaoResponse UpdateFimMovimentoByNumero(string numero)
+        public MovimentacaoResponse FinalizarPorNumero(string numero)
         {
             MovimentacaoResponse response = new MovimentacaoResponse();
 
             // Verifica se Conteiner existe
-            ConteinerModel conteiner = _conteinerRepository.GetByNumero(numero);
+            ConteinerModel conteiner = _conteinerRepository.ObterPorNumero(numero);
 
             if (conteiner == null) {
                 response.SetValid(false);
@@ -113,7 +113,7 @@ namespace MovConApplication.Services
                 return response;
             }
 
-            MovimentacaoModel emMov = this._movimentacaoRepository.GetEmMovimentoByNumero(numero);
+            MovimentacaoModel emMov = this._movimentacaoRepository.ObterEmMovimentoPorNumero(numero);
 
             if (emMov == null) {
                 response.SetValid(false);
@@ -122,9 +122,9 @@ namespace MovConApplication.Services
                 return response;
             }
 
-            int qtd = this._movimentacaoRepository.UpdateFimMovimentoByNumero(numero);
+            int qtd = this._movimentacaoRepository.FinalizarPorNumero(numero);
 
-            emMov = this._movimentacaoRepository.Get(emMov.Id);
+            emMov = this._movimentacaoRepository.Obter(emMov.Id);
 
             if (qtd > 0) {
                 response.SetValid(true);
@@ -138,9 +138,9 @@ namespace MovConApplication.Services
             return response;
         }
 
-        public MovimentacaoResponse Get(long id)
+        public MovimentacaoResponse Obter(long id)
         {
-            MovimentacaoModel model = this._movimentacaoRepository.Get(id);
+            MovimentacaoModel model = this._movimentacaoRepository.Obter(id);
 
             MovimentacaoResponse response = new MovimentacaoResponse();
 
@@ -155,9 +155,9 @@ namespace MovConApplication.Services
             return response;
         }
 
-        public MovimentacaoResponse GetEmMovimentoByNumero(string numero)
+        public MovimentacaoResponse ObterEmMovimentoPorNumero(string numero)
         {
-            MovimentacaoModel model = this._movimentacaoRepository.GetEmMovimentoByNumero(numero);
+            MovimentacaoModel model = this._movimentacaoRepository.ObterEmMovimentoPorNumero(numero);
 
             MovimentacaoResponse response = new MovimentacaoResponse();
 
@@ -172,9 +172,9 @@ namespace MovConApplication.Services
             return response;
         }
 
-        public MovimentacaoResponse List()
+        public MovimentacaoResponse Listar()
         {
-            List<MovimentacaoModel> list = this._movimentacaoRepository.List();
+            List<MovimentacaoModel> list = this._movimentacaoRepository.Listar();
 
             MovimentacaoResponse response = new MovimentacaoResponse();
 
@@ -189,9 +189,9 @@ namespace MovConApplication.Services
             return response;
         }
 
-        public MovimentacaoResponse ListEmMovimento()
+        public MovimentacaoResponse ListarEmMovimento()
         {
-            List<MovimentacaoModel> list = this._movimentacaoRepository.ListEmMovimento();
+            List<MovimentacaoModel> list = this._movimentacaoRepository.ListarEmMovimento();
 
             MovimentacaoResponse response = new MovimentacaoResponse();
 
@@ -206,9 +206,9 @@ namespace MovConApplication.Services
             return response;
         }
 
-        public MovimentacaoResponse ListByNumero(string numero)
+        public MovimentacaoResponse ListarPorNumero(string numero)
         {
-            List<MovimentacaoModel> list = this._movimentacaoRepository.ListByNumero(numero);
+            List<MovimentacaoModel> list = this._movimentacaoRepository.ListarPorNumero(numero);
 
             MovimentacaoResponse response = new MovimentacaoResponse();
 
@@ -223,11 +223,11 @@ namespace MovConApplication.Services
             return response;
         }
 
-        public MovimentacaoResponse Filter(MovimentacaoFiltroRequest request)
+        public MovimentacaoResponse Filtrar(MovimentacaoFiltroRequest request)
         {
-            MovimentacaoEntity entity = new MovimentacaoEntity(request.Numero, request.Tipo);
+            MovimentacaoEntity entity = new MovimentacaoEntity(request.Numero, request.Tipo, request.Pendente);
 
-            List<MovimentacaoEntity> list = this._movimentacaoRepository.Filter(entity);
+            List<MovimentacaoEntity> list = this._movimentacaoRepository.Filtrar(entity);
 
             MovimentacaoResponse response = new MovimentacaoResponse();
 

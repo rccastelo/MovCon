@@ -5,14 +5,14 @@ namespace MovConRepository.Interfaces
 {
     public interface IConteinerData
     {
-        long Insert(ConteinerModel model);
-        int Update(ConteinerModel model);
-        int UpdateByNumero(ConteinerModel model);
-        int Delete(long id);
-        int DeleteByNumero(string numero);
-        ConteinerModel Get(long id);
-        ConteinerModel GetByNumero(string numero);
-        List<ConteinerModel> List();
-        List<ConteinerEntity> Filter(ConteinerEntity entity);
+        long Incluir(ConteinerModel model);
+        int Alterar(ConteinerModel model);
+        int AlterarPorNumero(ConteinerModel model);
+        int Excluir(long id);
+        int ExcluirPorNumero(string numero);
+        ConteinerModel Obter(long id);
+        ConteinerModel ObterPorNumero(string numero);
+        List<ConteinerModel> Listar();
+        List<ConteinerEntity> Filtrar(ConteinerEntity entity);
     }
 }

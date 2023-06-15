@@ -4,14 +4,14 @@ namespace MovConApplication.Interfaces
 {
     public interface IMovimentacaoService
     {
-        MovimentacaoResponse Insert(MovimentacaoInicioRequest request);
-        MovimentacaoResponse Update(long id, MovimentacaoFimRequest request);
-        MovimentacaoResponse UpdateFimMovimentoByNumero(string numero);
-        MovimentacaoResponse Get(long id);
-        MovimentacaoResponse GetEmMovimentoByNumero(string numero);
-        MovimentacaoResponse List();
-        MovimentacaoResponse ListEmMovimento();
-        MovimentacaoResponse ListByNumero(string numero);
-        MovimentacaoResponse Filter(MovimentacaoFiltroRequest request);
+        MovimentacaoResponse Iniciar(MovimentacaoInicioRequest request);
+        MovimentacaoResponse Finalizar(long id, MovimentacaoFimRequest request);
+        MovimentacaoResponse FinalizarPorNumero(string numero);
+        MovimentacaoResponse Obter(long id);
+        MovimentacaoResponse ObterEmMovimentoPorNumero(string numero);
+        MovimentacaoResponse Listar();
+        MovimentacaoResponse ListarEmMovimento();
+        MovimentacaoResponse ListarPorNumero(string numero);
+        MovimentacaoResponse Filtrar(MovimentacaoFiltroRequest request);
     }
 }

@@ -6,11 +6,11 @@ namespace MovConWeb.Interfaces
 {
     public interface IConteinerService
     {
-        Task<ConteinerViewModel> Search(ConteinerViewModel transport);
-        Task<ConteinerViewModel> Get(Int64 id);
-        Task<ConteinerViewModel> List();
-        Task<ConteinerViewModel> Insert(ConteinerViewModel transport);
-        Task<ConteinerViewModel> Update(ConteinerViewModel transport);
-        Task<ConteinerViewModel> Delete(Int64 id);
+        Task<ConteinerViewModel> Pesquisar(ConteinerViewModel model);
+        Task<ConteinerViewModel> Obter(Int64 id);
+        Task<ConteinerViewModel> Listar();
+        Task<ConteinerViewModel> Incluir(ConteinerViewModel model);
+        Task<ConteinerViewModel> Alterar(ConteinerViewModel model);
+        Task<ConteinerViewModel> Excluir(Int64 id);
     }
 }

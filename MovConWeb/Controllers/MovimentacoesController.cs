@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using MovConWeb.Helpers;
 using MovConWeb.Interfaces;
 using MovConWeb.Models;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MovConWeb.Controllers
@@ -22,33 +21,39 @@ namespace MovConWeb.Controllers
             return View();
         }
 
-        public IActionResult Filter(MovimentacaoViewModel model)
+        public IActionResult Filtrar(MovimentacaoViewModel model)
         {
-            MontarDdlTipo(model?.Filter?.Tipo);
+            ViewData["DdlTipo"] = DomainsHelper.MontarDdlTipoMovimentacao(model?.Filter?.Tipo, false, true, false);
 
-            return View(model);
+            return View("Filtro", model);
         }
 
         public IActionResult Form()
         {
-            MontarDdlTipo(null);
+            ViewData["DdlTipo"] = DomainsHelper.MontarDdlTipoMovimentacao(null, false, false, true);
 
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Search(MovimentacaoViewModel model)
+        public async Task<IActionResult> Pesquisar(MovimentacaoViewModel model)
         {
             MovimentacaoViewModel ret;
             string ddlTipo = null;
+            string rdbPendente = null;
 
             try {
                 ddlTipo = Request.Form["DdlTipo"].ToString();
+                rdbPendente = Request.Form["rdbPendente"].ToString();
 
-                if ((model != null) && (model.Filter != null)) model.Filter.Tipo = ddlTipo;
-                
-                ret = await this._movimentacaoService.Search(model);
+                if ((model != null) && (model.Filter != null)) {
+                    model.Filter.Tipo = ddlTipo;
+                    model.Filter.Pendente = (rdbPendente == "S") ? true : false;
+                    model.Filter.Numero = model.Filter.Numero.ToUpper();
+                }
+
+                ret = await this._movimentacaoService.Pesquisar(model);
 
                 if (ret != null) {
                     ret.Filter = new MovimentacaoEntity() { Tipo = ddlTipo };
@@ -60,18 +65,19 @@ namespace MovConWeb.Controllers
                 ret.SetError("Erro ao Listar Movimentações");
             }
 
+            ViewData["rdbPendente"] = rdbPendente;
             ViewData["DdlTipo"] = ddlTipo;
 
-            return View("List", ret);
+            return View("Lista", ret);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(Int64 id)
+        public async Task<IActionResult> Obter(Int64 id)
         {
             MovimentacaoViewModel ret;
 
             try {
-                ret = await this._movimentacaoService.Get(id);
+                ret = await this._movimentacaoService.Obter(id);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
 
@@ -79,18 +85,18 @@ namespace MovConWeb.Controllers
                 ret.SetError("Erro ao Consultar Movimentação");
             }
 
-            MontarDdlTipo(ret?.Item?.Tipo);
+            ViewData["DdlTipo"] = DomainsHelper.MontarDdlTipoMovimentacao(ret?.Item?.Tipo, false, false, true);
 
             return View("Form", ret);
         }
 
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> Listar()
         {
             MovimentacaoViewModel ret;
 
             try {
-                ret = await this._movimentacaoService.List();
+                ret = await this._movimentacaoService.Listar();
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
 
@@ -98,21 +104,24 @@ namespace MovConWeb.Controllers
                 ret.SetError("Erro ao Listar Movimentações");
             }
 
-            return View("List", ret);
+            return View("Lista", ret);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Insert(MovimentacaoViewModel model)
+        public async Task<IActionResult> Iniciar(MovimentacaoViewModel model)
         {
             MovimentacaoViewModel ret;
 
             try {
                 string ddlTipo = Request.Form["DdlTipo"].ToString();
 
-                if ((model != null) && (model.Item != null)) model.Item.Tipo = ddlTipo;
+                if ((model != null) && (model.Item != null)) {
+                    model.Item.Tipo = ddlTipo;
+                    model.Item.Numero = model.Item.Numero.ToUpper();
+                }
 
-                ret = await this._movimentacaoService.Insert(model);
+                ret = await this._movimentacaoService.Iniciar(model);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
 
@@ -120,23 +129,26 @@ namespace MovConWeb.Controllers
                 ret.SetError("Erro ao Incluir Movimentação");
             }
 
-            MontarDdlTipo(ret?.Item?.Tipo);
+            ViewData["DdlTipo"] = DomainsHelper.MontarDdlTipoMovimentacao(ret?.Item?.Tipo, false, false, true);
 
             return View("Form", ret);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(MovimentacaoViewModel model)
+        public async Task<IActionResult> Finalizar(MovimentacaoViewModel model)
         {
             MovimentacaoViewModel ret;
 
             try {
                 string ddlTipo = Request.Form["DdlTipo"].ToString();
 
-                if ((model != null) && (model.Item != null)) model.Item.Tipo = ddlTipo;
+                if ((model != null) && (model.Item != null)) {
+                    model.Item.Tipo = ddlTipo;
+                    model.Item.Numero = model.Item.Numero.ToUpper();
+                }
 
-                ret = await this._movimentacaoService.Update(model);
+                ret = await this._movimentacaoService.Finalizar(model);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
 
@@ -144,27 +156,10 @@ namespace MovConWeb.Controllers
                 ret.SetError("Erro ao Alterar Movimentação");
             }
 
-            MontarDdlTipo(ret?.Item?.Tipo);
+            ViewData["DdlTipo"] = DomainsHelper.MontarDdlTipoMovimentacao(ret?.Item?.Tipo, false, false, true);
 
             return View("Form", ret);
         }
 
-        private void MontarDdlTipo(string tipo)
-        {
-            // Simulando retorno dos dados do domínio Tipo de Movimentação
-
-            List<SelectListItem> items = new List<SelectListItem>() {
-                new SelectListItem() { Value = "", Text = "" },
-                new SelectListItem() { Value = "Embarque", Text = "Embarque" },
-                new SelectListItem() { Value = "Descarga", Text = "Descarga" },
-                new SelectListItem() { Value = "GateIn", Text = "Gate In" },
-                new SelectListItem() { Value = "GateOut", Text = "Gate Out" },
-                new SelectListItem() { Value = "Reposicionamento", Text = "Reposicionamento" },
-                new SelectListItem() { Value = "Pesagem", Text = "Pesagem" },
-                new SelectListItem() { Value = "Scanner", Text = "Scanner" }
-            };
-
-            ViewData["DdlTipo"] = new SelectList(items, "Value", "Text", tipo);
-        }
     }
 }

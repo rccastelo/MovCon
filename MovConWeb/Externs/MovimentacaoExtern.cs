@@ -22,14 +22,14 @@ namespace MovConWeb.Externs
             httpClient.BaseAddress = new System.Uri(serviceAddress);
         }
 
-        public async Task<MovimentacaoViewModel> Insert(MovimentacaoViewModel transport)
+        public async Task<MovimentacaoViewModel> Iniciar(MovimentacaoViewModel model)
         {
             MovimentacaoViewModel movimentacao = null;
             HttpResponseMessage response = null;
             string message = null;
 
             try {
-                string jsonRequest = JsonConvert.SerializeObject(transport.Item);
+                string jsonRequest = JsonConvert.SerializeObject(model.Item);
                 StringContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
                 response = await httpClient.PostAsync($"{methodAddress}", content);
@@ -40,7 +40,7 @@ namespace MovConWeb.Externs
                     string jsonResult = await response.Content.ReadAsStringAsync();
                     movimentacao = JsonConvert.DeserializeObject<MovimentacaoViewModel>(jsonResult);
                 } else {
-                    message = $"Não foi possível acessar o serviço {methodAddress} Insert";
+                    message = $"Não foi possível acessar o serviço {methodAddress} Iniciar";
                 }
 
                 if (!string.IsNullOrEmpty(message)) {
@@ -48,8 +48,10 @@ namespace MovConWeb.Externs
                     movimentacao.SetError(message);
                 }
             } catch (Exception ex) {
+                Console.WriteLine(ex);
+
                 movimentacao = new MovimentacaoViewModel();
-                movimentacao.SetError("Erro em MovimentacaoModel Insert [" + ex.Message + "]");
+                movimentacao.SetError($"Erro em {methodAddress} Iniciar");
             } finally {
                 response = null;
             }
@@ -57,17 +59,17 @@ namespace MovConWeb.Externs
             return movimentacao;
         }
 
-        public async Task<MovimentacaoViewModel> Update(MovimentacaoViewModel transport)
+        public async Task<MovimentacaoViewModel> Finalizar(MovimentacaoViewModel model)
         {
             MovimentacaoViewModel movimentacao = null;
             HttpResponseMessage response = null;
             string message = null;
 
             try {
-                string jsonRequest = JsonConvert.SerializeObject(transport.Item);
+                string jsonRequest = JsonConvert.SerializeObject(model.Item);
                 StringContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
-                response = await httpClient.PutAsync($"{methodAddress}/{transport.Item.Id}", content);
+                response = await httpClient.PutAsync($"{methodAddress}/{model.Item.Id}", content);
 
                 if ((response.IsSuccessStatusCode) ||
                     (response.StatusCode == HttpStatusCode.BadRequest)) {
@@ -75,7 +77,7 @@ namespace MovConWeb.Externs
                     string jsonResult = await response.Content.ReadAsStringAsync();
                     movimentacao = JsonConvert.DeserializeObject<MovimentacaoViewModel>(jsonResult);
                 } else {
-                    message = $"Não foi possível acessar o serviço {methodAddress} Update";
+                    message = $"Não foi possível acessar o serviço {methodAddress} Finalizar";
                 }
 
                 if (!string.IsNullOrEmpty(message)) {
@@ -83,8 +85,10 @@ namespace MovConWeb.Externs
                     movimentacao.SetError(message);
                 }
             } catch (Exception ex) {
+                Console.WriteLine(ex);
+
                 movimentacao = new MovimentacaoViewModel();
-                movimentacao.SetError("Erro em MovimentacaoModel Insert [" + ex.Message + "]");
+                movimentacao.SetError($"Erro em {methodAddress} Finalizar");
             } finally {
                 response = null;
             }
@@ -92,38 +96,7 @@ namespace MovConWeb.Externs
             return movimentacao;
         }
 
-        public async Task<MovimentacaoViewModel> Delete(Int64 id)
-        {
-            MovimentacaoViewModel movimentacao = null;
-            HttpResponseMessage response = null;
-            string message = null;
-
-            try {
-                response = await httpClient.DeleteAsync($"{methodAddress}/{id}");
-
-                if ((response.IsSuccessStatusCode) ||
-                    (response.StatusCode == HttpStatusCode.BadRequest)) {
-                    string jsonResult = await response.Content.ReadAsStringAsync();
-                    movimentacao = JsonConvert.DeserializeObject<MovimentacaoViewModel>(jsonResult);
-                } else {
-                    message = $"Não foi possível acessar o serviço {methodAddress} Delete";
-                }
-
-                if (!string.IsNullOrEmpty(message)) {
-                    movimentacao = new MovimentacaoViewModel();
-                    movimentacao.SetError(message);
-                }
-            } catch (Exception ex) {
-                movimentacao = new MovimentacaoViewModel();
-                movimentacao.SetError("Erro em MovimentacaoModel Insert [" + ex.Message + "]");
-            } finally {
-                response = null;
-            }
-
-            return movimentacao;
-        }
-
-        public async Task<MovimentacaoViewModel> List()
+        public async Task<MovimentacaoViewModel> Listar()
         {
             MovimentacaoViewModel movimentacao = null;
             HttpResponseMessage response = null;
@@ -137,7 +110,7 @@ namespace MovConWeb.Externs
                     string jsonResult = await response.Content.ReadAsStringAsync();
                     movimentacao = JsonConvert.DeserializeObject<MovimentacaoViewModel>(jsonResult);
                 } else {
-                    message = $"Não foi possível acessar o serviço {methodAddress} List";
+                    message = $"Não foi possível acessar o serviço {methodAddress} Listar";
                 }
 
                 if (!string.IsNullOrEmpty(message)) {
@@ -145,8 +118,10 @@ namespace MovConWeb.Externs
                     movimentacao.SetError(message);
                 }
             } catch (Exception ex) {
+                Console.WriteLine(ex);
+
                 movimentacao = new MovimentacaoViewModel();
-                movimentacao.SetError("Erro em MovimentacaoModel Insert [" + ex.Message + "]");
+                movimentacao.SetError($"Erro em {methodAddress} Listar");
             } finally {
                 response = null;
             }
@@ -154,7 +129,7 @@ namespace MovConWeb.Externs
             return movimentacao;
         }
 
-        public async Task<MovimentacaoViewModel> Get(Int64 id)
+        public async Task<MovimentacaoViewModel> Obter(Int64 id)
         {
             MovimentacaoViewModel movimentacao = null;
             HttpResponseMessage response = null;
@@ -168,7 +143,7 @@ namespace MovConWeb.Externs
                     string jsonResult = await response.Content.ReadAsStringAsync();
                     movimentacao = JsonConvert.DeserializeObject<MovimentacaoViewModel>(jsonResult);
                 } else {
-                    message = $"Não foi possível acessar o serviço {methodAddress} Get";
+                    message = $"Não foi possível acessar o serviço {methodAddress} Obter";
                 }
 
                 if (!string.IsNullOrEmpty(message)) {
@@ -176,8 +151,10 @@ namespace MovConWeb.Externs
                     movimentacao.SetError(message);
                 }
             } catch (Exception ex) {
+                Console.WriteLine(ex);
+
                 movimentacao = new MovimentacaoViewModel();
-                movimentacao.SetError("Erro em MovimentacaoModel Insert [" + ex.Message + "]");
+                movimentacao.SetError($"Erro em {methodAddress} Obter");
             } finally {
                 response = null;
             }
@@ -185,24 +162,24 @@ namespace MovConWeb.Externs
             return movimentacao;
         }
 
-        public async Task<MovimentacaoViewModel> Filter(MovimentacaoViewModel transport)
+        public async Task<MovimentacaoViewModel> Pesquisar(MovimentacaoViewModel model)
         {
             MovimentacaoViewModel movimentacao = null;
             HttpResponseMessage response = null;
             string message = null;
 
             try {
-                string jsonRequest = JsonConvert.SerializeObject(transport.Filter);
+                string jsonRequest = JsonConvert.SerializeObject(model.Filter);
                 StringContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
-                response = await httpClient.PostAsync($"{methodAddress}/filter", content);
+                response = await httpClient.PostAsync($"{methodAddress}/filtrar", content);
 
                 if ((response.IsSuccessStatusCode) ||
                     (response.StatusCode == HttpStatusCode.BadRequest)) {
                     string jsonResult = await response.Content.ReadAsStringAsync();
                     movimentacao = JsonConvert.DeserializeObject<MovimentacaoViewModel>(jsonResult);
                 } else {
-                    message = $"Não foi possível acessar o serviço {methodAddress} Filter";
+                    message = $"Não foi possível acessar o serviço {methodAddress} Pesquisar";
                 }
 
                 if (!string.IsNullOrEmpty(message)) {
@@ -210,8 +187,10 @@ namespace MovConWeb.Externs
                     movimentacao.SetError(message);
                 }
             } catch (Exception ex) {
+                Console.WriteLine(ex);
+
                 movimentacao = new MovimentacaoViewModel();
-                movimentacao.SetError("Erro em MovimentacaoModel Insert [" + ex.Message + "]");
+                movimentacao.SetError($"Erro em {methodAddress} Pesquisar");
             } finally {
                 response = null;
             }

@@ -16,116 +16,116 @@ namespace MovConWeb.Services
             this._conteinerExtern = conteinerExtern;
         }
 
-        public async Task<ConteinerViewModel> Search(ConteinerViewModel transport)
+        public async Task<ConteinerViewModel> Pesquisar(ConteinerViewModel model)
         {
-            ConteinerViewModel newTransport;
+            ConteinerViewModel retModel;
 
-            newTransport = await this._conteinerExtern.Filter(transport);
+            retModel = await this._conteinerExtern.Pesquisar(model);
 
-            if (newTransport != null) {
-                if ((newTransport.List != null) && (newTransport.List.Count > 0)) {
-                    if (!string.IsNullOrWhiteSpace(transport.SortSelected)) {
+            if (retModel != null) {
+                if ((retModel.List != null) && (retModel.List.Count > 0)) {
+                    if (!string.IsNullOrWhiteSpace(model.SortSelected)) {
 
-                        if (transport.SortField == transport.SortSelected) {
-                            if (transport.SortDirection == "desc") {
-                                newTransport.SortDirection = "asc";
+                        if (model.SortField == model.SortSelected) {
+                            if (model.SortDirection == "desc") {
+                                retModel.SortDirection = "asc";
                             } else {
-                                newTransport.SortDirection = "desc";
+                                retModel.SortDirection = "desc";
                             }
                         }
-                        newTransport.SortField = transport.SortSelected;
+                        retModel.SortField = model.SortSelected;
 
                         List<ConteinerEntity> list;
 
-                        switch (newTransport.SortField) {
+                        switch (retModel.SortField) {
                             case "cliente":
-                                if (newTransport.SortDirection == "desc")
-                                    list = newTransport.List.OrderByDescending(i => i.Cliente).ToList();
+                                if (retModel.SortDirection == "desc")
+                                    list = retModel.List.OrderByDescending(i => i.Cliente).ToList();
                                 else
-                                    list = newTransport.List.OrderBy(i => i.Cliente).ToList();
+                                    list = retModel.List.OrderBy(i => i.Cliente).ToList();
                                 break;
                             case "numero":
-                                if (newTransport.SortDirection == "desc")
-                                    list = newTransport.List.OrderByDescending(i => i.Numero).ToList();
+                                if (retModel.SortDirection == "desc")
+                                    list = retModel.List.OrderByDescending(i => i.Numero).ToList();
                                 else
-                                    list = newTransport.List.OrderBy(i => i.Numero).ToList();
+                                    list = retModel.List.OrderBy(i => i.Numero).ToList();
                                 break;
                             case "tipo":
-                                if (newTransport.SortDirection == "desc")
-                                    list = newTransport.List.OrderByDescending(i => i.Tipo).ToList();
+                                if (retModel.SortDirection == "desc")
+                                    list = retModel.List.OrderByDescending(i => i.Tipo).ToList();
                                 else
-                                    list = newTransport.List.OrderBy(i => i.Tipo).ToList();
+                                    list = retModel.List.OrderBy(i => i.Tipo).ToList();
                                 break;
                             case "status":
-                                if (newTransport.SortDirection == "desc")
-                                    list = newTransport.List.OrderByDescending(i => i.Status).ToList();
+                                if (retModel.SortDirection == "desc")
+                                    list = retModel.List.OrderByDescending(i => i.Status).ToList();
                                 else
-                                    list = newTransport.List.OrderBy(i => i.Status).ToList();
+                                    list = retModel.List.OrderBy(i => i.Status).ToList();
                                 break;
                             case "categoria":
-                                if (newTransport.SortDirection == "desc")
-                                    list = newTransport.List.OrderByDescending(i => i.Categoria).ToList();
+                                if (retModel.SortDirection == "desc")
+                                    list = retModel.List.OrderByDescending(i => i.Categoria).ToList();
                                 else
-                                    list = newTransport.List.OrderBy(i => i.Categoria).ToList();
+                                    list = retModel.List.OrderBy(i => i.Categoria).ToList();
                                 break;
                             case "id":
                             default:
-                                if (newTransport.SortDirection == "desc")
-                                    list = newTransport.List.OrderByDescending(i => i.Id).ToList();
+                                if (retModel.SortDirection == "desc")
+                                    list = retModel.List.OrderByDescending(i => i.Id).ToList();
                                 else
-                                    list = newTransport.List.OrderBy(i => i.Id).ToList();
+                                    list = retModel.List.OrderBy(i => i.Id).ToList();
                                 break;
                         }
 
-                        newTransport.List = list;
+                        retModel.List = list;
                     }
                 }
             }
 
-            return newTransport;
+            return retModel;
         }
 
-        public async Task<ConteinerViewModel> Get(Int64 id)
+        public async Task<ConteinerViewModel> Obter(Int64 id)
         {
             ConteinerViewModel ret;
 
-            ret = await this._conteinerExtern.Get(id);
+            ret = await this._conteinerExtern.Obter(id);
 
             return ret;
         }
 
-        public async Task<ConteinerViewModel> List()
+        public async Task<ConteinerViewModel> Listar()
         {
             ConteinerViewModel ret;
 
-            ret = await this._conteinerExtern.List();
+            ret = await this._conteinerExtern.Listar();
 
             return ret;
         }
 
-        public async Task<ConteinerViewModel> Insert(ConteinerViewModel transport)
+        public async Task<ConteinerViewModel> Incluir(ConteinerViewModel model)
         {
             ConteinerViewModel ret;
 
-            ret = await this._conteinerExtern.Insert(transport);
+            ret = await this._conteinerExtern.Incluir(model);
 
             return ret;
         }
 
-        public async Task<ConteinerViewModel> Update(ConteinerViewModel transport)
+        public async Task<ConteinerViewModel> Alterar(ConteinerViewModel model)
         {
             ConteinerViewModel ret;
 
-            ret = await this._conteinerExtern.Update(transport);
+            ret = await this._conteinerExtern.Alterar(model);
 
             return ret;
         }
 
-        public async Task<ConteinerViewModel> Delete(Int64 id)
+        public async Task<ConteinerViewModel> Excluir(Int64 id)
         {
             ConteinerViewModel ret;
 
-            ret = await this._conteinerExtern.Delete(id);
+            ret = await this._conteinerExtern.Excluir(id);
 
             return ret;
         }

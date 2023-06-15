@@ -14,12 +14,12 @@ namespace MovConRepository.Repositories
             this._conteinerData = conteinerData;
         }
 
-        public long Insert(ConteinerModel model)
+        public long Incluir(ConteinerModel model)
         {
             long newId;
 
             using (TransactionScope ts = new TransactionScope()) {
-                newId = this._conteinerData.Insert(model);
+                newId = this._conteinerData.Incluir(model);
 
                 ts.Complete();
             }
@@ -27,12 +27,12 @@ namespace MovConRepository.Repositories
             return newId;
         }
 
-        public int Update(ConteinerModel model)
+        public int Alterar(ConteinerModel model)
         {
             int qtd;
 
             using (TransactionScope ts = new TransactionScope()) {
-                qtd = this._conteinerData.Update(model);
+                qtd = this._conteinerData.Alterar(model);
 
                 ts.Complete();
             }
@@ -40,12 +40,12 @@ namespace MovConRepository.Repositories
             return qtd;
         }
 
-        public int UpdateByNumero(ConteinerModel model)
+        public int AlterarPorNumero(ConteinerModel model)
         {
             int qtd;
 
             using (TransactionScope ts = new TransactionScope()) {
-                qtd = this._conteinerData.UpdateByNumero(model);
+                qtd = this._conteinerData.AlterarPorNumero(model);
 
                 ts.Complete();
             }
@@ -53,12 +53,12 @@ namespace MovConRepository.Repositories
             return qtd;
         }
 
-        public int Delete(long id)
+        public int Excluir(long id)
         {
             int qtd;
 
             using (TransactionScope ts = new TransactionScope()) {
-                qtd = this._conteinerData.Delete(id);
+                qtd = this._conteinerData.Excluir(id);
 
                 ts.Complete();
             }
@@ -66,13 +66,13 @@ namespace MovConRepository.Repositories
             return qtd;
         }
 
-        public int DeleteByNumero(string numero)
+        public int ExcluirPorNumero(string numero)
         {
             int qtd;
 
             using (TransactionScope ts = new TransactionScope())
             {
-                qtd = this._conteinerData.DeleteByNumero(numero);
+                qtd = this._conteinerData.ExcluirPorNumero(numero);
 
                 ts.Complete();
             }
@@ -80,24 +80,24 @@ namespace MovConRepository.Repositories
             return qtd;
         }
 
-        public ConteinerModel Get(long id)
+        public ConteinerModel Obter(long id)
         {
-            return this._conteinerData.Get(id);
+            return this._conteinerData.Obter(id);
         }
 
-        public ConteinerModel GetByNumero(string numero)
+        public ConteinerModel ObterPorNumero(string numero)
         {
-            return this._conteinerData.GetByNumero(numero);
+            return this._conteinerData.ObterPorNumero(numero);
         }
 
-        public List<ConteinerModel> List()
+        public List<ConteinerModel> Listar()
         {
-            return this._conteinerData.List();
+            return this._conteinerData.Listar();
         }
 
-        public List<ConteinerEntity> Filter(ConteinerEntity entity)
+        public List<ConteinerEntity> Filtrar(ConteinerEntity entity)
         {
-            return this._conteinerData.Filter(entity);
+            return this._conteinerData.Filtrar(entity);
         }
     }
 }

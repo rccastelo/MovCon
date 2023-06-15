@@ -5,14 +5,14 @@ namespace MovConRepository.Interfaces
 {
     public interface IMovimentacaoData
     {
-        long Insert(MovimentacaoModel model);
-        int Update(MovimentacaoModel model);
-        int UpdateFimMovimentoByNumero(string numero);
-        MovimentacaoModel Get(long id);
-        MovimentacaoModel GetEmMovimentoByNumero(string numero);
-        List<MovimentacaoModel> List();
-        List<MovimentacaoModel> ListEmMovimento();
-        List<MovimentacaoModel> ListByNumero(string numero);
-        List<MovimentacaoEntity> Filter(MovimentacaoEntity entity);
+        long Iniciar(MovimentacaoModel model);
+        int Finalizar(MovimentacaoModel model);
+        int FinalizarPorNumero(string numero);
+        MovimentacaoModel Obter(long id);
+        MovimentacaoModel ObterEmMovimentoPorNumero(string numero);
+        List<MovimentacaoModel> Listar();
+        List<MovimentacaoModel> ListarEmMovimento();
+        List<MovimentacaoModel> ListarPorNumero(string numero);
+        List<MovimentacaoEntity> Filtrar(MovimentacaoEntity entity);
     }
 }

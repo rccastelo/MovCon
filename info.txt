@@ -41,3 +41,11 @@ validar se Numero já existe - ok
 consultar movimentação em aberto pelo Numero - ok
 validar se Conteiner está em movimentação - ok
 
+gravar informações do estado do conteiner na movimentação
+não permitir alteração do número do contêiner se possuir movimentação
+não permitir alteração dos dados (status e categoria) do conteiner se estiver em movimentação
+colocar subtotal de importação e exportação do cliente no relatório
+colocar total de importação e exportação no relatório
+alterar leitura do relatório para pegar dados do conteiner
+incluir filtro por data inicio e fim na tela de movimentações
+incluir filtro por data inicio e fim na tela de relatório

@@ -16,7 +16,7 @@ namespace MovConRepository.Datas
 
         }
 
-        public long Insert(MovimentacaoModel model)
+        public long Iniciar(MovimentacaoModel model)
         {
             DynamicParameters parameters = new DynamicParameters();
 
@@ -38,7 +38,7 @@ namespace MovConRepository.Datas
             return newId;
         }
 
-        public int Update(MovimentacaoModel model)
+        public int Finalizar(MovimentacaoModel model)
         {
             DynamicParameters parameters = new DynamicParameters();
 
@@ -60,7 +60,7 @@ namespace MovConRepository.Datas
             return qtd;
         }
 
-        public int UpdateFimMovimentoByNumero(string numero)
+        public int FinalizarPorNumero(string numero)
         {
             DynamicParameters parameters = new DynamicParameters();
 
@@ -80,7 +80,7 @@ namespace MovConRepository.Datas
             return qtd;
         }
 
-        public MovimentacaoModel Get(long id)
+        public MovimentacaoModel Obter(long id)
         {
             DynamicParameters parameters = new DynamicParameters();
 
@@ -99,7 +99,7 @@ namespace MovConRepository.Datas
             return model;
         }
 
-        public MovimentacaoModel GetEmMovimentoByNumero(string numero)
+        public MovimentacaoModel ObterEmMovimentoPorNumero(string numero)
         {
             DynamicParameters parameters = new DynamicParameters();
 
@@ -118,7 +118,7 @@ namespace MovConRepository.Datas
             return model;
         }
 
-        public List<MovimentacaoModel> List()
+        public List<MovimentacaoModel> Listar()
         {
             string cmd = "SELECT PK_Id as Id, Numero, Tipo, DataHoraInicio, DataHoraFim " +
                     "FROM Movimentacoes ";
@@ -132,7 +132,7 @@ namespace MovConRepository.Datas
             return list;
         }
 
-        public List<MovimentacaoModel> ListEmMovimento()
+        public List<MovimentacaoModel> ListarEmMovimento()
         {
             string cmd = "SELECT PK_Id as Id, Numero, Tipo, DataHoraInicio, DataHoraFim " +
                     "FROM Movimentacoes WHERE DataHoraFim IS NULL ";
@@ -146,7 +146,7 @@ namespace MovConRepository.Datas
             return list;
         }
 
-        public List<MovimentacaoModel> ListByNumero(string numero)
+        public List<MovimentacaoModel> ListarPorNumero(string numero)
         {
             DynamicParameters parameters = new DynamicParameters();
             
@@ -165,7 +165,7 @@ namespace MovConRepository.Datas
             return list;
         }
 
-        public List<MovimentacaoEntity> Filter(MovimentacaoEntity entity)
+        public List<MovimentacaoEntity> Filtrar(MovimentacaoEntity entity)
         {
             DynamicParameters parameters = new DynamicParameters();
             List<MovimentacaoEntity> list = null;
@@ -195,6 +195,11 @@ namespace MovConRepository.Datas
                 hasParam = true;
                 if (!string.IsNullOrWhiteSpace(queryFilter.ToString())) queryFilter.Append(" AND ");
                 queryFilter.Append(" Tipo = @Tipo ");
+            }
+            if (entity.Pendente) {
+                hasParam = true;
+                if (!string.IsNullOrWhiteSpace(queryFilter.ToString())) queryFilter.Append(" AND ");
+                queryFilter.Append(" DataHoraFim IS NULL ");
             }
 
             _database.Open();

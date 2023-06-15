@@ -2,6 +2,7 @@
 using MovConApplication.Transports;
 using MovConDomain.Models;
 using MovConRepository.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace MovConApplication.Services
@@ -9,169 +10,221 @@ namespace MovConApplication.Services
     public class ConteinerService : IConteinerService
     {
         private readonly IConteinerRepository _conteinerRepository;
+        private readonly IMovimentacaoRepository _movimentacaoRepository;
 
-        public ConteinerService(IConteinerRepository conteinerRepository)
+        public ConteinerService(IConteinerRepository conteinerRepository,
+            IMovimentacaoRepository movimentacaoRepository)
         {
             this._conteinerRepository = conteinerRepository;
+            this._movimentacaoRepository = movimentacaoRepository;
         }
 
-        public ConteinerResponse Insert(ConteinerRequest request)
+        public ConteinerResponse Incluir(ConteinerRequest request)
         {
             ConteinerResponse response = new ConteinerResponse();
 
-            ConteinerModel model = new ConteinerModel(request.Cliente, request.Numero, request.Tipo, request.Status, request.Categoria);
+            try {
+                ConteinerModel model = new ConteinerModel(request.Cliente, request.Numero, request.Tipo, request.Status, request.Categoria);
 
-            ConteinerModel modelExist = this._conteinerRepository.GetByNumero(model.Numero);
+                ConteinerModel modelExist = this._conteinerRepository.ObterPorNumero(model.Numero);
 
-            // Verifica se Numero de Conteiner já está cadastrado
-            if (modelExist != null) {
-                response.SetValid(false);
-                response.SetMessage("Número de Contêiner já existe");
+                // Verifica se Numero de Conteiner já está cadastrado
+                if (modelExist != null) {
+                    response.SetValid(false);
+                    response.SetMessage("Número de Contêiner já existe");
 
-                return response;
-            }
+                    return response;
+                }
 
-            long newId = this._conteinerRepository.Insert(model);
+                long newId = this._conteinerRepository.Incluir(model);
 
-            if (newId <= 0) {
-                response.SetValid(false);
-                response.SetMessage("Contêiner não incluído");
+                if (newId <= 0) {
+                    response.SetValid(false);
+                    response.SetMessage("Contêiner não incluído");
 
-                return response;
-            }
+                    return response;
+                }
 
-            response.SetValid(true);
-            response.SetMessage("Contêiner incluído");
-            model.Id = newId;
-            response.SetItem(model);
-
-            return response;
-        }
-
-        public ConteinerResponse Update(long id, ConteinerRequest request)
-        {
-            ConteinerResponse response = new ConteinerResponse();
-
-            ConteinerModel modelExist = this._conteinerRepository.Get(id);
-
-            // Verifica se Conteiner existe
-            if (modelExist == null) {
-                response.SetValid(false);
-                response.SetMessage("Contêiner não encontrado");
-
-                return response;
-            }
-
-            ConteinerModel model = new ConteinerModel(id, request.Cliente, request.Numero, request.Tipo, request.Status, request.Categoria);
-
-            ConteinerModel numeroExist = this._conteinerRepository.GetByNumero(model.Numero);
-
-            // Verifica se Numero de Conteiner é de outro Conteiner
-            if ((numeroExist != null) && (numeroExist.Id != model.Id)) {
-                response.SetValid(false);
-                response.SetMessage("Número de Contêiner já existe");
+                response.SetValid(true);
+                response.SetMessage("Contêiner incluído");
+                model.Id = newId;
                 response.SetItem(model);
 
                 return response;
-            }
-
-            int qtd = this._conteinerRepository.Update(model);
-
-            if (qtd <= 0) {
+            } catch (ArgumentException aex) {
+                response = new ConteinerResponse();
                 response.SetValid(false);
-                response.SetMessage("Contêiner não alterado");
+                response.SetMessage(aex.Message);
+
+                return response;
+            }
+        }
+
+        public ConteinerResponse Alterar(long id, ConteinerRequest request)
+        {
+            ConteinerResponse response = new ConteinerResponse();
+            ConteinerModel modelExist = null;
+
+            try {
+                modelExist = this._conteinerRepository.Obter(id);
+
+                // Verifica se Conteiner existe
+                if (modelExist == null) {
+                    response.SetValid(false);
+                    response.SetMessage("Contêiner não encontrado");
+
+                    return response;
+                }
+
+                ConteinerModel model = new ConteinerModel(id, request.Cliente, request.Numero, request.Tipo, request.Status, request.Categoria);
+
+                ConteinerModel numeroExist = this._conteinerRepository.ObterPorNumero(model.Numero);
+
+                // Verifica se Numero de Conteiner é de outro Conteiner
+                if ((numeroExist != null) && (numeroExist.Id != model.Id)) {
+                    response.SetValid(false);
+                    response.SetMessage("Número de Contêiner já existe");
+                    response.SetItem(model);
+
+                    return response;
+                }
+
+                int qtd = this._conteinerRepository.Alterar(model);
+
+                if (qtd <= 0) {
+                    response.SetValid(false);
+                    response.SetMessage("Contêiner não alterado");
+                    response.SetItem(model);
+
+                    return response;
+                }
+
+                response.SetValid(true);
+                response.SetMessage("Contêiner alterado");
                 response.SetItem(model);
 
                 return response;
+
+            } catch (ArgumentException aex) {
+                response = new ConteinerResponse();
+                response.SetValid(false);
+                response.SetMessage(aex.Message);
+                response.SetItem(modelExist);
+
+                return response;
             }
-
-            response.SetValid(true);
-            response.SetMessage("Contêiner alterado");
-            response.SetItem(model);
-
-            return response;
         }
 
-        public ConteinerResponse UpdateByNumero(string numero, ConteinerRequest request)
+        public ConteinerResponse AlterarPorNumero(string numero, ConteinerRequest request)
         {
             ConteinerResponse response = new ConteinerResponse();
+            ConteinerModel modelExist = null;
 
-            ConteinerModel modelExist = this._conteinerRepository.GetByNumero(numero);
+            try {
+                modelExist = this._conteinerRepository.ObterPorNumero(numero);
 
-            // Verifica se Numero de Conteiner está cadastrado
-            if (modelExist == null) {
+                // Verifica se Conteiner existe
+                if (modelExist == null) {
+                    response.SetValid(false);
+                    response.SetMessage("Contêiner não encontrado");
+
+                    return response;
+                }
+
+                return Alterar(modelExist.Id, request);
+            } catch (ArgumentException aex) {
+                response = new ConteinerResponse();
                 response.SetValid(false);
-                response.SetMessage("Contêiner não encontrado");
+                response.SetMessage(aex.Message);
+                response.SetItem(modelExist);
 
                 return response;
             }
-
-            return Update(modelExist.Id, request);
         }
 
-        public ConteinerResponse Delete(long id)
+        public ConteinerResponse Excluir(long id)
         {
             ConteinerResponse response = new ConteinerResponse();
+            ConteinerModel modelExist = null;
 
-            ConteinerModel modelExist = this._conteinerRepository.Get(id);
+            try {
+                modelExist = this._conteinerRepository.Obter(id);
 
-            // Verifica se Conteiner está cadastrado
-            if (modelExist == null) {
+                // Verifica se Conteiner está cadastrado
+                if (modelExist == null) {
+                    response.SetValid(false);
+                    response.SetMessage("Contêiner não encontrado");
+
+                    return response;
+                }
+
+                //Verifica se tem Movimentações cadastradas para esse Contêiner
+                List<MovimentacaoModel> movExist = this._movimentacaoRepository.ListarPorNumero(modelExist.Numero);
+
+                // Verifica se Conteiner está cadastrado
+                if ((movExist != null) && (movExist.Count > 0)) {
+                    response.SetValid(false);
+                    response.SetMessage("Contêiner possui Movimentações e não pode ser excluído");
+                    response.SetItem(modelExist);
+
+                    return response;
+                }
+
+                int qtd = this._conteinerRepository.Excluir(id);
+
+                if (qtd <= 0) {
+                    response.SetValid(false);
+                    response.SetMessage("Contêiner não excluído");
+                    response.SetItem(modelExist);
+
+                    return response;
+                }
+
+                response.SetValid(true);
+                response.SetMessage("Contêiner excluído");
+                response.SetItem(modelExist);
+
+                return response;
+            } catch (ArgumentException aex) {
+                response = new ConteinerResponse();
                 response.SetValid(false);
-                response.SetMessage("Contêiner não encontrado");
+                response.SetMessage(aex.Message);
+                response.SetItem(modelExist);
 
                 return response;
             }
-
-            int qtd = this._conteinerRepository.Delete(id);
-
-            if (qtd <= 0) {
-                response.SetValid(false);
-                response.SetMessage("Contêiner não excluído");
-
-                return response;
-            }
-
-            response.SetValid(true);
-            response.SetMessage("Contêiner excluído");
-            response.SetItem(modelExist);
-
-            return response;
         }
 
-        public ConteinerResponse DeleteByNumero(string numero)
+        public ConteinerResponse ExcluirPorNumero(string numero)
         {
             ConteinerResponse response = new ConteinerResponse();
+            ConteinerModel modelExist = null;
 
-            ConteinerModel modelExist = this._conteinerRepository.GetByNumero(numero);
+            try {
+                modelExist = this._conteinerRepository.ObterPorNumero(numero);
 
-            // Verifica se Conteiner está cadastrado
-            if (modelExist == null) {
+                // Verifica se Conteiner está cadastrado
+                if (modelExist == null) {
+                    response.SetValid(false);
+                    response.SetMessage("Contêiner não encontrado");
+
+                    return response;
+                }
+
+                return this.Excluir(modelExist.Id);
+            } catch (ArgumentException aex) {
+                response = new ConteinerResponse();
                 response.SetValid(false);
-                response.SetMessage("Contêiner não encontrado");
+                response.SetMessage(aex.Message);
+                response.SetItem(modelExist);
 
                 return response;
             }
-
-            int qtd = this._conteinerRepository.DeleteByNumero(numero);
-
-            if (qtd <= 0) {
-                response.SetValid(false);
-                response.SetMessage("Contêiner não excluído");
-
-                return response;
-            }
-
-            response.SetValid(true);
-            response.SetMessage("Contêiner excluído");
-            response.SetItem(modelExist);
-
-            return response;
         }
 
-        public ConteinerResponse Get(long id)
+        public ConteinerResponse Obter(long id)
         {
-            ConteinerModel model = this._conteinerRepository.Get(id);
+            ConteinerModel model = this._conteinerRepository.Obter(id);
 
             ConteinerResponse response = new ConteinerResponse();
 
@@ -186,9 +239,9 @@ namespace MovConApplication.Services
             return response;
         }
 
-        public ConteinerResponse GetByNumero(string numero)
+        public ConteinerResponse ObterPorNumero(string numero)
         {
-            ConteinerModel model = this._conteinerRepository.GetByNumero(numero);
+            ConteinerModel model = this._conteinerRepository.ObterPorNumero(numero);
 
             ConteinerResponse response = new ConteinerResponse();
 
@@ -203,9 +256,9 @@ namespace MovConApplication.Services
             return response;
         }
 
-        public ConteinerResponse List()
+        public ConteinerResponse Listar()
         {
-            List<ConteinerModel> list = this._conteinerRepository.List();
+            List<ConteinerModel> list = this._conteinerRepository.Listar();
 
             ConteinerResponse response = new ConteinerResponse();
 
@@ -220,23 +273,20 @@ namespace MovConApplication.Services
             return response;
         }
 
-        public ConteinerResponse Filter(ConteinerRequest request)
+        public ConteinerResponse Filtrar(ConteinerRequest request)
         {
             ConteinerEntity entity = new ConteinerEntity(
-                request.Id, request.Cliente, request.Numero, 
+                request.Id, request.Cliente, request.Numero,
                 request.Tipo, request.Status, request.Categoria);
 
-            List<ConteinerEntity> list = this._conteinerRepository.Filter(entity);
+            List<ConteinerEntity> list = this._conteinerRepository.Filtrar(entity);
 
             ConteinerResponse response = new ConteinerResponse();
 
-            if ((list != null) && (list.Count > 0))
-            {
+            if ((list != null) && (list.Count > 0)) {
                 response.SetValid(true);
                 response.SetList(list);
-            }
-            else
-            {
+            } else {
                 response.SetValid(false);
                 response.SetMessage("Nenhum Contêiner encontrado");
             }

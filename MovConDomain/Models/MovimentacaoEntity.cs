@@ -9,16 +9,18 @@ namespace MovConDomain.Models
         public string Tipo { get; set; }
         public DateTime DataHoraInicio { get; set; }
         public DateTime DataHoraFim { get; set; }
+        public bool Pendente { get; set; }
 
         public MovimentacaoEntity()
         {
 
         }
 
-        public MovimentacaoEntity(string numero, string tipo)
+        public MovimentacaoEntity(string numero, string tipo, bool pendente)
         {
             this.Numero = numero;
             this.Tipo = tipo;
+            this.Pendente = pendente;
         }
 
         public MovimentacaoEntity(Int64 id, string numero, string tipo, DateTime dataHoraInicio, DateTime dataHoraFim)

@@ -4,14 +4,14 @@ namespace MovConApplication.Interfaces
 {
     public interface IConteinerService
     {
-        ConteinerResponse Insert(ConteinerRequest request);
-        ConteinerResponse Update(long id, ConteinerRequest request);
-        ConteinerResponse UpdateByNumero(string numero, ConteinerRequest request);
-        ConteinerResponse Delete(long id);
-        ConteinerResponse DeleteByNumero(string numero);
-        ConteinerResponse Get(long id);
-        ConteinerResponse GetByNumero(string numero);
-        ConteinerResponse List();
-        ConteinerResponse Filter(ConteinerRequest request);
+        ConteinerResponse Incluir(ConteinerRequest request);
+        ConteinerResponse Alterar(long id, ConteinerRequest request);
+        ConteinerResponse AlterarPorNumero(string numero, ConteinerRequest request);
+        ConteinerResponse Excluir(long id);
+        ConteinerResponse ExcluirPorNumero(string numero);
+        ConteinerResponse Obter(long id);
+        ConteinerResponse ObterPorNumero(string numero);
+        ConteinerResponse Listar();
+        ConteinerResponse Filtrar(ConteinerRequest request);
     }
 }

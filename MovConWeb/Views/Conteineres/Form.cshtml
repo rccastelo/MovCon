@@ -3,14 +3,14 @@
     Layout = "_Layout";
     ViewData["Title"] = "MovCon - Contêineres - Cadastro";
 
-    ViewData["Action"] = "Insert";
-    ViewData["PageName"] = "Novo";
+    ViewData["Action"] = "Incluir";
+    ViewData["PageName"] = "Cadastro";
 
     if ((Model != null) && ((Model.Item != null)))
     {
         if (Model.Item.Id > 0)
         {
-            ViewData["Action"] = "Update";
+            ViewData["Action"] = "Alterar";
             ViewData["PageName"] = "Detalhe";
         }
     }
@@ -60,7 +60,7 @@
                         &bull; Campo <span class="text-danger"><b>obrigatório</b></span><br>
                         &bull; Tamanho máximo: <b>50</b> caracteres<br>
                     </div>
-                    <input class="form-control" type="text" maxlength="50" asp-for="@Model.Item.Cliente">
+                    <input class="form-control" type="text" maxlength="50" asp-for="@Model.Item.Cliente" />
                 </div>
             </div>
         </div>
@@ -77,7 +77,7 @@
                         &bull; Tamanho máximo: <b>11</b> caracteres<br>
                         &bull; Formato: <b>ABCD1234567</b> (4 letras + 7 números)<br>
                     </div>
-                    <input class="form-control" type="text" maxlength="11" asp-for="@Model.Item.Numero">
+                    <input class="form-control" type="text" maxlength="11" asp-for="@Model.Item.Numero" style="text-transform:uppercase;" />
                 </div>
             </div>
             <div class="col-2"></div>
@@ -91,10 +91,7 @@
                     <div id="popTipo" class="popMsg">
                         &bull; Campo <span class="text-danger"><b>obrigatório</b></span><br>
                     </div>
-                    <select class="form-control" asp-for="@Model.Item.Tipo">
-                        <option value="20" selected>20</option>
-                        <option value="40">40</option>
-                    </select>
+                    @Html.DropDownList("DdlTipo", ViewData["DdlTipo"] as SelectList, new { @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -109,10 +106,7 @@
                     <div id="popStatus" class="popMsg">
                         &bull; Campo <span class="text-danger"><b>obrigatório</b></span><br>
                     </div>
-                    <select class="form-control" asp-for="@Model.Item.Status">
-                        <option value="Cheio" selected>Cheio</option>
-                        <option value="Vazio">Vazio</option>
-                    </select>
+                    @Html.DropDownList("DdlStatus", ViewData["DdlStatus"] as SelectList, new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-2"></div>
@@ -126,10 +120,7 @@
                     <div id="popCategoria" class="popMsg">
                         &bull; Campo <span class="text-danger"><b>obrigatório</b></span><br>
                     </div>
-                    <select class="form-control" asp-for="@Model.Item.Categoria">
-                        <option value="Importacao" selected>Importação</option>
-                        <option value="Exportacao">Exportação</option>
-                    </select>
+                    @Html.DropDownList("DdlCategoria", ViewData["DdlCategoria"] as SelectList, new { @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -137,19 +128,19 @@
         <br>
         <div class="form-row">
             <div class="col-10">
-                @if (ViewData["Action"].ToString() == "Insert")
+                @if (ViewData["Action"].ToString() == "Incluir")
                 {
                     <button class="btn btn-lg mr-2 btn-success"><i class="fas fa-save"></i> &nbsp;Incluir</button>
                 }
-                else if (ViewData["Action"].ToString() == "Update")
+                else if (ViewData["Action"].ToString() == "Alterar")
                 {
                     <button class="btn btn-lg mr-2 btn-alternative"><i class="fas fa-sync-alt"></i> &nbsp;Alterar</button>
-                    <a class="btn btn-danger btn-lg m-2" asp-controller="Conteineres" asp-action="Delete" asp-route-id="@Model.Item.Id">
+                    <a class="btn btn-danger btn-lg m-2" asp-controller="Conteineres" asp-action="Excluir" asp-route-id="@Model.Item.Id">
                         <i class="fas fa-trash"></i>
                         &nbsp;Excluir
                     </a>
                 }
-                <a class="btn btn-info btn-lg m-2" asp-controller="Conteineres" asp-action="List">
+                <a class="btn btn-info btn-lg m-2" asp-controller="Conteineres" asp-action="Listar">
                     <i class="fas fa-list"></i>
                     &nbsp;Lista
                 </a>

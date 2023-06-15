@@ -26,18 +26,15 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(ConteinerResponse), 200)]
         [ProducesResponseType(typeof(ConteinerResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult Insert(ConteinerRequest request)
+        public IActionResult Incluir(ConteinerRequest request)
         {
             try {
-                ConteinerResponse response = this._conteinerService.Insert(request);
+                ConteinerResponse response = this._conteinerService.Incluir(request);
 
-                return Ok(response);
-            } catch (ArgumentException aex) {
-                ConteinerResponse response = new ConteinerResponse();
-                response.SetValid(false);
-                response.SetMessage(aex.Message);
-
-                return BadRequest(response);
+                if (response.IsValid)
+                    return Ok(response);
+                else
+                    return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
 
@@ -57,18 +54,15 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(ConteinerResponse), 200)]
         [ProducesResponseType(typeof(ConteinerResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult Update(long id, ConteinerRequest request)
+        public IActionResult Alterar(long id, ConteinerRequest request)
         {
             try {
-                ConteinerResponse response = this._conteinerService.Update(id, request);
+                ConteinerResponse response = this._conteinerService.Alterar(id, request);
 
-                return Ok(response);
-            } catch (ArgumentException aex) {
-                ConteinerResponse response = new ConteinerResponse();
-                response.SetValid(false);
-                response.SetMessage(aex.Message);
-
-                return BadRequest(response);
+                if (response.IsValid)
+                    return Ok(response);
+                else
+                    return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
 
@@ -88,18 +82,15 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(ConteinerResponse), 200)]
         [ProducesResponseType(typeof(ConteinerResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult UpdateByNumero(string numero, ConteinerRequest request)
+        public IActionResult AlterarPorNumero(string numero, ConteinerRequest request)
         {
             try {
-                ConteinerResponse response = this._conteinerService.UpdateByNumero(numero, request);
+                ConteinerResponse response = this._conteinerService.AlterarPorNumero(numero, request);
 
-                return Ok(response);
-            } catch (ArgumentException aex) {
-                ConteinerResponse response = new ConteinerResponse();
-                response.SetValid(false);
-                response.SetMessage(aex.Message);
-
-                return BadRequest(response);
+                if (response.IsValid)
+                    return Ok(response);
+                else
+                    return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
 
@@ -119,18 +110,15 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(ConteinerResponse), 200)]
         [ProducesResponseType(typeof(ConteinerResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult Delete(long id)
+        public IActionResult Excluir(long id)
         {
             try {
-                ConteinerResponse response = this._conteinerService.Delete(id);
+                ConteinerResponse response = this._conteinerService.Excluir(id);
 
-                return Ok(response);
-            } catch (ArgumentException aex) {
-                ConteinerResponse response = new ConteinerResponse();
-                response.SetValid(false);
-                response.SetMessage(aex.Message);
-
-                return BadRequest(response);
+                if (response.IsValid)
+                    return Ok(response);
+                else
+                    return BadRequest(response);
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);
 
@@ -150,10 +138,10 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(ConteinerResponse), 200)]
         [ProducesResponseType(typeof(ConteinerResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult DeleteByNumero(string numero)
+        public IActionResult ExcluirPorNumero(string numero)
         {
             try {
-                ConteinerResponse response = this._conteinerService.DeleteByNumero(numero);
+                ConteinerResponse response = this._conteinerService.ExcluirPorNumero(numero);
 
                 return Ok(response);
             } catch (ArgumentException aex) {
@@ -181,10 +169,10 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(ConteinerResponse), 200)]
         [ProducesResponseType(typeof(ConteinerResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult GetByNumero(string numero)
+        public IActionResult ObterPorNumero(string numero)
         {
             try {
-                ConteinerResponse response = this._conteinerService.GetByNumero(numero);
+                ConteinerResponse response = this._conteinerService.ObterPorNumero(numero);
 
                 return Ok(response);
             } catch (ArgumentException aex) {
@@ -212,10 +200,10 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(ConteinerResponse), 200)]
         [ProducesResponseType(typeof(ConteinerResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult Get(long id)
+        public IActionResult Obter(long id)
         {
             try {
-                ConteinerResponse response = this._conteinerService.Get(id);
+                ConteinerResponse response = this._conteinerService.Obter(id);
 
                 return Ok(response);
             } catch (ArgumentException aex) {
@@ -243,10 +231,10 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(ConteinerResponse), 200)]
         [ProducesResponseType(typeof(ConteinerResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult List()
+        public IActionResult Listar()
         {
             try {
-                ConteinerResponse response = this._conteinerService.List();
+                ConteinerResponse response = this._conteinerService.Listar();
 
                 return Ok(response);
             } catch (ArgumentException aex) {
@@ -265,7 +253,7 @@ namespace MovConApi.Controllers
             }
         }
 
-        [HttpPost("filter")]
+        [HttpPost("filtrar")]
         [SwaggerOperation(
             Summary = "Lista filtrada de Conteineres",
             Description = "Lista filtrada de Conteineres.",
@@ -274,11 +262,11 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(ConteinerResponse), 200)]
         [ProducesResponseType(typeof(ConteinerResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult Filter(ConteinerRequest request)
+        public IActionResult Filtrar(ConteinerRequest request)
         {
             try
             {
-                ConteinerResponse response = this._conteinerService.Filter(request);
+                ConteinerResponse response = this._conteinerService.Filtrar(request);
 
                 return Ok(response);
             }

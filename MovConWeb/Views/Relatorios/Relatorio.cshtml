@@ -1,0 +1,96 @@
+﻿@model MovConWeb.Models.RelatorioViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "MovCon - Relatórios - Relatório";
+}
+<div class="areaMaxGrd">
+    <div class="txtPadraoGrd">
+        <i class="iconeMed fas fa-file-lines"></i>&nbsp;
+        <a class="txtPadraoGrd" asp-controller="Relatorios" asp-action="Filtrar">Relatórios</a> &nbsp;/&nbsp; Relatório
+    </div>
+    <br>
+    <form id="form" asp-controller="Relatorios" asp-action="Pesquisar" asp-anti-forgery method="Post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="@Model.Filter.Numero" />
+        <input type="hidden" asp-for="@Model.Filter.TipoMovimentacao" />
+        <input type="hidden" asp-for="@Model.Filter.DataHoraInicioFormatado" />
+        <input type="hidden" asp-for="@Model.Filter.DataHoraFimFormatado" />
+        <input type="hidden" asp-for="@Model.Filter.Cliente" />
+        <input type="hidden" asp-for="@Model.Filter.TipoConteiner" />
+        <input type="hidden" asp-for="@Model.Filter.Status" />
+        <input type="hidden" asp-for="@Model.Filter.Categoria" />
+        @Html.Hidden("DdlTipoConteiner")
+        @Html.Hidden("DdlStatus")
+        @Html.Hidden("DdlCategoria")
+        @Html.Hidden("DdlTipoMovimentacao")
+        @Html.Hidden("rdbPendente")
+        @if (Model != null) {
+            <input type="hidden" asp-for="@Model.SortField" value="@Model.SortField" />
+            <input type="hidden" asp-for="@Model.SortDirection" value="@Model.SortDirection" />
+            <input type="hidden" asp-for="@Model.SortSelected" value="@Model.SortSelected" />
+        }
+        @if (Model.List != null) {
+            string cli = "";
+            string mov = "";
+
+            @foreach (var item in Model.List) {
+                @if (item.Cliente.ToLower() != cli.ToLower()) {
+                    <table class="tabRel tabRelCli">
+                        <tr>
+                            <td class="txtPadrao tabRelCel" style="width: 18%">&nbsp;<a class="txtPadrao" href="javascript:toSort('cliente', 'SortSelected')">Cliente</a>: &nbsp; <span class="txtRelCli">@item.Cliente</span></td>
+                            <td class="txtPadrao tabRelCel tabRelCenter" style="width: 13%"><a class="txtPadrao" href="javascript:toSort('numero', 'SortSelected')">Numero</a></td>
+                            <td class="txtPadrao tabRelCel tabRelCenter" style="width: 10%"><a class="txtPadrao" href="javascript:toSort('tipocon', 'SortSelected')">Tipo de Contêiner</a></td>
+                            <td class="txtPadrao tabRelCel tabRelCenter" style="width: 8%"><a class="txtPadrao" href="javascript:toSort('status', 'SortSelected')">Status</a></td>
+                            <td class="txtPadrao tabRelCel tabRelCenter" style="width: 12%"><a class="txtPadrao" href="javascript:toSort('categoria', 'SortSelected')">Categoria</a></td>
+                            <td class="txtPadrao tabRelCel tabRelCenter" style="width: 17%"><a class="txtPadrao" href="javascript:toSort('inicio', 'SortSelected')">Data/Hora Início</a></td>
+                            <td class="txtPadrao tabRelCel tabRelCenter" style="width: 17%"><a class="txtPadrao" href="javascript:toSort('fim', 'SortSelected')">Data/Hora Fim</a></td>
+                        </tr>
+                    </table>
+
+                    mov = "";
+                }
+                @if (item.TipoMovimentacao.ToLower() != mov.ToLower()) {
+                    <table class="tabRel tabRelMov">
+                        <tr>
+                            <td class="txtPadrao tabRelCel" style="width: 100%"> &nbsp; <a class="txtPadrao" href="javascript:toSort('tipomov', 'SortSelected')">Tipo de Movimentação</a>: &nbsp; <span class="txtRelMov">@item.TipoMovimentacaoFormatado</span></td>
+                        </tr>
+                    </table>
+                }
+                <table class="tabRel tabRelInfo">
+                    <tr>
+                        <td class="txtPadrao tabRelCel" style="width: 18%"></td>
+                        <td class="txtPadrao tabRelCel tabRelCenter" style="width: 13%">@item.Numero</td>
+                        <td class="txtPadrao tabRelCel tabRelCenter" style="width: 10%">@item.TipoConteinerFormatado</td>
+                        <td class="txtPadrao tabRelCel tabRelCenter" style="width: 8%">@item.StatusFormatado</td>
+                        <td class="txtPadrao tabRelCel tabRelCenter" style="width: 12%">@item.CategoriaFormatado</td>
+                        <td class="txtPadrao tabRelCel tabRelCenter" style="width: 17%">@item.DataHoraInicioFormatado</td>
+                        <td class="txtPadrao tabRelCel tabRelCenter" style="width: 17%">@item.DataHoraFimFormatado</td>
+                    </tr>
+                </table>
+
+                cli = item.Cliente;
+                mov = item.TipoMovimentacao;
+            }
+        }
+        <br>
+        <div>
+            <button class="btn btn-lg mr-2 btn-warning" onclick="javascript:toRedirect('Relatorios', 'Filtrar');"><i class="fas fa-search"></i> &nbsp;Pesquisa</button>
+        </div>
+    </form>
+</div>
+
+@if ((Model != null) && (Model.Message != null)) {
+    <div class="text-danger">
+        @section Messages {
+            <ul>
+                <li class="p-2">@Model.Message</li>
+            </ul>
+        }
+    </div>
+
+    @section Scripts {
+        <script>
+            $('#modalMessages').modal('show');
+        </script>
+    }
+}

@@ -14,12 +14,12 @@ namespace MovConRepository.Repositories
             this._movimentacaoData = movimentacaoData;
         }
 
-        public long Insert(MovimentacaoModel model)
+        public long Iniciar(MovimentacaoModel model)
         {
             long newId;
 
             using (TransactionScope ts = new TransactionScope()) {
-                newId = this._movimentacaoData.Insert(model);
+                newId = this._movimentacaoData.Iniciar(model);
 
                 ts.Complete();
             }
@@ -27,12 +27,12 @@ namespace MovConRepository.Repositories
             return newId;
         }
 
-        public int Update(MovimentacaoModel model)
+        public int Finalizar(MovimentacaoModel model)
         {
             int qtd;
 
             using (TransactionScope ts = new TransactionScope()) {
-                qtd = this._movimentacaoData.Update(model);
+                qtd = this._movimentacaoData.Finalizar(model);
 
                 ts.Complete();
             }
@@ -40,12 +40,12 @@ namespace MovConRepository.Repositories
             return qtd;
         }
 
-        public int UpdateFimMovimentoByNumero(string numero)
+        public int FinalizarPorNumero(string numero)
         {
             int qtd;
 
             using (TransactionScope ts = new TransactionScope()) {
-                qtd = this._movimentacaoData.UpdateFimMovimentoByNumero(numero);
+                qtd = this._movimentacaoData.FinalizarPorNumero(numero);
 
                 ts.Complete();
             }
@@ -53,34 +53,34 @@ namespace MovConRepository.Repositories
             return qtd;
         }
 
-        public MovimentacaoModel Get(long id)
+        public MovimentacaoModel Obter(long id)
         {
-            return this._movimentacaoData.Get(id);
+            return this._movimentacaoData.Obter(id);
         }
 
-        public MovimentacaoModel GetEmMovimentoByNumero(string numero)
+        public MovimentacaoModel ObterEmMovimentoPorNumero(string numero)
         {
-            return this._movimentacaoData.GetEmMovimentoByNumero(numero);
+            return this._movimentacaoData.ObterEmMovimentoPorNumero(numero);
         }
 
-        public List<MovimentacaoModel> List()
+        public List<MovimentacaoModel> Listar()
         {
-            return this._movimentacaoData.List();
+            return this._movimentacaoData.Listar();
         }
 
-        public List<MovimentacaoModel> ListEmMovimento()
+        public List<MovimentacaoModel> ListarEmMovimento()
         {
-            return this._movimentacaoData.ListEmMovimento();
+            return this._movimentacaoData.ListarEmMovimento();
         }
 
-        public List<MovimentacaoModel> ListByNumero(string numero)
+        public List<MovimentacaoModel> ListarPorNumero(string numero)
         {
-            return this._movimentacaoData.ListByNumero(numero);
+            return this._movimentacaoData.ListarPorNumero(numero);
         }
 
-        public List<MovimentacaoEntity> Filter(MovimentacaoEntity entity)
+        public List<MovimentacaoEntity> Filtrar(MovimentacaoEntity entity)
         {
-            return this._movimentacaoData.Filter(entity);
+            return this._movimentacaoData.Filtrar(entity);
         }
     }
 }

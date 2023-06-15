@@ -13,6 +13,8 @@ namespace MovConRepository.DI
             services.AddScoped<IConteinerRepository, ConteinerRepository>();
             services.AddScoped<IMovimentacaoData, MovimentacaoData>();
             services.AddScoped<IMovimentacaoRepository, MovimentacaoRepository>();
+            services.AddScoped<IRelatorioData, RelatorioData>();
+            services.AddScoped<IRelatorioRepository, RelatorioRepository>();
         }
     }
 }

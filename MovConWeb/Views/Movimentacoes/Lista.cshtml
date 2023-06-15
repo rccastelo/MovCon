@@ -9,15 +9,15 @@
         <a class="txtPadraoGrd" asp-controller="Movimentacoes" asp-action="Index">Movimentações</a> &nbsp;/&nbsp; Lista
     </div>
     <br>
-    <form id="form" asp-controller="Movimentacoes" asp-action="Search" asp-anti-forgery method="Post">
+    <form id="form" asp-controller="Movimentacoes" asp-action="Pesquisar" asp-anti-forgery method="Post">
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="@Model.Filter.Id" />
         <input type="hidden" asp-for="@Model.Filter.Numero" />
         <input type="hidden" asp-for="@Model.Filter.Tipo" />
         <input type="hidden" asp-for="@Model.Filter.DataHoraInicio" />
         <input type="hidden" asp-for="@Model.Filter.DataHoraFim" />
-        <input type="hidden" asp-for="@Model.Filter.DataHoraFim" />
         @Html.Hidden("DdlTipo")
+        @Html.Hidden("rdbPendente")
         @if (Model != null) {
             <input type="hidden" asp-for="@Model.SortField" value="@Model.SortField" />
             <input type="hidden" asp-for="@Model.SortDirection" value="@Model.SortDirection" />
@@ -26,11 +26,11 @@
         <table class="table border-bottom">
             <thead class="thead-dark">
                 <tr class="row tabLinha">
-                    <th class="col-1"><a class="txtPadrao" href="javascript:toSort('id', 'SortSelected')">Id</a></th>
+                    <th class="col-1"><a class="txtPadrao" href="javascript:toSort('id', 'SortSelected')">ID</a></th>
                     <th class="col-2"><a class="txtPadrao" href="javascript:toSort('numero', 'SortSelected')">Número</a></th>
                     <th class="col-2"><a class="txtPadrao" href="javascript:toSort('tipo', 'SortSelected')">Tipo</a></th>
-                    <th class="col-2"><a class="txtPadrao" href="javascript:toSort('inicio', 'SortSelected')">Data/Hora Início</a></th>
-                    <th class="col-2"><a class="txtPadrao" href="javascript:toSort('fim', 'SortSelected')">Data/Hora Fim</a></th>
+                    <th class="col-2"><a class="txtPadrao" href="javascript:toSort('inicio', 'SortSelected')">Início</a></th>
+                    <th class="col-2"><a class="txtPadrao" href="javascript:toSort('fim', 'SortSelected')">Fim</a></th>
                     <th class="col-3"></th>
                 </tr>
             </thead>
@@ -38,13 +38,13 @@
                 @if (Model.List != null) {
                     @foreach (var item in Model.List) {
                         <tr class="row tabLinha">
-                            <td class="col-1"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Get" asp-route-id="@item.Id">@item.Id</a></td>
-                            <td class="col-2"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Get" asp-route-id="@item.Id">@item.Numero</a></td>
-                            <td class="col-2"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Get" asp-route-id="@item.Id">@item.Tipo</a></td>
-                            <td class="col-2"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Get" asp-route-id="@item.Id">@item.DataHoraInicio</a></td>
-                            <td class="col-2"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Get" asp-route-id="@item.Id">@item.DataHoraFim</a></td>
+                            <td class="col-1"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.Id</a></td>
+                            <td class="col-2"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.Numero</a></td>
+                            <td class="col-2"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.TipoFormatado</a></td>
+                            <td class="col-2"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.DataHoraInicioFormatado</a></td>
+                            <td class="col-2"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.DataHoraFimFormatado</a></td>
                             <td class="col-3">
-                                <a class="btn btn-primary" asp-controller="Movimentacoes" asp-action="Get" asp-route-id="@item.Id">
+                                <a class="btn btn-primary" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">
                                     <i class="fas fa-search-plus"></i>
                                     &nbsp;Detalhe
                                 </a>
@@ -56,7 +56,7 @@
         </table>
         <br>
         <div>
-            <button class="btn btn-lg mr-2 btn-warning" onclick="javascript:toRedirect('Movimentacoes', 'Filter');"><i class="fas fa-search"></i> &nbsp;Consulta</button>
+            <button class="btn btn-lg mr-2 btn-warning" onclick="javascript:toRedirect('Movimentacoes', 'Filtrar');"><i class="fas fa-search"></i> &nbsp;Pesquisa</button>
             <a class="btn btn-secondary btn-lg" asp-controller="Movimentacoes" asp-action="Index">
                 <i class="fas fa-arrow-circle-left"></i>
                 &nbsp;Voltar

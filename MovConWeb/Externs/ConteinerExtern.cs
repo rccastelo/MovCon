@@ -22,25 +22,25 @@ namespace MovConWeb.Externs
             httpClient.BaseAddress = new System.Uri(serviceAddress);
         }
 
-        public async Task<ConteinerViewModel> Insert(ConteinerViewModel transport)
+        public async Task<ConteinerViewModel> Incluir(ConteinerViewModel model)
         {
             ConteinerViewModel conteiner = null;
             HttpResponseMessage response = null;
             string message = null;
 
             try {
-                string jsonRequest = JsonConvert.SerializeObject(transport.Item);
+                string jsonRequest = JsonConvert.SerializeObject(model.Item);
                 StringContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
                 response = await httpClient.PostAsync($"{methodAddress}", content);
 
-                if ((response.IsSuccessStatusCode) || 
+                if ((response.IsSuccessStatusCode) ||
                     (response.StatusCode == HttpStatusCode.BadRequest)) {
 
                     string jsonResult = await response.Content.ReadAsStringAsync();
                     conteiner = JsonConvert.DeserializeObject<ConteinerViewModel>(jsonResult);
                 } else {
-                    message = $"Não foi possível acessar o serviço {methodAddress} Insert";
+                    message = $"Não foi possível acessar o serviço {methodAddress} Incluir";
                 }
 
                 if (!string.IsNullOrEmpty(message)) {
@@ -48,8 +48,10 @@ namespace MovConWeb.Externs
                     conteiner.SetError(message);
                 }
             } catch (Exception ex) {
+                Console.WriteLine(ex);
+
                 conteiner = new ConteinerViewModel();
-                conteiner.SetError("Erro em ConteinerModel Insert [" + ex.Message + "]");
+                conteiner.SetError($"Erro em {methodAddress} Incluir");
             } finally {
                 response = null;
             }
@@ -57,207 +59,172 @@ namespace MovConWeb.Externs
             return conteiner;
         }
 
-        public async Task<ConteinerViewModel> Update(ConteinerViewModel transport)
+        public async Task<ConteinerViewModel> Alterar(ConteinerViewModel model)
         {
             ConteinerViewModel conteiner = null;
             HttpResponseMessage response = null;
             string message = null;
 
-            try
-            {
-                string jsonRequest = JsonConvert.SerializeObject(transport.Item);
+            try {
+                string jsonRequest = JsonConvert.SerializeObject(model.Item);
                 StringContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
-                response = await httpClient.PutAsync($"{methodAddress}/{transport.Item.Id}", content);
+                response = await httpClient.PutAsync($"{methodAddress}/{model.Item.Id}", content);
 
                 if ((response.IsSuccessStatusCode) ||
-                    (response.StatusCode == HttpStatusCode.BadRequest))
-                {
+                    (response.StatusCode == HttpStatusCode.BadRequest)) {
 
                     string jsonResult = await response.Content.ReadAsStringAsync();
                     conteiner = JsonConvert.DeserializeObject<ConteinerViewModel>(jsonResult);
-                }
-                else
-                {
-                    message = $"Não foi possível acessar o serviço {methodAddress} Update";
+                } else {
+                    message = $"Não foi possível acessar o serviço {methodAddress} Alterar";
                 }
 
-                if (!string.IsNullOrEmpty(message))
-                {
+                if (!string.IsNullOrEmpty(message)) {
                     conteiner = new ConteinerViewModel();
                     conteiner.SetError(message);
                 }
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
+                Console.WriteLine(ex);
+
                 conteiner = new ConteinerViewModel();
-                conteiner.SetError("Erro em ConteinerModel Insert [" + ex.Message + "]");
-            }
-            finally
-            {
+                conteiner.SetError($"Erro em {methodAddress} Alterar");
+            } finally {
                 response = null;
             }
 
             return conteiner;
         }
 
-        public async Task<ConteinerViewModel> Delete(Int64 id)
+        public async Task<ConteinerViewModel> Excluir(Int64 id)
         {
             ConteinerViewModel conteiner = null;
             HttpResponseMessage response = null;
             string message = null;
 
-            try
-            {
+            try {
                 response = await httpClient.DeleteAsync($"{methodAddress}/{id}");
 
                 if ((response.IsSuccessStatusCode) ||
-                    (response.StatusCode == HttpStatusCode.BadRequest))
-                {
+                    (response.StatusCode == HttpStatusCode.BadRequest)) {
                     string jsonResult = await response.Content.ReadAsStringAsync();
                     conteiner = JsonConvert.DeserializeObject<ConteinerViewModel>(jsonResult);
-                }
-                else
-                {
-                    message = $"Não foi possível acessar o serviço {methodAddress} Delete";
+                } else {
+                    message = $"Não foi possível acessar o serviço {methodAddress} Excluir";
                 }
 
-                if (!string.IsNullOrEmpty(message))
-                {
+                if (!string.IsNullOrEmpty(message)) {
                     conteiner = new ConteinerViewModel();
                     conteiner.SetError(message);
                 }
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
+                Console.WriteLine(ex);
+
                 conteiner = new ConteinerViewModel();
-                conteiner.SetError("Erro em ConteinerModel Insert [" + ex.Message + "]");
-            }
-            finally
-            {
+                conteiner.SetError($"Erro em {methodAddress} Excluir");
+            } finally {
                 response = null;
             }
 
             return conteiner;
         }
 
-        public async Task<ConteinerViewModel> List()
+        public async Task<ConteinerViewModel> Listar()
         {
             ConteinerViewModel conteiner = null;
             HttpResponseMessage response = null;
             string message = null;
 
-            try
-            {
+            try {
                 response = await httpClient.GetAsync($"{methodAddress}");
 
                 if ((response.IsSuccessStatusCode) ||
-                    (response.StatusCode == HttpStatusCode.BadRequest))
-                {
+                    (response.StatusCode == HttpStatusCode.BadRequest)) {
                     string jsonResult = await response.Content.ReadAsStringAsync();
                     conteiner = JsonConvert.DeserializeObject<ConteinerViewModel>(jsonResult);
-                }
-                else
-                {
-                    message = $"Não foi possível acessar o serviço {methodAddress} List";
+                } else {
+                    message = $"Não foi possível acessar o serviço {methodAddress} Listar";
                 }
 
-                if (!string.IsNullOrEmpty(message))
-                {
+                if (!string.IsNullOrEmpty(message)) {
                     conteiner = new ConteinerViewModel();
                     conteiner.SetError(message);
                 }
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
+                Console.WriteLine(ex);
+
                 conteiner = new ConteinerViewModel();
-                conteiner.SetError("Erro em ConteinerModel Insert [" + ex.Message + "]");
-            }
-            finally
-            {
+                conteiner.SetError($"Erro em {methodAddress} Listar");
+            } finally {
                 response = null;
             }
 
             return conteiner;
         }
 
-        public async Task<ConteinerViewModel> Get(Int64 id)
+        public async Task<ConteinerViewModel> Obter(Int64 id)
         {
             ConteinerViewModel conteiner = null;
             HttpResponseMessage response = null;
             string message = null;
 
-            try
-            {
+            try {
                 response = await httpClient.GetAsync($"{methodAddress}/{id}");
 
                 if ((response.IsSuccessStatusCode) ||
-                    (response.StatusCode == HttpStatusCode.BadRequest))
-                {
+                    (response.StatusCode == HttpStatusCode.BadRequest)) {
                     string jsonResult = await response.Content.ReadAsStringAsync();
                     conteiner = JsonConvert.DeserializeObject<ConteinerViewModel>(jsonResult);
-                }
-                else
-                {
-                    message = $"Não foi possível acessar o serviço {methodAddress} Get";
+                } else {
+                    message = $"Não foi possível acessar o serviço {methodAddress} Obter";
                 }
 
-                if (!string.IsNullOrEmpty(message))
-                {
+                if (!string.IsNullOrEmpty(message)) {
                     conteiner = new ConteinerViewModel();
                     conteiner.SetError(message);
                 }
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
+                Console.WriteLine(ex);
+
                 conteiner = new ConteinerViewModel();
-                conteiner.SetError("Erro em ConteinerModel Insert [" + ex.Message + "]");
-            }
-            finally
-            {
+                conteiner.SetError($"Erro em {methodAddress} Obter");
+            } finally {
                 response = null;
             }
 
             return conteiner;
         }
 
-        public async Task<ConteinerViewModel> Filter(ConteinerViewModel transport)
+        public async Task<ConteinerViewModel> Pesquisar(ConteinerViewModel model)
         {
             ConteinerViewModel conteiner = null;
             HttpResponseMessage response = null;
             string message = null;
 
-            try
-            {
-                string jsonRequest = JsonConvert.SerializeObject(transport.Filter);
+            try {
+                string jsonRequest = JsonConvert.SerializeObject(model.Filter);
                 StringContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
-                response = await httpClient.PostAsync($"{methodAddress}/filter", content);
+                response = await httpClient.PostAsync($"{methodAddress}/filtrar", content);
 
                 if ((response.IsSuccessStatusCode) ||
-                    (response.StatusCode == HttpStatusCode.BadRequest))
-                {
+                    (response.StatusCode == HttpStatusCode.BadRequest)) {
                     string jsonResult = await response.Content.ReadAsStringAsync();
                     conteiner = JsonConvert.DeserializeObject<ConteinerViewModel>(jsonResult);
-                }
-                else
-                {
-                    message = $"Não foi possível acessar o serviço {methodAddress} Filter";
+                } else {
+                    message = $"Não foi possível acessar o serviço {methodAddress} Pesquisar";
                 }
 
-                if (!string.IsNullOrEmpty(message))
-                {
+                if (!string.IsNullOrEmpty(message)) {
                     conteiner = new ConteinerViewModel();
                     conteiner.SetError(message);
                 }
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
+                Console.WriteLine(ex);
+
                 conteiner = new ConteinerViewModel();
-                conteiner.SetError("Erro em ConteinerModel Insert [" + ex.Message + "]");
-            }
-            finally
-            {
+                conteiner.SetError($"Erro em {methodAddress} Pesquisar");
+            } finally {
                 response = null;
             }
 

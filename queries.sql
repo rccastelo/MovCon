@@ -18,3 +18,15 @@ FROM Movimentacoes WHERE Numero = 'aaaa0000001' AND DataHoraFim IS NULL;
 select * from Conteineres;
 
 select * from Movimentacoes;
+
+SELECT M.Numero, M.Tipo as TipoMovimentacao, C.Cliente, C.Tipo as TipoConteiner,
+C.Status, C.Categoria, M.DataHoraInicio, M.DataHoraFim
+FROM Movimentacoes M
+INNER JOIN Conteineres C ON C.Numero = M.Numero
+ORDER BY C.Cliente;
+
+SELECT M.Numero, M.Tipo as TipoMovimentacao, C.Cliente, C.Tipo as TipoConteiner,
+C.Status, C.Categoria, M.DataHoraInicio, M.DataHoraFim
+FROM Movimentacoes M
+INNER JOIN Conteineres C ON C.Numero = M.Numero
+ORDER BY C.Cliente, M.Tipo, M.Numero, M.DataHoraInicio;

@@ -10,6 +10,7 @@ namespace MovConApplication.DI
         {
             services.AddScoped<IConteinerService, ConteinerService>();
             services.AddScoped<IMovimentacaoService, MovimentacaoService>();
+            services.AddScoped<IRelatorioService, RelatorioService>();
         }
     }
 }

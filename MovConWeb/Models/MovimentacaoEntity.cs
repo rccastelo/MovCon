@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MovConWeb.Helpers;
+using System;
 
 namespace MovConWeb.Models
 {
@@ -6,8 +7,6 @@ namespace MovConWeb.Models
     {
         private string _numero;
         private string _tipo;
-        private DateTime _dataHoraInicio;
-        private DateTime _dataHoraFim;
 
         public Int64 Id { get; set; }
         public string Numero {
@@ -26,23 +25,36 @@ namespace MovConWeb.Models
                 this._tipo = (value == null) ? "" : value;
             }
         }
-        public string DataHoraInicio {
+        public string TipoFormatado {
+            get {
+                return DomainsHelper.ObterTipoMovimentacao(_tipo);
+            }
+        }
+        public DateTime DataHoraInicio { get; set; }
+        public string DataHoraInicioFormatado {
             get { 
-                return (_dataHoraInicio != DateTime.MinValue) ? _dataHoraInicio.ToString() : ""; 
+                return (DataHoraInicio != DateTime.MinValue) ? DataHoraInicio.ToString() : ""; 
             }
             set { 
                 if (DateTime.TryParse(value, out DateTime _inicio)) 
-                    this._dataHoraInicio = _inicio; 
+                    this.DataHoraInicio = _inicio; 
             } 
         }
-        public string DataHoraFim {
+        public DateTime DataHoraFim { get; set; }
+        public string DataHoraFimFormatado {
             get {
-                return (_dataHoraFim != DateTime.MinValue) ? _dataHoraFim.ToString() : "";
+                return (DataHoraFim != DateTime.MinValue) ? DataHoraFim.ToString() : "";
             }
             set {
                 if (DateTime.TryParse(value, out DateTime _inicio))
-                    this._dataHoraFim = _inicio;
+                    this.DataHoraFim = _inicio;
             }
         }
+        public bool Finalizado {
+            get { 
+                return (DataHoraFim == DateTime.MinValue) ? false : true;
+            }
+        }
+        public bool Pendente { get; set; }
     }
 }

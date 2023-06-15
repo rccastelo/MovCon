@@ -16,110 +16,101 @@ namespace MovConWeb.Services
             this._movimentacaoExtern = movimentacaoExtern;
         }
 
-        public async Task<MovimentacaoViewModel> Search(MovimentacaoViewModel model)
+        public async Task<MovimentacaoViewModel> Pesquisar(MovimentacaoViewModel model)
         {
-            MovimentacaoViewModel newTransport;
+            MovimentacaoViewModel retModel;
 
-            newTransport = await this._movimentacaoExtern.Filter(model);
+            retModel = await this._movimentacaoExtern.Pesquisar(model);
 
-            if (newTransport != null) {
-                if ((newTransport.List != null) && (newTransport.List.Count > 0)) {
+            if (retModel != null) {
+                if ((retModel.List != null) && (retModel.List.Count > 0)) {
                     if (!string.IsNullOrWhiteSpace(model.SortSelected)) {
 
                         if (model.SortField == model.SortSelected) {
                             if (model.SortDirection == "desc") {
-                                newTransport.SortDirection = "asc";
+                                retModel.SortDirection = "asc";
                             } else {
-                                newTransport.SortDirection = "desc";
+                                retModel.SortDirection = "desc";
                             }
                         }
-                        newTransport.SortField = model.SortSelected;
+                        retModel.SortField = model.SortSelected;
 
                         List<MovimentacaoEntity> list;
 
-                        switch (newTransport.SortField) {
+                        switch (retModel.SortField) {
                             case "numero":
-                                if (newTransport.SortDirection == "desc")
-                                    list = newTransport.List.OrderByDescending(i => i.Numero).ToList();
+                                if (retModel.SortDirection == "desc")
+                                    list = retModel.List.OrderByDescending(i => i.Numero).ToList();
                                 else
-                                    list = newTransport.List.OrderBy(i => i.Numero).ToList();
+                                    list = retModel.List.OrderBy(i => i.Numero).ToList();
                                 break;
                             case "tipo":
-                                if (newTransport.SortDirection == "desc")
-                                    list = newTransport.List.OrderByDescending(i => i.Tipo).ToList();
+                                if (retModel.SortDirection == "desc")
+                                    list = retModel.List.OrderByDescending(i => i.Tipo).ToList();
                                 else
-                                    list = newTransport.List.OrderBy(i => i.Tipo).ToList();
+                                    list = retModel.List.OrderBy(i => i.Tipo).ToList();
                                 break;
                             case "inicio":
-                                if (newTransport.SortDirection == "desc")
-                                    list = newTransport.List.OrderByDescending(i => i.DataHoraInicio).ToList();
+                                if (retModel.SortDirection == "desc")
+                                    list = retModel.List.OrderByDescending(i => i.DataHoraInicioFormatado).ToList();
                                 else
-                                    list = newTransport.List.OrderBy(i => i.DataHoraInicio).ToList();
+                                    list = retModel.List.OrderBy(i => i.DataHoraInicioFormatado).ToList();
                                 break;
                             case "fim":
-                                if (newTransport.SortDirection == "desc")
-                                    list = newTransport.List.OrderByDescending(i => i.DataHoraFim).ToList();
+                                if (retModel.SortDirection == "desc")
+                                    list = retModel.List.OrderByDescending(i => i.DataHoraFimFormatado).ToList();
                                 else
-                                    list = newTransport.List.OrderBy(i => i.DataHoraFim).ToList();
+                                    list = retModel.List.OrderBy(i => i.DataHoraFimFormatado).ToList();
                                 break;
                             case "id":
                             default:
-                                if (newTransport.SortDirection == "desc")
-                                    list = newTransport.List.OrderByDescending(i => i.Id).ToList();
+                                if (retModel.SortDirection == "desc")
+                                    list = retModel.List.OrderByDescending(i => i.Id).ToList();
                                 else
-                                    list = newTransport.List.OrderBy(i => i.Id).ToList();
+                                    list = retModel.List.OrderBy(i => i.Id).ToList();
                                 break;
                         }
 
-                        newTransport.List = list;
+                        retModel.List = list;
                     }
                 }
             }
 
-            return newTransport;
+            return retModel;
         }
 
-        public async Task<MovimentacaoViewModel> Get(Int64 id)
+        public async Task<MovimentacaoViewModel> Obter(Int64 id)
         {
             MovimentacaoViewModel ret;
 
-            ret = await this._movimentacaoExtern.Get(id);
+            ret = await this._movimentacaoExtern.Obter(id);
 
             return ret;
         }
 
-        public async Task<MovimentacaoViewModel> List()
+        public async Task<MovimentacaoViewModel> Listar()
         {
             MovimentacaoViewModel ret;
 
-            ret = await this._movimentacaoExtern.List();
+            ret = await this._movimentacaoExtern.Listar();
 
             return ret;
         }
 
-        public async Task<MovimentacaoViewModel> Insert(MovimentacaoViewModel model)
+        public async Task<MovimentacaoViewModel> Iniciar(MovimentacaoViewModel model)
         {
             MovimentacaoViewModel ret;
 
-            ret = await this._movimentacaoExtern.Insert(model);
+            ret = await this._movimentacaoExtern.Iniciar(model);
 
             return ret;
         }
 
-        public async Task<MovimentacaoViewModel> Update(MovimentacaoViewModel model)
+        public async Task<MovimentacaoViewModel> Finalizar(MovimentacaoViewModel model)
         {
             MovimentacaoViewModel ret;
 
-            ret = await this._movimentacaoExtern.Update(model);
-
-            return ret;
-        }
-
-        public async Task<MovimentacaoViewModel> Delete(Int64 id)
-        {
-            MovimentacaoViewModel ret;
-
-            ret = await this._movimentacaoExtern.Delete(id);
+            ret = await this._movimentacaoExtern.Finalizar(model);
 
             return ret;
         }

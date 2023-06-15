@@ -8,7 +8,7 @@ namespace MovConDomain.Models
     {
         public MovimentacaoModel(string numero)
         {
-            ValidarFimByNumero(numero);
+            ValidarFimPorNumero(numero);
         }
 
         public MovimentacaoModel(string numero, string tipo)
@@ -54,7 +54,7 @@ namespace MovConDomain.Models
             this.Numero = numero;
         }
 
-        private void ValidarFimByNumero(string numero)
+        private void ValidarFimPorNumero(string numero)
         {
             if (!Regex.IsMatch(numero, "^[A-Za-z]{4}[0-9]{7}$"))
                 throw new ArgumentException("Número inválido", "numero");

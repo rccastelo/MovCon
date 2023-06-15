@@ -1,16 +1,16 @@
 ﻿@model MovConWeb.Models.MovimentacaoViewModel
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "MovCon - Movimentações - Consulta";
+    ViewData["Title"] = "MovCon - Movimentações - Pesquisa";
 }
 
 <div class="areaMaxGrd">
     <div class="txtPadraoGrd">
         <i class="iconeMed fas fa-arrow-right-arrow-left"></i>&nbsp;
-        <a class="txtPadraoGrd" asp-controller="Movimentacoes" asp-action="Index">Movimentações</a> &nbsp;/&nbsp; Consulta
+        <a class="txtPadraoGrd" asp-controller="Movimentacoes" asp-action="Index">Movimentações</a> &nbsp;/&nbsp; Pesquisa
     </div>
     <br>
-    <form asp-controller="Movimentacoes" asp-action="Search" asp-anti-forgery method="post">
+    <form asp-controller="Movimentacoes" asp-action="Pesquisar" asp-anti-forgery method="post">
         @Html.AntiForgeryToken()
 
         <div class="form-row">
@@ -26,11 +26,10 @@
                         &bull; Tamanho máximo: <b>11</b> caracteres<br>
                         &bull; Formato: <b>ABCD1234567</b> (4 letras + 7 números)<br>
                     </div>
-                    <input class="form-control" type="text" maxlength="11" asp-for="@Model.Filter.Numero">
+                    <input class="form-control" type="text" maxlength="11" asp-for="@Model.Filter.Numero" style="text-transform:uppercase;" />
                 </div>
             </div>
         </div>
-        <br />
         <div class="form-row">
             <div class="col-5">
                 <div class="form-group">
@@ -46,11 +45,28 @@
                 </div>
             </div>
         </div>
-
+        <div class="form-row">
+            <div class="col-5">
+                <div class="form-group">
+                    <label class="txtEtiqueta" asp-for="@Model.Filter.Tipo">Finalização Pendente</label> &nbsp;
+                    <a data-container="body" data-toggle="popover" data-placement="right" data-trigger="hover"
+                       data-object-content="#popTipo">
+                        <i class="iconePopOpc fas fa-question"></i>
+                    </a>
+                    <div id="popTipo" class="popMsg">
+                        &bull; Campo <span class="corOpcional"><b>opicional</b></span><br>
+                    </div>
+                    <span class="form-control">
+                        @Html.RadioButton("rdbPendente", "N", true) Não &nbsp; &nbsp; 
+                        @Html.RadioButton("rdbPendente", "S") Sim
+                    </span>
+                </div>
+            </div>
+        </div>
         <br>
         <div class="form-row">
             <div class="col-10">
-                <button class="btn btn-lg mr-2 btn-warning"><i class="fas fa-search"></i> &nbsp;Consultar</button>
+                <button class="btn btn-lg mr-2 btn-warning"><i class="fas fa-search"></i> &nbsp;Pesquisar</button>
                 <a class="btn btn-secondary btn-lg m-2" asp-controller="Movimentacoes" asp-action="Index">
                     <i class="fas fa-arrow-circle-left"></i>
                     &nbsp;Voltar

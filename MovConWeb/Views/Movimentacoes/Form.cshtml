@@ -3,18 +3,15 @@
     Layout = "_Layout";
     ViewData["Title"] = "MovCon - Movimentações - Cadastro";
 
-    ViewData["Action"] = "Insert";
-    ViewData["PageName"] = "Novo";
+    ViewData["Action"] = "Iniciar";
+    ViewData["PageName"] = "Início";
     ViewData["Finalizado"] = "N";
 
     if ((Model != null) && ((Model.Item != null))) {
         if (Model.Item.Id > 0) {
-            ViewData["Action"] = "Update";
-            ViewData["PageName"] = "Detalhe";
+            ViewData["Action"] = "Finalizar";
+            ViewData["PageName"] = "Fim";
         }
-
-        if (!string.IsNullOrEmpty(Model.Item.DataHoraFim))
-            ViewData["Finalizado"] = "S";
     }
 }
 
@@ -60,9 +57,9 @@
                         &bull; Tamanho máximo: <b>11</b> caracteres<br>
                         &bull; Formato: <b>ABCD1234567</b> (4 letras + 7 números)<br>
                     </div>
-                    @if (ViewData["Action"].ToString() == "Insert") {
-                        <input class="form-control" type="text" maxlength="11" asp-for="@Model.Item.Numero" />
-                    } else if (ViewData["Action"].ToString() == "Update") {
+                    @if (ViewData["Action"].ToString() == "Iniciar") {
+                        <input class="form-control" type="text" maxlength="11" asp-for="@Model.Item.Numero" style="text-transform:uppercase;" />
+                    } else if (ViewData["Action"].ToString() == "Finalizar") {
                         <input class="form-control" type="text" maxlength="11" asp-for="@Model.Item.Numero" readonly />
                     }
                 </div>
@@ -78,9 +75,9 @@
                     <div id="popTipo" class="popMsg">
                         &bull; Campo <span class="text-danger"><b>obrigatório</b></span><br>
                     </div>
-                    @if (ViewData["Action"].ToString() == "Insert") {
+                    @if (ViewData["Action"].ToString() == "Iniciar") {
                         @Html.DropDownList("DdlTipo", ViewData["DdlTipo"] as SelectList, new { @class = "form-control" })
-                    } else if (ViewData["Action"].ToString() == "Update") {
+                    } else if (ViewData["Action"].ToString() == "Finalizar") {
                         @Html.DropDownList("DdlTipo", ViewData["DdlTipo"] as SelectList, new {
                             @class = "form-control", @readonly = "readonly", @disabled = "disabled" })
                     }
@@ -100,7 +97,7 @@
                         &bull; Apenas leitura<br>
                     </div>
                     @if ((Model != null) && (Model.Item != null)) {
-                        <input class="form-control" type="text" asp-for="@Model.Item.DataHoraInicio" value="@Model.Item.DataHoraInicio" readonly />
+                        <input class="form-control" type="text" asp-for="@Model.Item.DataHoraInicio" value="@Model.Item.DataHoraInicioFormatado" readonly />
                     } else {
                         <input class="form-control" type="text" asp-for="@Model.Item.DataHoraInicio" readonly />
                     }
@@ -119,7 +116,7 @@
                         &bull; Apenas leitura<br>
                     </div>
                     @if ((Model != null) && (Model.Item != null)) {
-                        <input class="form-control" type="text" asp-for="@Model.Item.DataHoraFim" value="@Model.Item.DataHoraFim" readonly />
+                        <input class="form-control" type="text" asp-for="@Model.Item.DataHoraFim" value="@Model.Item.DataHoraFimFormatado" readonly />
                     } else {
                         <input class="form-control" type="text" asp-for="@Model.Item.DataHoraFim" readonly />
                     }
@@ -130,12 +127,12 @@
         <br>
         <div class="form-row">
             <div class="col-10">
-                @if (ViewData["Action"].ToString() == "Insert") {
-                    <button class="btn btn-lg mr-2 btn-success"><i class="fas fa-save"></i> &nbsp;Iniciar</button>
-                } else if ((ViewData["Action"].ToString() == "Update") && (ViewData["Finalizado"].ToString() == "N")) {
-                    <button class="btn btn-lg mr-2 btn-alternative"><i class="fas fa-sync-alt"></i> &nbsp;Finalizar</button>
+                @if (ViewData["Action"].ToString() == "Iniciar") {
+                    <button class="btn btn-lg mr-2 btn-success"><i class="fas fa-arrow-turn-up"></i> &nbsp;Iniciar</button>
+                } else if ((ViewData["Action"].ToString() == "Finalizar") && (!Model.Item.Finalizado)) {
+                    <button class="btn btn-lg mr-2 btn-alternative"><i class="fas fa-arrow-turn-down"></i> &nbsp;Finalizar</button>
                 }
-                <a class="btn btn-info btn-lg m-2" asp-controller="Movimentacoes" asp-action="List">
+                <a class="btn btn-info btn-lg m-2" asp-controller="Movimentacoes" asp-action="Listar">
                     <i class="fas fa-list"></i>
                     &nbsp;Lista
                 </a>

@@ -175,10 +175,10 @@ svg {
   vertical-align: middle;
 }
 
-table {
+/*table {
   border-collapse: collapse;
 }
-
+*/
 caption {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -187,10 +187,10 @@ caption {
   caption-side: bottom;
 }
 
-th {
+/*th {
   text-align: inherit;
 }
-
+*/
 label {
   display: inline-block;
   margin-bottom: 0.5rem;

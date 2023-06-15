@@ -16,7 +16,7 @@ namespace MovConRepository.Datas
 
         }
 
-        public long Insert(ConteinerModel model)
+        public long Incluir(ConteinerModel model)
         {
             DynamicParameters parameters = new DynamicParameters();
 
@@ -44,7 +44,7 @@ namespace MovConRepository.Datas
             return newId;
         }
 
-        public int Update(ConteinerModel model)
+        public int Alterar(ConteinerModel model)
         {
             DynamicParameters parameters = new DynamicParameters();
 
@@ -74,7 +74,7 @@ namespace MovConRepository.Datas
             return qtd;
         }
 
-        public int UpdateByNumero(ConteinerModel model)
+        public int AlterarPorNumero(ConteinerModel model)
         {
             DynamicParameters parameters = new DynamicParameters();
 
@@ -102,7 +102,7 @@ namespace MovConRepository.Datas
             return qtd;
         }
         
-        public int Delete(long id)
+        public int Excluir(long id)
         {
             DynamicParameters parameters = new DynamicParameters();
 
@@ -120,7 +120,7 @@ namespace MovConRepository.Datas
             return qtd;
         }
 
-        public int DeleteByNumero(string numero)
+        public int ExcluirPorNumero(string numero)
         {
             DynamicParameters parameters = new DynamicParameters();
 
@@ -138,7 +138,7 @@ namespace MovConRepository.Datas
             return qtd;
         }
 
-        public ConteinerModel Get(long id)
+        public ConteinerModel Obter(long id)
         {
             DynamicParameters parameters = new DynamicParameters();
 
@@ -157,7 +157,7 @@ namespace MovConRepository.Datas
             return model;
         }
 
-        public ConteinerModel GetByNumero(string numero)
+        public ConteinerModel ObterPorNumero(string numero)
         {
             DynamicParameters parameters = new DynamicParameters();
 
@@ -176,7 +176,7 @@ namespace MovConRepository.Datas
             return model;
         }
 
-        public List<ConteinerModel> List()
+        public List<ConteinerModel> Listar()
         {
             string cmd = "SELECT PK_Id as Id, Cliente, Numero, Tipo, Status, Categoria " +
                 "FROM Conteineres ";
@@ -190,7 +190,7 @@ namespace MovConRepository.Datas
             return list;
         }
 
-        public List<ConteinerEntity> Filter(ConteinerEntity entity)
+        public List<ConteinerEntity> Filtrar(ConteinerEntity entity)
         {
             DynamicParameters parameters = new DynamicParameters();
             List<ConteinerEntity> list = null;

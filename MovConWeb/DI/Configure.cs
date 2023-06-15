@@ -13,6 +13,8 @@ namespace MovConWeb.DI
             services.AddScoped<IConteinerExtern, ConteinerExtern>();
             services.AddScoped<IMovimentacaoService, MovimentacaoService>();
             services.AddScoped<IMovimentacaoExtern, MovimentacaoExtern>();
+            services.AddScoped<IRelatorioService, RelatorioService>();
+            services.AddScoped<IRelatorioExtern, RelatorioExtern>();
         }
     }
 }

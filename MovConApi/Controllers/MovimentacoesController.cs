@@ -26,10 +26,10 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(MovimentacaoResponse), 200)]
         [ProducesResponseType(typeof(MovimentacaoResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult Insert(MovimentacaoInicioRequest requestNew)
+        public IActionResult Iniciar(MovimentacaoInicioRequest requestNew)
         {
             try {
-                MovimentacaoResponse response = this._movimentacaoService.Insert(requestNew);
+                MovimentacaoResponse response = this._movimentacaoService.Iniciar(requestNew);
 
                 return Ok(response);
             } catch (ArgumentException aex) {
@@ -57,10 +57,10 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(MovimentacaoResponse), 200)]
         [ProducesResponseType(typeof(MovimentacaoResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult Update(long id, MovimentacaoFimRequest requestMod)
+        public IActionResult Finalizar(long id, MovimentacaoFimRequest requestMod)
         {
             try {
-                MovimentacaoResponse response = this._movimentacaoService.Update(id, requestMod);
+                MovimentacaoResponse response = this._movimentacaoService.Finalizar(id, requestMod);
 
                 return Ok(response);
             } catch (ArgumentException aex) {
@@ -88,10 +88,10 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(MovimentacaoResponse), 200)]
         [ProducesResponseType(typeof(MovimentacaoResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult UpdateFimMovimentoByNumero(string numero)
+        public IActionResult FinalizarPorNumero(string numero)
         {
             try {
-                MovimentacaoResponse response = this._movimentacaoService.UpdateFimMovimentoByNumero(numero);
+                MovimentacaoResponse response = this._movimentacaoService.FinalizarPorNumero(numero);
 
                 return Ok(response);
             } catch (ArgumentException aex) {
@@ -119,10 +119,10 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(MovimentacaoResponse), 200)]
         [ProducesResponseType(typeof(MovimentacaoResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult Get(long id)
+        public IActionResult Obter(long id)
         {
             try {
-                MovimentacaoResponse response = this._movimentacaoService.Get(id);
+                MovimentacaoResponse response = this._movimentacaoService.Obter(id);
 
                 return Ok(response);
             } catch (ArgumentException aex) {
@@ -150,10 +150,10 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(MovimentacaoResponse), 200)]
         [ProducesResponseType(typeof(MovimentacaoResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult GetEmMovimentoByNumero(string numero)
+        public IActionResult ObterEmMovimentoPorNumero(string numero)
         {
             try {
-                MovimentacaoResponse response = this._movimentacaoService.GetEmMovimentoByNumero(numero);
+                MovimentacaoResponse response = this._movimentacaoService.ObterEmMovimentoPorNumero(numero);
 
                 return Ok(response);
             } catch (ArgumentException aex) {
@@ -181,10 +181,10 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(MovimentacaoResponse), 200)]
         [ProducesResponseType(typeof(MovimentacaoResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult List()
+        public IActionResult Listar()
         {
             try {
-                MovimentacaoResponse response = this._movimentacaoService.List();
+                MovimentacaoResponse response = this._movimentacaoService.Listar();
 
                 return Ok(response);
             } catch (ArgumentException aex) {
@@ -212,10 +212,10 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(MovimentacaoResponse), 200)]
         [ProducesResponseType(typeof(MovimentacaoResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult ListEmMovimento()
+        public IActionResult ListarEmMovimento()
         {
             try {
-                MovimentacaoResponse response = this._movimentacaoService.ListEmMovimento();
+                MovimentacaoResponse response = this._movimentacaoService.ListarEmMovimento();
 
                 return Ok(response);
             } catch (ArgumentException aex) {
@@ -243,10 +243,10 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(MovimentacaoResponse), 200)]
         [ProducesResponseType(typeof(MovimentacaoResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult ListByNumero(string numero)
+        public IActionResult ListarPorNumero(string numero)
         {
             try {
-                MovimentacaoResponse response = this._movimentacaoService.ListByNumero(numero);
+                MovimentacaoResponse response = this._movimentacaoService.ListarPorNumero(numero);
 
                 return Ok(response);
             } catch (ArgumentException aex) {
@@ -265,7 +265,7 @@ namespace MovConApi.Controllers
             }
         }
 
-        [HttpPost("filter")]
+        [HttpPost("filtrar")]
         [SwaggerOperation(
             Summary = "Lista filtrada de Movimentações",
             Description = "Lista filtrada de Movimentações.",
@@ -274,10 +274,10 @@ namespace MovConApi.Controllers
         [ProducesResponseType(typeof(MovimentacaoResponse), 200)]
         [ProducesResponseType(typeof(MovimentacaoResponse), 400)]
         [ProducesResponseType(500)]
-        public IActionResult Filter(MovimentacaoFiltroRequest request)
+        public IActionResult Filtrar(MovimentacaoFiltroRequest request)
         {
             try {
-                MovimentacaoResponse response = this._movimentacaoService.Filter(request);
+                MovimentacaoResponse response = this._movimentacaoService.Filtrar(request);
 
                 return Ok(response);
             } catch (ArgumentException aex) {
