@@ -16,18 +16,36 @@ namespace MovConDomain.Models
             ValidarInicio(numero, tipo);
         }
 
+        public MovimentacaoModel(string numero, string tipo, string tipoConteiner, string status, string categoria)
+        {
+            ValidarInicio(numero, tipo, tipoConteiner, status, categoria);
+        }
+
         public MovimentacaoModel(Int64 id, string numero)
         {
             ValidarFim(id, numero);
         }
 
-        public MovimentacaoModel(Int64 id, string numero, string tipo, DateTime dataHoraInicio, DateTime dataHoraFim)
+        public MovimentacaoModel(Int64 id, string numero, string tipo, string tipoConteiner, string status, 
+                string categoria, DateTime dataHoraInicio, DateTime dataHoraFim)
         {
             this.Id = id;
             this.Numero = numero;
             this.Tipo = tipo;
+            this.TipoConteiner = tipoConteiner;
+            this.Status = status;
+            this.Categoria = categoria;
             this.DataHoraInicio = dataHoraInicio;
             this.DataHoraFim = dataHoraFim;
+        }
+
+        private void ValidarInicio(string numero, string tipo, string tipoConteiner, string status, string categoria) 
+        {
+            ValidarInicio(numero, tipo);
+
+            this.TipoConteiner = tipoConteiner;
+            this.Status = status;
+            this.Categoria = categoria;
         }
 
         private void ValidarInicio(string numero, string tipo)

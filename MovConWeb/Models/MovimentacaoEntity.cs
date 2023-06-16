@@ -7,6 +7,9 @@ namespace MovConWeb.Models
     {
         private string _numero;
         private string _tipo;
+        private string _tipoConteiner;
+        private string _status;
+        private string _categoria;
 
         public Int64 Id { get; set; }
         public string Numero {
@@ -28,6 +31,45 @@ namespace MovConWeb.Models
         public string TipoFormatado {
             get {
                 return DomainsHelper.ObterTipoMovimentacao(_tipo);
+            }
+        }
+        public string TipoConteiner {
+            get {
+                return (this._tipoConteiner == null) ? "" : this._tipoConteiner;
+            }
+            set {
+                this._tipoConteiner = (value == null) ? "" : value;
+            }
+        }
+        public string TipoConteinerFormatado {
+            get {
+                return DomainsHelper.ObterTipoConteiner(_tipoConteiner);
+            }
+        }
+        public string Status {
+            get {
+                return (this._status == null) ? "" : this._status;
+            }
+            set {
+                this._status = (value == null) ? "" : value;
+            }
+        }
+        public string StatusFormatado {
+            get {
+                return DomainsHelper.ObterStatusConteiner(_status);
+            }
+        }
+        public string Categoria {
+            get {
+                return (this._categoria == null) ? "" : this._categoria;
+            }
+            set {
+                this._categoria = (value == null) ? "" : value;
+            }
+        }
+        public string CategoriaFormatado {
+            get {
+                return DomainsHelper.ObterCategoriaConteiner(_categoria);
             }
         }
         public DateTime DataHoraInicio { get; set; }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using MovConDatabase;
 using MovConDomain.Models;
 using MovConRepository.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,8 +23,8 @@ namespace MovConRepository.Datas
             List<RelatorioEntity> list = null;
             bool hasParam = false;
 
-            string queryCmd = "SELECT M.Numero, M.Tipo as TipoMovimentacao, C.Cliente, C.Tipo as TipoConteiner, " +
-                "C.Status, C.Categoria, M.DataHoraInicio, M.DataHoraFim " +
+            string queryCmd = "SELECT M.Numero, M.Tipo as TipoMovimentacao, C.Cliente, M.TipoConteiner, " +
+                "M.Status, M.Categoria, M.DataHoraInicio, M.DataHoraFim " +
                 "FROM Movimentacoes M " +
                 "INNER JOIN Conteineres C ON C.Numero = M.Numero ";
             string querySort = "ORDER BY C.Cliente, M.Tipo, M.Numero, M.DataHoraInicio ";
@@ -49,21 +50,21 @@ namespace MovConRepository.Datas
                     System.Data.ParameterDirection.Input, entity.TipoConteiner.Length);
                 hasParam = true;
                 if (!string.IsNullOrWhiteSpace(queryFilter.ToString())) queryFilter.Append(" AND ");
-                queryFilter.Append(" C.Tipo = @TipoConteiner ");
+                queryFilter.Append(" M.TipoConteiner = @TipoConteiner ");
             }
             if (!string.IsNullOrWhiteSpace(entity.Status)) {
                 parameters.Add("@Status", entity.Status, System.Data.DbType.String,
                     System.Data.ParameterDirection.Input, entity.Status.Length);
                 hasParam = true;
                 if (!string.IsNullOrWhiteSpace(queryFilter.ToString())) queryFilter.Append(" AND ");
-                queryFilter.Append(" C.Status = @Status ");
+                queryFilter.Append(" M.Status = @Status ");
             }
             if (!string.IsNullOrWhiteSpace(entity.Categoria)) {
                 parameters.Add("@Categoria", entity.Categoria, System.Data.DbType.String,
                     System.Data.ParameterDirection.Input, entity.Categoria.Length);
                 hasParam = true;
                 if (!string.IsNullOrWhiteSpace(queryFilter.ToString())) queryFilter.Append(" AND ");
-                queryFilter.Append(" C.Categoria = @Categoria ");
+                queryFilter.Append(" M.Categoria = @Categoria ");
             }
             if (!string.IsNullOrWhiteSpace(entity.TipoMovimentacao)) {
                 parameters.Add("@TipoMovimentacao", entity.TipoMovimentacao, System.Data.DbType.String,
@@ -72,10 +73,39 @@ namespace MovConRepository.Datas
                 if (!string.IsNullOrWhiteSpace(queryFilter.ToString())) queryFilter.Append(" AND ");
                 queryFilter.Append(" M.Tipo = @TipoMovimentacao ");
             }
+            if (!entity.DataHoraInicio.Equals(DateTime.MinValue)) {
+                parameters.Add("@DataHoraInicioDe", entity.DataHoraInicio, System.Data.DbType.DateTime2,
+                    System.Data.ParameterDirection.Input, 8);
+                hasParam = true;
+                if (!string.IsNullOrWhiteSpace(queryFilter.ToString())) queryFilter.Append(" AND ");
+                queryFilter.Append(" M.DataHoraInicio >= @DataHoraInicioDe ");
+            }
+            if (!entity.DataHoraInicioAte.Equals(DateTime.MinValue)) {
+                parameters.Add("@DataHoraInicioAte", entity.DataHoraInicioAte, System.Data.DbType.DateTime2,
+                    System.Data.ParameterDirection.Input, 8);
+                hasParam = true;
+                if (!string.IsNullOrWhiteSpace(queryFilter.ToString())) queryFilter.Append(" AND ");
+                queryFilter.Append(" M.DataHoraInicio <= @DataHoraInicioAte ");
+            }
             if (entity.Pendente) {
                 hasParam = true;
                 if (!string.IsNullOrWhiteSpace(queryFilter.ToString())) queryFilter.Append(" AND ");
                 queryFilter.Append(" M.DataHoraFim IS NULL ");
+            } else {
+                if (!entity.DataHoraFim.Equals(DateTime.MinValue)) {
+                    parameters.Add("@DataHoraFimDe", entity.DataHoraFim, System.Data.DbType.DateTime2,
+                        System.Data.ParameterDirection.Input, 8);
+                    hasParam = true;
+                    if (!string.IsNullOrWhiteSpace(queryFilter.ToString())) queryFilter.Append(" AND ");
+                    queryFilter.Append(" M.DataHoraFim >= @DataHoraFimDe ");
+                }
+                if (!entity.DataHoraFimAte.Equals(DateTime.MinValue)) {
+                    parameters.Add("@DataHoraFimAte", entity.DataHoraFimAte, System.Data.DbType.DateTime2,
+                        System.Data.ParameterDirection.Input, 8);
+                    hasParam = true;
+                    if (!string.IsNullOrWhiteSpace(queryFilter.ToString())) queryFilter.Append(" AND ");
+                    queryFilter.Append(" M.DataHoraFim <= @DataHoraFimAte ");
+                }
             }
 
             _database.Open();

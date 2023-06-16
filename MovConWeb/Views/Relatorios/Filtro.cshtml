@@ -6,7 +6,7 @@
 <div class="areaMaxGrd">
     <div class="txtPadraoGrd">
         <i class="iconeMed fas fa-file-lines"></i>&nbsp;
-        Relatórios &nbsp;/&nbsp; Pesquisa
+        <a class="txtPadraoGrd" asp-controller="Relatorios" asp-action="Index">Relatórios</a> &nbsp;/&nbsp; Pesquisa
     </div>
     <br>
     <form asp-controller="Relatorios" asp-action="Pesquisar" asp-anti-forgery method="post">
@@ -71,7 +71,7 @@
                         &bull; Campo <span class="corOpcional"><b>opicional</b></span><br>
                     </div>
                     @Html.DropDownList("DdlStatus", ViewData["DdlStatus"] as SelectList, new { @class = "form-control" })
-                    
+
                 </div>
             </div>
             <div class="col-2"></div>
@@ -115,18 +115,96 @@
                         &bull; Campo <span class="corOpcional"><b>opicional</b></span><br>
                     </div>
                     <span class="form-control">
-                        @Html.RadioButton("rdbPendente", "N", true) Não &nbsp; &nbsp; 
+                        @Html.RadioButton("rdbPendente", "N", true) Não &nbsp; &nbsp;
                         @Html.RadioButton("rdbPendente", "S") Sim
                     </span>
                 </div>
             </div>
         </div>
+
+
+        <div class="form-row">
+            <div class="col-5">
+                <div class="form-group">
+                    <label class="txtEtiqueta" asp-for="@Model.Filter.DataHoraInicio">Início da movimentação / De</label> &nbsp;
+                    <a data-container="body" data-toggle="popover" data-placement="right" data-trigger="hover"
+                       data-object-content="#popCriacaoDe">
+                        <i class="iconePopOpc fas fa-question"></i>
+                    </a>
+                    <div id="popCriacaoDe" class="popMsg">
+                        &bull; Campo <span class="corOpcional"><b>opcional</b></span><br>
+                        &bull; Tamanho máximo: <b>10</b> caracteres<br>
+                        &bull; Formato: Data <b>dd/mm/aaaa</b><br>
+                    </div>
+                    <input class="form-control" type="text" maxlength="10" readonly asp-for="@Model.Filter.DataHoraInicio" value="@Model.Filter?.DataHoraInicioFormatado">
+                </div>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-5">
+                <div class="form-group">
+                    <label class="txtEtiqueta" asp-for="@Model.Filter.DataHoraInicioAte">Até</label> &nbsp;
+                    <a data-container="body" data-toggle="popover" data-placement="right" data-trigger="hover"
+                       data-object-content="#popCriacaoAte">
+                        <i class="iconePopOpc fas fa-question"></i>
+                    </a>
+                    <div id="popCriacaoAte" class="popMsg">
+                        &bull; Campo <span class="corOpcional"><b>opcional</b></span><br>
+                        &bull; Tamanho máximo: <b>10</b> caracteres<br>
+                        &bull; Formato: Data <b>dd/mm/aaaa</b><br>
+                    </div>
+                    <input class="form-control" type="text" maxlength="10" readonly asp-for="@Model.Filter.DataHoraInicioAte" value="@Model.Filter?.DataHoraInicioAteFormatado">
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-5">
+                <div class="form-group">
+                    <label class="txtEtiqueta" asp-for="@Model.Filter.DataHoraFim">Fim da movimentação / De</label> &nbsp;
+                    <a data-container="body" data-toggle="popover" data-placement="right" data-trigger="hover"
+                       data-object-content="#popAlteracaoDe">
+                        <i class="iconePopOpc fas fa-question"></i>
+                    </a>
+                    <div id="popAlteracaoDe" class="popMsg">
+                        &bull; Campo <span class="corOpcional"><b>opcional</b></span><br>
+                        &bull; Tamanho máximo: <b>10</b> caracteres<br>
+                        &bull; Formato: Data <b>dd/mm/aaaa</b><br>
+                    </div>
+                    <input class="form-control" type="text" maxlength="10" readonly asp-for="@Model.Filter.DataHoraFim" value="@Model.Filter?.DataHoraFimFormatado">
+                </div>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-5">
+                <div class="form-group">
+                    <label class="txtEtiqueta" asp-for="@Model.Filter.DataHoraFimAte">Até</label> &nbsp;
+                    <a data-container="body" data-toggle="popover" data-placement="right" data-trigger="hover"
+                       data-object-content="#popAlteracaoAte">
+                        <i class="iconePopOpc fas fa-question"></i>
+                    </a>
+                    <div id="popAlteracaoAte" class="popMsg">
+                        &bull; Campo <span class="corOpcional"><b>opcional</b></span><br>
+                        &bull; Tamanho máximo: <b>10</b> caracteres<br>
+                        &bull; Formato: Data <b>dd/mm/aaaa</b><br>
+                    </div>
+                    <input class="form-control" type="text" maxlength="10" readonly asp-for="@Model.Filter.DataHoraFimAte" value="@Model.Filter?.DataHoraFimAteFormatado">
+                </div>
+            </div>
+        </div>
+
+
         <br>
         <div class="form-row">
-            <div class="col-10">
-                <button class="btn btn-lg mr-2 btn-warning"><i class="fas fa-search"></i> &nbsp;Pesquisar</button>
+            <div class="col-11 txtPadrao">
+                <button class="btn btn-lg m-2 btn-warning"><i class="fas fa-search"></i> &nbsp;Pesquisar</button>
+                <a class="btn btn-outline-primary btn-lg m-2" asp-controller="Relatorios" asp-action="Listar">
+                    <i class="fas fa-list"></i>
+                    &nbsp;Completo
+                </a>
+                <a class="btn btn-secondary btn-lg m-2" asp-controller="Relatorios" asp-action="Index">
+                    <i class="fas fa-arrow-circle-left"></i>
+                    &nbsp;Menu
+                </a>
             </div>
-            <div class="col-2 text-right">
+            <div class="col-1 text-right">
                 @if (Model != null) {
                     @if (Model.IsError || !Model.IsValid) {
                         <a href="javascript:VerMensagens();"><i class="iconeMsg fas fa-exclamation-circle"></i></a>

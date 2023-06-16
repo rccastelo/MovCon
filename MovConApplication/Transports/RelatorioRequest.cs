@@ -11,7 +11,9 @@ namespace MovConApplication.Transports
         public string Categoria { get; set; }
         public string TipoMovimentacao { get; set; }
         public DateTime DataHoraInicio { get; set; }
+        public DateTime DataHoraInicioAte { get; set; }
         public DateTime DataHoraFim { get; set; }
+        public DateTime DataHoraFimAte { get; set; }
         public bool Pendente { get; set; }
     }
 }

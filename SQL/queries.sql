@@ -10,6 +10,9 @@ ALTER TABLE Movimentacoes
   ADD CONSTRAINT FK_Numero FOREIGN KEY (Numero)
   REFERENCES Conteineres (Numero);
 GO
+
+delete from Movimentacoes;
+delete from Conteineres;
 */
 
 SELECT PK_Id as Id, Numero, Tipo, DataHoraInicio, DataHoraFim

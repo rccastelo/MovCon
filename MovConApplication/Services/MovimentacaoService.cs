@@ -23,12 +23,12 @@ namespace MovConApplication.Services
             MovimentacaoResponse response = new MovimentacaoResponse();
             MovimentacaoModel newModel = null;
 
-            MovimentacaoModel model = new MovimentacaoModel(request.Numero, request.Tipo);
+            MovimentacaoModel movimentacaoModel = new MovimentacaoModel(request.Numero, request.Tipo);
 
             // Verifica se Conteiner existe
-            ConteinerModel conteiner = _conteinerRepository.ObterPorNumero(request.Numero);
+            ConteinerModel conteinerModel = _conteinerRepository.ObterPorNumero(request.Numero);
 
-            if (conteiner == null) {
+            if (conteinerModel == null) {
                 response.SetValid(false);
                 response.SetMessage("Contêiner não existe");
 
@@ -46,7 +46,11 @@ namespace MovConApplication.Services
                 return response;
             }
 
-            long newId = this._movimentacaoRepository.Iniciar(model);
+            // Preenche com os dados atuais do contêiner
+            movimentacaoModel = new MovimentacaoModel(request.Numero, request.Tipo, conteinerModel.Tipo,
+                    conteinerModel.Status, conteinerModel.Categoria);
+
+            long newId = this._movimentacaoRepository.Iniciar(movimentacaoModel);
 
             if (newId > 0) {
                 newModel = this._movimentacaoRepository.Obter(newId);

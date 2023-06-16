@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/jquery-ui/jquery-ui.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/lib/fontawesome/css/all.css" />
+    <link rel="stylesheet" href="~/css/jquery.datetimepicker.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -33,7 +34,7 @@
                     <div class="navbar-brand">MovCon</div> &nbsp;
                     <a class="navbar-brand" asp-controller="Conteineres" asp-action="Index">Contêineres</a> &nbsp;
                     <a class="navbar-brand" asp-controller="Movimentacoes" asp-action="Index">Movimentações</a> &nbsp;
-                    <a class="navbar-brand" asp-controller="Relatorios" asp-action="Filtrar">Relatórios</a>
+                    <a class="navbar-brand" asp-controller="Relatorios" asp-action="Index">Relatórios</a>
                 </div>
                 <div>
                 </div>
@@ -48,6 +49,7 @@
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/jquery-ui/jquery-ui.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="~/js/jquery.datetimepicker.full.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)

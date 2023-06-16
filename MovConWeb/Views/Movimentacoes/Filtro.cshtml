@@ -57,7 +57,7 @@
                         &bull; Campo <span class="corOpcional"><b>opicional</b></span><br>
                     </div>
                     <span class="form-control">
-                        @Html.RadioButton("rdbPendente", "N", true) Não &nbsp; &nbsp; 
+                        @Html.RadioButton("rdbPendente", "N", true) Não &nbsp; &nbsp;
                         @Html.RadioButton("rdbPendente", "S") Sim
                     </span>
                 </div>
@@ -65,14 +65,22 @@
         </div>
         <br>
         <div class="form-row">
-            <div class="col-10">
+            <div class="col-11 txtPadrao">
                 <button class="btn btn-lg mr-2 btn-warning"><i class="fas fa-search"></i> &nbsp;Pesquisar</button>
+                <a class="btn btn-outline-success btn-lg m-2" asp-controller="Movimentacoes" asp-action="Form">
+                    <i class="fas fa-arrow-turn-up"></i>
+                    &nbsp;Início
+                </a>
+                <a class="btn btn-outline-primary btn-lg m-2" asp-controller="Movimentacoes" asp-action="Listar">
+                    <i class="fas fa-list"></i>
+                    &nbsp;Lista
+                </a>
                 <a class="btn btn-secondary btn-lg m-2" asp-controller="Movimentacoes" asp-action="Index">
                     <i class="fas fa-arrow-circle-left"></i>
-                    &nbsp;Voltar
+                    &nbsp;Menu
                 </a>
             </div>
-            <div class="col-2 text-right">
+            <div class="col-1 text-right">
                 @if (Model != null) {
                     @if (Model.IsError || !Model.IsValid) {
                         <a href="javascript:VerMensagens();"><i class="iconeMsg fas fa-exclamation-circle"></i></a>

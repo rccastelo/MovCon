@@ -7,6 +7,9 @@ namespace MovConDomain.Models
         public Int64 Id { get; set; }
         public string Numero { get; set; }
         public string Tipo { get; set; }
+        public string TipoConteiner { get; set; }
+        public string Status { get; set; }
+        public string Categoria { get; set; }
         public DateTime DataHoraInicio { get; set; }
         public DateTime DataHoraFim { get; set; }
         public bool Pendente { get; set; }

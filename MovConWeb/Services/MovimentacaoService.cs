@@ -50,6 +50,24 @@ namespace MovConWeb.Services
                                 else
                                     list = retModel.List.OrderBy(i => i.Tipo).ToList();
                                 break;
+                            case "tipocon":
+                                if (retModel.SortDirection == "desc")
+                                    list = retModel.List.OrderByDescending(i => i.TipoConteiner).ToList();
+                                else
+                                    list = retModel.List.OrderBy(i => i.TipoConteiner).ToList();
+                                break;
+                            case "status":
+                                if (retModel.SortDirection == "desc")
+                                    list = retModel.List.OrderByDescending(i => i.Status).ToList();
+                                else
+                                    list = retModel.List.OrderBy(i => i.Status).ToList();
+                                break;
+                            case "categoria":
+                                if (retModel.SortDirection == "desc")
+                                    list = retModel.List.OrderByDescending(i => i.Categoria).ToList();
+                                else
+                                    list = retModel.List.OrderBy(i => i.Categoria).ToList();
+                                break;
                             case "inicio":
                                 if (retModel.SortDirection == "desc")
                                     list = retModel.List.OrderByDescending(i => i.DataHoraInicioFormatado).ToList();

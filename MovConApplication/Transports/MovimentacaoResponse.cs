@@ -36,6 +36,9 @@ namespace MovConApplication.Transports
                     Id = model.Id,
                     Numero = model.Numero,
                     Tipo = model.Tipo,
+                    TipoConteiner = model.TipoConteiner,
+                    Status = model.Status,
+                    Categoria = model.Categoria,
                     DataHoraInicio = model.DataHoraInicio,
                     DataHoraFim = model.DataHoraFim
                 };
@@ -49,6 +52,9 @@ namespace MovConApplication.Transports
                     Id = c.Id,
                     Numero = c.Numero,
                     Tipo = c.Tipo,
+                    TipoConteiner = c.TipoConteiner,
+                    Status = c.Status,
+                    Categoria = c.Categoria,
                     DataHoraInicio = c.DataHoraInicio,
                     DataHoraFim = c.DataHoraFim
                 }).ToList();
@@ -62,6 +68,9 @@ namespace MovConApplication.Transports
                     Id = c.Id,
                     Numero = c.Numero,
                     Tipo = c.Tipo,
+                    TipoConteiner = c.TipoConteiner,
+                    Status = c.Status,
+                    Categoria = c.Categoria,
                     DataHoraInicio = c.DataHoraInicio,
                     DataHoraFim = c.DataHoraFim
                 }).ToList();

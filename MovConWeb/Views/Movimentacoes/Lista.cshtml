@@ -26,41 +26,53 @@
         <table class="table border-bottom">
             <thead class="thead-dark">
                 <tr class="row tabLinha">
-                    <th class="col-1"><a class="txtPadrao" href="javascript:toSort('id', 'SortSelected')">ID</a></th>
-                    <th class="col-2"><a class="txtPadrao" href="javascript:toSort('numero', 'SortSelected')">Número</a></th>
-                    <th class="col-2"><a class="txtPadrao" href="javascript:toSort('tipo', 'SortSelected')">Tipo</a></th>
-                    <th class="col-2"><a class="txtPadrao" href="javascript:toSort('inicio', 'SortSelected')">Início</a></th>
-                    <th class="col-2"><a class="txtPadrao" href="javascript:toSort('fim', 'SortSelected')">Fim</a></th>
-                    <th class="col-3"></th>
+                    <th class="tabRelCenter" style="width: 5%"><a class="txtPadrao" href="javascript:toSort('id', 'SortSelected')">ID</a></th>
+                    <th class="tabRelCenter" style="width: 15%"><a class="txtPadrao" href="javascript:toSort('numero', 'SortSelected')">Número</a></th>
+                    <th class="tabRelCenter" style="width: 13%"><a class="txtPadrao" href="javascript:toSort('tipo', 'SortSelected')">Tipo Movimentação</a></th>
+                    <th class="tabRelCenter" style="width: 12%"><a class="txtPadrao" href="javascript:toSort('tipocon', 'SortSelected')">Tipo Contêiner</a></th>
+                    <th class="tabRelCenter" style="width: 8%"><a class="txtPadrao" href="javascript:toSort('status', 'SortSelected')">Status</a></th>
+                    <th class="tabRelCenter" style="width: 12%"><a class="txtPadrao" href="javascript:toSort('categoria', 'SortSelected')">Categoria</a></th>
+                    <th class="tabRelCenter" style="width: 11%"><a class="txtPadrao" href="javascript:toSort('inicio', 'SortSelected')">Início</a></th>
+                    <th class="tabRelCenter" style="width: 11%"><a class="txtPadrao" href="javascript:toSort('fim', 'SortSelected')">Fim</a></th>
+                    <th class="tabRelCenter" style="width: 13%"></th>
                 </tr>
             </thead>
             <tbody>
-                @if (Model.List != null) {
+                @if ((Model != null) && (Model.List != null) && (Model.List.Count > 0)) {
                     @foreach (var item in Model.List) {
-                        <tr class="row tabLinha">
-                            <td class="col-1"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.Id</a></td>
-                            <td class="col-2"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.Numero</a></td>
-                            <td class="col-2"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.TipoFormatado</a></td>
-                            <td class="col-2"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.DataHoraInicioFormatado</a></td>
-                            <td class="col-2"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.DataHoraFimFormatado</a></td>
-                            <td class="col-3">
-                                <a class="btn btn-primary" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">
-                                    <i class="fas fa-search-plus"></i>
-                                    &nbsp;Detalhe
-                                </a>
-                            </td>
-                        </tr>
+                <tr class="row tabLinha">
+                    <td class="tabRelCenter" style="width: 5%"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.Id</a></td>
+                    <td class="tabRelCenter" style="width: 15%"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.Numero</a></td>
+                    <td class="tabRelCenter" style="width: 13%"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.TipoFormatado</a></td>
+                    <td class="tabRelCenter" style="width: 12%"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.TipoConteinerFormatado</a></td>
+                    <td class="tabRelCenter" style="width: 8%"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.StatusFormatado</a></td>
+                    <td class="tabRelCenter" style="width: 12%"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.CategoriaFormatado</a></td>
+                    <td class="tabRelCenter" style="width: 11%"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.DataHoraInicioFormatado</a></td>
+                    <td class="tabRelCenter" style="width: 11%"><a class="txtPadrao" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">@item.DataHoraFimFormatado</a></td>
+                    <td class="tabRelCenter" style="width: 13%">
+                        <a class="btn btn-primary" asp-controller="Movimentacoes" asp-action="Obter" asp-route-id="@item.Id">
+                            <i class="fas fa-search-plus"></i>
+                            &nbsp;Detalhe
+                        </a>
+                    </td>
+                </tr>
                     }
                 }
             </tbody>
         </table>
         <br>
-        <div>
-            <button class="btn btn-lg mr-2 btn-warning" onclick="javascript:toRedirect('Movimentacoes', 'Filtrar');"><i class="fas fa-search"></i> &nbsp;Pesquisa</button>
-            <a class="btn btn-secondary btn-lg" asp-controller="Movimentacoes" asp-action="Index">
-                <i class="fas fa-arrow-circle-left"></i>
-                &nbsp;Voltar
-            </a>
+        <div class="form-row">
+            <div class="col-12 txtPadrao">
+                <a class="btn btn-outline-success btn-lg m-2" asp-controller="Movimentacoes" asp-action="Form">
+                    <i class="fas fa-arrow-turn-up"></i>
+                    &nbsp;Início
+                </a>
+                <button class="btn btn-lg m-2 btn-outline-warning" onclick="javascript:toRedirect('Movimentacoes', 'Filtrar');"><i class="fas fa-search"></i> &nbsp;Pesquisa</button>
+                <a class="btn btn-secondary btn-lg m-2" asp-controller="Movimentacoes" asp-action="Index">
+                    <i class="fas fa-arrow-circle-left"></i>
+                    &nbsp;Menu
+                </a>
+            </div>
         </div>
     </form>
 </div>

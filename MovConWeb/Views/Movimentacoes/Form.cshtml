@@ -79,7 +79,10 @@
                         @Html.DropDownList("DdlTipo", ViewData["DdlTipo"] as SelectList, new { @class = "form-control" })
                     } else if (ViewData["Action"].ToString() == "Finalizar") {
                         @Html.DropDownList("DdlTipo", ViewData["DdlTipo"] as SelectList, new {
-                            @class = "form-control", @readonly = "readonly", @disabled = "disabled" })
+                            @class = "form-control",
+                            @readonly = "readonly",
+                            @disabled = "disabled"
+                        })
                     }
                 </div>
             </div>
@@ -126,22 +129,32 @@
 
         <br>
         <div class="form-row">
-            <div class="col-10">
+            <div class="col-11 txtPadrao">
                 @if (ViewData["Action"].ToString() == "Iniciar") {
-                    <button class="btn btn-lg mr-2 btn-success"><i class="fas fa-arrow-turn-up"></i> &nbsp;Iniciar</button>
-                } else if ((ViewData["Action"].ToString() == "Finalizar") && (!Model.Item.Finalizado)) {
-                    <button class="btn btn-lg mr-2 btn-alternative"><i class="fas fa-arrow-turn-down"></i> &nbsp;Finalizar</button>
+                    <button class="btn btn-lg m-2 btn-success"><i class="fas fa-arrow-turn-up"></i> &nbsp;Iniciar</button>
+                } else if (ViewData["Action"].ToString() == "Finalizar") {
+                    if (!Model.Item.Finalizado) {
+                        <button class="btn btn-lg m-2 btn-danger"><i class="fas fa-arrow-turn-down"></i> &nbsp;Finalizar</button>
+                    }
+                    <a class="btn btn-outline-success btn-lg m-2" asp-controller="Movimentacoes" asp-action="Form">
+                        <i class="fas fa-arrow-turn-up"></i>
+                        &nbsp;Início
+                    </a>
                 }
-                <a class="btn btn-info btn-lg m-2" asp-controller="Movimentacoes" asp-action="Listar">
+                <a class="btn btn-outline-warning btn-lg m-2" asp-controller="Movimentacoes" asp-action="Filtrar">
+                    <i class="fas fa-search"></i>
+                    &nbsp;Pesquisa
+                </a>
+                <a class="btn btn-outline-primary btn-lg m-2" asp-controller="Movimentacoes" asp-action="Listar">
                     <i class="fas fa-list"></i>
                     &nbsp;Lista
                 </a>
                 <a class="btn btn-secondary btn-lg m-2" asp-controller="Movimentacoes" asp-action="Index">
                     <i class="fas fa-arrow-circle-left"></i>
-                    &nbsp;Voltar
+                    &nbsp;Menu
                 </a>
             </div>
-            <div class="col-2 text-right">
+            <div class="col-1 text-right">
                 @if (Model != null) {
                     @if (Model.IsError || !Model.IsValid) {
                         <a href="javascript:VerMensagens();"><i class="iconeMsg fas fa-exclamation-circle"></i></a>

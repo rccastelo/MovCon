@@ -20,14 +20,20 @@ namespace MovConRepository.Datas
         {
             DynamicParameters parameters = new DynamicParameters();
 
-            string cmd = "INSERT INTO Movimentacoes (Numero, Tipo, DataHoraInicio, DataHoraFim) " +
+            string cmd = "INSERT INTO Movimentacoes (Numero, Tipo, TipoConteiner, Status, Categoria, DataHoraInicio, DataHoraFim) " +
                 "OUTPUT INSERTED.PK_Id " +
-                "VALUES (@Numero, @Tipo, GETDATE(), NULL) ";
+                "VALUES (@Numero, @Tipo, @TipoConteiner, @Status, @Categoria, GETDATE(), NULL) ";
 
             parameters.Add("@Numero", model.Numero, System.Data.DbType.String,
                 System.Data.ParameterDirection.Input, model.Numero.Length);
             parameters.Add("@Tipo", model.Tipo, System.Data.DbType.String,
                 System.Data.ParameterDirection.Input, model.Tipo.ToString().Length);
+            parameters.Add("@TipoConteiner", model.TipoConteiner, System.Data.DbType.String,
+                System.Data.ParameterDirection.Input, model.TipoConteiner.ToString().Length);
+            parameters.Add("@Status", model.Status, System.Data.DbType.String,
+                System.Data.ParameterDirection.Input, model.Status.ToString().Length);
+            parameters.Add("@Categoria", model.Categoria, System.Data.DbType.String,
+                System.Data.ParameterDirection.Input, model.Categoria.ToString().Length);
 
             _database.Open();
 
@@ -84,7 +90,7 @@ namespace MovConRepository.Datas
         {
             DynamicParameters parameters = new DynamicParameters();
 
-            string cmd = "SELECT PK_Id as Id, Numero, Tipo, DataHoraInicio, DataHoraFim " +
+            string cmd = "SELECT PK_Id as Id, Numero, Tipo, TipoConteiner, Status, Categoria, DataHoraInicio, DataHoraFim " +
                 "FROM Movimentacoes WHERE PK_Id = @Id ";
 
             parameters.Add("@Id", id, System.Data.DbType.Int64,
@@ -103,7 +109,7 @@ namespace MovConRepository.Datas
         {
             DynamicParameters parameters = new DynamicParameters();
 
-            string cmd = "SELECT PK_Id as Id, Numero, Tipo, DataHoraInicio, DataHoraFim " +
+            string cmd = "SELECT PK_Id as Id, Numero, Tipo, TipoConteiner, Status, Categoria, DataHoraInicio, DataHoraFim " +
                 "FROM Movimentacoes WHERE Numero = @Numero AND DataHoraFim IS NULL ";
 
             parameters.Add("@Numero", numero, System.Data.DbType.String,
@@ -120,7 +126,7 @@ namespace MovConRepository.Datas
 
         public List<MovimentacaoModel> Listar()
         {
-            string cmd = "SELECT PK_Id as Id, Numero, Tipo, DataHoraInicio, DataHoraFim " +
+            string cmd = "SELECT PK_Id as Id, Numero, Tipo, TipoConteiner, Status, Categoria, DataHoraInicio, DataHoraFim " +
                     "FROM Movimentacoes ";
 
             _database.Open();
@@ -134,7 +140,7 @@ namespace MovConRepository.Datas
 
         public List<MovimentacaoModel> ListarEmMovimento()
         {
-            string cmd = "SELECT PK_Id as Id, Numero, Tipo, DataHoraInicio, DataHoraFim " +
+            string cmd = "SELECT PK_Id as Id, Numero, Tipo, TipoConteiner, Status, Categoria, DataHoraInicio, DataHoraFim " +
                     "FROM Movimentacoes WHERE DataHoraFim IS NULL ";
 
             _database.Open();
@@ -150,7 +156,7 @@ namespace MovConRepository.Datas
         {
             DynamicParameters parameters = new DynamicParameters();
             
-            string cmd = "SELECT PK_Id as Id, Numero, Tipo, DataHoraInicio, DataHoraFim " +
+            string cmd = "SELECT PK_Id as Id, Numero, Tipo, TipoConteiner, Status, Categoria, DataHoraInicio, DataHoraFim " +
                     "FROM Movimentacoes WHERE Numero = @numero ";
 
             parameters.Add("@Numero", numero, System.Data.DbType.String,
@@ -171,7 +177,7 @@ namespace MovConRepository.Datas
             List<MovimentacaoEntity> list = null;
             bool hasParam = false;
 
-            string queryCmd = "SELECT PK_Id as Id, Numero, Tipo, DataHoraInicio, DataHoraFim " +
+            string queryCmd = "SELECT PK_Id as Id, Numero, Tipo, TipoConteiner, Status, Categoria, DataHoraInicio, DataHoraFim " +
                     "FROM Movimentacoes ";
             StringBuilder queryFilter = new StringBuilder();
 

@@ -6,15 +6,17 @@
 <div class="areaMaxGrd">
     <div class="txtPadraoGrd">
         <i class="iconeMed fas fa-file-lines"></i>&nbsp;
-        <a class="txtPadraoGrd" asp-controller="Relatorios" asp-action="Filtrar">Relatórios</a> &nbsp;/&nbsp; Relatório
+        <a class="txtPadraoGrd" asp-controller="Relatorios" asp-action="Index">Relatórios</a> &nbsp;/&nbsp; Relatório
     </div>
     <br>
     <form id="form" asp-controller="Relatorios" asp-action="Pesquisar" asp-anti-forgery method="Post">
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="@Model.Filter.Numero" />
         <input type="hidden" asp-for="@Model.Filter.TipoMovimentacao" />
-        <input type="hidden" asp-for="@Model.Filter.DataHoraInicioFormatado" />
-        <input type="hidden" asp-for="@Model.Filter.DataHoraFimFormatado" />
+        <input type="hidden" asp-for="@Model.Filter.DataHoraInicio" />
+        <input type="hidden" asp-for="@Model.Filter.DataHoraInicioAte" />
+        <input type="hidden" asp-for="@Model.Filter.DataHoraFim" />
+        <input type="hidden" asp-for="@Model.Filter.DataHoraFimAte" />
         <input type="hidden" asp-for="@Model.Filter.Cliente" />
         <input type="hidden" asp-for="@Model.Filter.TipoConteiner" />
         <input type="hidden" asp-for="@Model.Filter.Status" />
@@ -29,12 +31,24 @@
             <input type="hidden" asp-for="@Model.SortDirection" value="@Model.SortDirection" />
             <input type="hidden" asp-for="@Model.SortSelected" value="@Model.SortSelected" />
         }
-        @if (Model.List != null) {
-            string cli = "";
-            string mov = "";
+        @if ((Model != null) && (Model.List != null) && (Model.List.Count > 0)) {
+            string cliente = "";
+            string tipoMov = "";
+            int qtdImpCli = 0;
+            int qtdExpCli = 0;
+            int qtdImp = 0;
+            int qtdExp = 0;
 
             @foreach (var item in Model.List) {
-                @if (item.Cliente.ToLower() != cli.ToLower()) {
+                @if (item.Cliente.ToLower() != cliente.ToLower()) {
+                    @if (!string.IsNullOrWhiteSpace(cliente)) {
+                        <table class="tabRel tabRelInfo">
+                            <tr>
+                                <td class="txtEsc tabRelCel" style="width: 100%">Importações &nbsp; [ <span class="txtRelCli">@qtdImpCli</span> ] &nbsp; / &nbsp; Exportações &nbsp; [ <span class="txtRelCli">@qtdExpCli</span> ]</td>
+                            </tr>
+                        </table>
+                    }
+
                     <table class="tabRel tabRelCli">
                         <tr>
                             <td class="txtPadrao tabRelCel" style="width: 18%">&nbsp;<a class="txtPadrao" href="javascript:toSort('cliente', 'SortSelected')">Cliente</a>: &nbsp; <span class="txtRelCli">@item.Cliente</span></td>
@@ -47,9 +61,11 @@
                         </tr>
                     </table>
 
-                    mov = "";
+                    qtdImpCli = 0;
+                    qtdExpCli = 0;
+                    tipoMov = "";
                 }
-                @if (item.TipoMovimentacao.ToLower() != mov.ToLower()) {
+                @if (item.TipoMovimentacao.ToLower() != tipoMov.ToLower()) {
                     <table class="tabRel tabRelMov">
                         <tr>
                             <td class="txtPadrao tabRelCel" style="width: 100%"> &nbsp; <a class="txtPadrao" href="javascript:toSort('tipomov', 'SortSelected')">Tipo de Movimentação</a>: &nbsp; <span class="txtRelMov">@item.TipoMovimentacaoFormatado</span></td>
@@ -68,13 +84,39 @@
                     </tr>
                 </table>
 
-                cli = item.Cliente;
-                mov = item.TipoMovimentacao;
+                if (item.Categoria.ToLower() == "importacao") {
+                    qtdImpCli++;
+                    qtdImp++;
+                }
+                if (item.Categoria.ToLower() == "exportacao") {
+                    qtdExpCli++;
+                    qtdExp++;
+                }
+
+                cliente = item.Cliente.ToLower();
+                tipoMov = item.TipoMovimentacao.ToLower();
             }
+
+            <table class="tabRel tabRelInfo">
+                <tr>
+                    <td class="txtEsc tabRelCel" style="width: 100%">Importações &nbsp; [ <span class="txtRelCli">@qtdImpCli</span> ] &nbsp; / &nbsp; Exportações &nbsp; [ <span class="txtRelCli">@qtdExpCli</span> ]</td>
+                </tr>
+            </table>
+            <table class="tabRel tabRelCli">
+                <tr>
+                    <td class="txtQuaseEsc tabRelCel" style="width: 100%">Total: &nbsp; Importações &nbsp; [ <span class="txtRelMov">@qtdImp</span> ] &nbsp; / &nbsp; Exportações &nbsp; [ <span class="txtRelMov">@qtdExp</span> ]</td>
+                </tr>
+            </table>
         }
         <br>
-        <div>
-            <button class="btn btn-lg mr-2 btn-warning" onclick="javascript:toRedirect('Relatorios', 'Filtrar');"><i class="fas fa-search"></i> &nbsp;Pesquisa</button>
+        <div class="form-row">
+            <div class="col-12 txtPadrao">
+                <button class="btn btn-lg m-2 btn-outline-warning" onclick="javascript:toRedirect('Relatorios', 'Filtrar');"><i class="fas fa-search"></i> &nbsp;Pesquisa</button>
+                <a class="btn btn-secondary btn-lg m-2" asp-controller="Relatorios" asp-action="Index">
+                    <i class="fas fa-arrow-circle-left"></i>
+                    &nbsp;Menu
+                </a>
+            </div>
         </div>
     </form>
 </div>

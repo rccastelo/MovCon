@@ -75,22 +75,22 @@ namespace MovConWeb.Helpers
 
         public static string ObterTipoMovimentacao(string valor) 
         {
-            return TipoMovimentacaoItens.Find(i => i.Item1.ToLower() == valor.ToLower())?.Item2;
+            return TipoMovimentacaoItens.Find(i => i.Item1.ToLower() == valor?.ToLower())?.Item2;
         }
 
         public static string ObterTipoConteiner(string valor)
         {
-            return TipoConteinerItens.Find(i => i.Item1.ToLower() == valor.ToLower())?.Item2;
+            return TipoConteinerItens.Find(i => i.Item1.ToLower() == valor?.ToLower())?.Item2;
         }
 
         public static string ObterStatusConteiner(string valor)
         {
-            return StatusConteinerItens.Find(i => i.Item1.ToLower() == valor.ToLower())?.Item2;
+            return StatusConteinerItens.Find(i => i.Item1.ToLower() == valor?.ToLower())?.Item2;
         }
 
         public static string ObterCategoriaConteiner(string valor)
         {
-            return CategoriaConteinerItens.Find(i => i.Item1.ToLower() == valor.ToLower())?.Item2;
+            return CategoriaConteinerItens.Find(i => i.Item1.ToLower() == valor?.ToLower())?.Item2;
         }
 
         // Simulando retorno dos dados do domínio Tipo de Movimentação

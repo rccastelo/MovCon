@@ -38,7 +38,7 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model.List != null) {
+                @if ((Model != null) && (Model.List != null) && (Model.List.Count > 0)) {
                     @foreach (var item in Model.List) {
                         <tr class="row tabLinha">
                             <td class="col-1"><a class="txtPadrao" asp-controller="Conteineres" asp-action="Obter" asp-route-id="@item.Id">@item.Id</a></td>
@@ -59,12 +59,18 @@
             </tbody>
         </table>
         <br>
-        <div>
-            <button class="btn btn-lg mr-2 btn-warning" onclick="javascript:toRedirect('Conteineres', 'Filtrar');"><i class="fas fa-search"></i> &nbsp;Pesquisa</button>
-            <a class="btn btn-secondary btn-lg" asp-controller="Conteineres" asp-action="Index">
-                <i class="fas fa-arrow-circle-left"></i>
-                &nbsp;Voltar
-            </a>
+        <div class="form-row">
+            <div class="col-12 txtPadrao">
+                <a class="btn btn-outline-success btn-lg m-2" asp-controller="Conteineres" asp-action="Form">
+                    <i class="fas fa-save"></i>
+                    &nbsp;Inclusão
+                </a>
+                <button class="btn btn-lg m-2 btn-outline-warning" onclick="javascript:toRedirect('Conteineres', 'Filtrar');"><i class="fas fa-search"></i> &nbsp;Pesquisa</button>
+                <a class="btn btn-secondary btn-lg m-2" asp-controller="Conteineres" asp-action="Index">
+                    <i class="fas fa-arrow-circle-left"></i>
+                    &nbsp;Menu
+                </a>
+            </div>
         </div>
     </form>
 </div>

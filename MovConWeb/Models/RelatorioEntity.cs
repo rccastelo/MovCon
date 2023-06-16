@@ -14,7 +14,7 @@ namespace MovConWeb.Models
 
         public string Cliente {
             get {
-                return this._cliente;
+                return (this._cliente == null) ? "" : this._cliente;
             }
             set {
                 this._cliente = (value == null) ? "" : value;
@@ -22,7 +22,7 @@ namespace MovConWeb.Models
         }
         public string TipoMovimentacao {
             get {
-                return this._tipoMovimentacao;
+                return (this._tipoMovimentacao == null) ? "" : this._tipoMovimentacao;
             }
             set {
                 this._tipoMovimentacao = (value == null) ? "" : value;
@@ -35,7 +35,7 @@ namespace MovConWeb.Models
         }
         public string Numero {
             get {
-                return this._numero;
+                return (this._numero == null) ? "" : this._numero;
             }
             set {
                 this._numero = (value == null) ? "" : value;
@@ -43,7 +43,7 @@ namespace MovConWeb.Models
         }
         public string TipoConteiner {
             get {
-                return this._tipoConteiner;
+                return (this._tipoConteiner == null) ? "" : this._tipoConteiner;
             }
             set {
                 this._tipoConteiner = (value == null) ? "" : value;
@@ -56,7 +56,7 @@ namespace MovConWeb.Models
         }
         public string Status {
             get {
-                return this._status;
+                return (this._status == null) ? "" : this._status;
             }
             set {
                 this._status = (value == null) ? "" : value;
@@ -69,7 +69,7 @@ namespace MovConWeb.Models
         }
         public string Categoria {
             get {
-                return this._categoria;
+                return (this._categoria == null) ? "" : this._categoria;
             }
             set {
                 this._categoria = (value == null) ? "" : value;
@@ -90,14 +90,34 @@ namespace MovConWeb.Models
                     this.DataHoraInicio = _inicio;
             }
         }
+        public DateTime DataHoraInicioAte { get; set; }
+        public string DataHoraInicioAteFormatado {
+            get {
+                return (DataHoraInicioAte != DateTime.MinValue) ? DataHoraInicioAte.ToString() : "";
+            }
+            set {
+                if (DateTime.TryParse(value, out DateTime _inicioAte))
+                    this.DataHoraInicioAte = _inicioAte;
+            }
+        }
         public DateTime DataHoraFim { get; set; }
         public string DataHoraFimFormatado {
             get {
                 return (DataHoraFim != DateTime.MinValue) ? DataHoraFim.ToString() : "";
             }
             set {
-                if (DateTime.TryParse(value, out DateTime _inicio))
-                    this.DataHoraFim = _inicio;
+                if (DateTime.TryParse(value, out DateTime _fim))
+                    this.DataHoraFim = _fim;
+            }
+        }
+        public DateTime DataHoraFimAte { get; set; }
+        public string DataHoraFimAteFormatado {
+            get {
+                return (DataHoraFimAte != DateTime.MinValue) ? DataHoraFimAte.ToString() : "";
+            }
+            set {
+                if (DateTime.TryParse(value, out DateTime _fimAte))
+                    this.DataHoraFimAte = _fimAte;
             }
         }
         public bool Pendente { get; set; }

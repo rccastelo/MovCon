@@ -114,3 +114,4 @@ D:\informatica\source-estudo\MovCon\MovConWeb\obj\Debug\netcoreapp3.1\Razor\View
 D:\informatica\source-estudo\MovCon\MovConWeb\obj\Debug\netcoreapp3.1\Razor\Views\Movimentacoes\Lista.cshtml.g.cs
 D:\informatica\source-estudo\MovCon\MovConWeb\obj\Debug\netcoreapp3.1\Razor\Views\Relatorios\Filtro.cshtml.g.cs
 D:\informatica\source-estudo\MovCon\MovConWeb\obj\Debug\netcoreapp3.1\Razor\Views\Relatorios\Relatorio.cshtml.g.cs
+D:\informatica\source-estudo\MovCon\MovConWeb\obj\Debug\netcoreapp3.1\Razor\Views\Relatorios\Index.cshtml.g.cs

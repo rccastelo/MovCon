@@ -10,7 +10,8 @@ namespace MovConDomain.Models
         }
 
         public RelatorioModel(string cliente, string numero, string tipoConteiner, string status, string categoria,
-            string tipoMovimentacao, DateTime dataHoraInicio, DateTime dataHoraFim, bool pendente)
+            string tipoMovimentacao, DateTime dataHoraInicio, DateTime dataHoraInicioAte, DateTime dataHoraFim, 
+            DateTime dataHoraFimAte, bool pendente)
         {
             this.Cliente = cliente;
             this.Numero = numero;
@@ -19,7 +20,9 @@ namespace MovConDomain.Models
             this.Categoria = categoria;
             this.TipoMovimentacao = tipoMovimentacao;
             this.DataHoraInicio = dataHoraInicio;
+            this.DataHoraInicioAte = dataHoraInicioAte;
             this.DataHoraFim = dataHoraFim;
+            this.DataHoraFimAte = dataHoraFimAte;
             this.Pendente = pendente;
         }
     }

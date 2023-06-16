@@ -49,15 +49,13 @@ namespace MovConRepository.Datas
             DynamicParameters parameters = new DynamicParameters();
 
             string cmd = "UPDATE Conteineres " +
-                "SET Cliente = @Cliente, Numero = @Numero, Tipo = @Tipo, Status = @Status, Categoria = @Categoria " +
+                "SET Cliente = @Cliente, Tipo = @Tipo, Status = @Status, Categoria = @Categoria " +
                 "WHERE PK_Id = @Id ";
 
             parameters.Add("@Id", model.Id, System.Data.DbType.Int64,
                 System.Data.ParameterDirection.Input, 8);
             parameters.Add("@Cliente", model.Cliente, System.Data.DbType.String,
                 System.Data.ParameterDirection.Input, model.Cliente.Length);
-            parameters.Add("@Numero", model.Numero, System.Data.DbType.String,
-                System.Data.ParameterDirection.Input, model.Numero.Length);
             parameters.Add("@Tipo", model.Tipo, System.Data.DbType.String,
                 System.Data.ParameterDirection.Input, model.Tipo.ToString().Length);
             parameters.Add("@Status", model.Status, System.Data.DbType.String,

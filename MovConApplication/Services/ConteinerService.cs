@@ -63,13 +63,13 @@ namespace MovConApplication.Services
         public ConteinerResponse Alterar(long id, ConteinerRequest request)
         {
             ConteinerResponse response = new ConteinerResponse();
-            ConteinerModel modelExist = null;
+            ConteinerModel contExist = null;
 
             try {
-                modelExist = this._conteinerRepository.Obter(id);
+                contExist = this._conteinerRepository.Obter(id);
 
                 // Verifica se Conteiner existe
-                if (modelExist == null) {
+                if (contExist == null) {
                     response.SetValid(false);
                     response.SetMessage("Contêiner não encontrado");
 
@@ -77,6 +77,17 @@ namespace MovConApplication.Services
                 }
 
                 ConteinerModel model = new ConteinerModel(id, request.Cliente, request.Numero, request.Tipo, request.Status, request.Categoria);
+
+                // Verifica se Contêiner está em movimentação
+                MovimentacaoModel movExist = this._movimentacaoRepository.ObterEmMovimentoPorNumero(contExist.Numero);
+
+                if (movExist != null) {
+                    response.SetValid(false);
+                    response.SetMessage("Contêiner está em Movimentação e não pode ser alterado");
+                    response.SetItem(contExist);
+
+                    return response;
+                }
 
                 ConteinerModel numeroExist = this._conteinerRepository.ObterPorNumero(model.Numero);
 
@@ -109,7 +120,7 @@ namespace MovConApplication.Services
                 response = new ConteinerResponse();
                 response.SetValid(false);
                 response.SetMessage(aex.Message);
-                response.SetItem(modelExist);
+                response.SetItem(contExist);
 
                 return response;
             }

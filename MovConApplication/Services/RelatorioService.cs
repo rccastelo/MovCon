@@ -19,7 +19,8 @@ namespace MovConApplication.Services
         {
             RelatorioEntity entity = new RelatorioEntity(
                 request.Cliente, request.Numero, request.TipoConteiner, request.Status, request.Categoria,
-                request.TipoMovimentacao, request.DataHoraInicio, request.DataHoraFim, request.Pendente);
+                request.TipoMovimentacao, request.DataHoraInicio, request.DataHoraInicioAte, request.DataHoraFim, 
+                request.DataHoraFimAte, request.Pendente);
 
             List<RelatorioEntity> list = this._relatorioRepository.Pesquisar(entity);
 
